@@ -45,4 +45,5 @@ jobs:
           ssh musicbox@${{ secrets.MUSICBOX_SERVER_IP }} <<'ENDSSH'
           cd api/production
           npm install
+          pm2 restart API
           ENDSSH
