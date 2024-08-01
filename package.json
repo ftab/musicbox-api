@@ -1,5 +1,5 @@
 {
-  "name": "demo",
+  "name": "musicbox-api",
   "version": "0.0.0",
   "private": "true",
   "main": "server.js",
@@ -13,6 +13,6 @@
     "supertest": "^6.3.4"
   },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.19.2"
   }
 }
