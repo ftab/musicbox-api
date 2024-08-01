@@ -39,7 +39,7 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
       - name: Deploy with rsync
-        run: rsync -rav --delete . musicbox@${{ secrets.MUSICBOX_SERVER_IP }}:/home/musicbox/api/production/
+        run: rsync -rav --delete --filter 'protect /config.js' --filter 'protect /node_modules/' . musicbox@${{ secrets.MUSICBOX_SERVER_IP }}:/home/musicbox/api/production/
       - name: Install dependencies
         run: |
           ssh musicbox@${{ secrets.MUSICBOX_SERVER_IP }} <<'ENDSSH'

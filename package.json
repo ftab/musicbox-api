@@ -13,6 +13,7 @@
     "supertest": "^6.3.4"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "mysql2": "^3.11.0"
   }
 }
