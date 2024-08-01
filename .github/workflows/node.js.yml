@@ -31,14 +31,17 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: build
-          path: build
+      - uses: actions/checkout@v4
       - name: Create SSH key
         run: |
           install -m 600 -D /dev/null ~/.ssh/id_ed25519
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
           echo "${{ secrets.SSH_KNOWN_HOSTS }}" > ~/.ssh/known_hosts
       - name: Deploy with rsync
-        run: rsync -rav --delete build/ musicbox@${{ secrets.MUSICBOX_SERVER_IP }}:/home/musicbox/api/production/
+        run: rsync -rav --delete . musicbox@${{ secrets.MUSICBOX_SERVER_IP }}:/home/musicbox/api/production/
+      - name: Install dependencies
+        run: |
+          ssh musicbox@${{ secrets.MUSICBOX_SERVER_IP }} <<'ENDSSH'
+          cd api/production
+          npm install
+          ENDSSH
