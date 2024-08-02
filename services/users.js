@@ -6,7 +6,8 @@ async function getMultiple(page = 1){
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT userId, nickname
-    FROM user LIMIT ${offset},${config.listPerPage}`
+    FROM user ORDER BY userId LIMIT ?,?`,
+    [offset, config.listPerPage]
   );
   const data = helper.emptyOrRows(rows);
   const meta = {page};
