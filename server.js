@@ -3,15 +3,18 @@ const app = express();
 
 const port = process.env.PORT || 5000;
 
-const usersRouter = require("./routes/users");
+const homeRouter = require("./routes/home");
+const usersRouter = require("./routes/api/users");
+const leaderboardRouter = require("./routes/api/leaderboard");
 
-app.get("/", (req, res) => {
-  return res.status(200).send({
-    message: "Hello World!",
-  });
-});
+app.set('view engine', 'pug');
 
-app.use("/users", usersRouter);
+app.use(express.static('public'));
+
+app.use("/", homeRouter);
+
+app.use("/api/users", usersRouter);
+app.use("/api/leaderboard", leaderboardRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

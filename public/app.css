@@ -1,0 +1,61 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    font-size: 16px;
+    line-height: 1.4;
+    margin: 0;
+}
+
+h1, h2 {
+    margin: 0;
+    line-height: 1;
+    word-wrap: break-word;
+}
+
+h1 {
+    margin-bottom: 1rem;
+}
+
+.header {
+    background: #333;
+    color: #fafafa;
+    padding: 4rem 1rem;
+    text-align: center;
+}
+
+.leaderboard {
+    max-width: 750px;
+    padding-inline: 1rem;
+    margin-inline: auto;
+    margin-block: 1rem;
+}
+
+.leaderboard > div {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr 3rem;
+    gap: .5rem;
+    padding: .5rem;
+}
+
+.leaderboard > div:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.leaderboard > div:hover {
+    background: #333;
+    color: #fafafa;
+}
+
+.leaderboard-number,
+.leaderboard-video-count {
+    text-align: right;
+}
+
+.leaderboard-nickname {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
