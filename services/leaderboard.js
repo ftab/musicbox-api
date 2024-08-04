@@ -3,7 +3,7 @@ const helper = require('../helper');
 const config = require('../config');
 
 const sql = `SELECT nickname, COUNT(DISTINCT videoId) AS video_count FROM user_video
-  INNER JOIN ircbot.user ON ircbot.user_video.userId = ircbot.user.userId GROUP BY user_video.userId
+  INNER JOIN user ON user_video.userId = user.userId GROUP BY user_video.userId
   ORDER BY video_count DESC LIMIT ?,?`;
 
 async function get(page = 1){

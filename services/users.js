@@ -10,8 +10,7 @@ async function getMultiple(page = 1){
     [offset, config.listPerPage]
   );
   const total = await db.query(
-    `SELECT COUNT(*) AS numRows FROM user`,
-    [userid]
+    `SELECT COUNT(*) AS numRows FROM user`
   );
   const data = helper.emptyOrRows(rows);
   const perPage = config.listPerPage;
