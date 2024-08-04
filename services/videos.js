@@ -8,7 +8,7 @@ async function getMultiple(userid, page = 1){
     `SELECT videoId, youtubeId, soundcloudId, vimeoId, bandcampId, isFlagged, tags, title
     FROM video WHERE videoId IN (
       SELECT videoId FROM user_video WHERE userId = ?
-    ) ORDER BY videoId LIMIT ?,?`,
+    ) ORDER BY uservideoId LIMIT ?,?`,
     [userid, offset, config.listPerPage]
   );
   const data = helper.emptyOrRows(rows);
