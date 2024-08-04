@@ -11,8 +11,13 @@ async function getMultiple(userid, page = 1){
     ORDER BY uservideoId LIMIT ?,?`,
     [userid, offset, config.listPerPage]
   );
+  const total = await db.query(
+    `SELECT COUNT(*) AS numRows FROM user_video WHERE userId = ?`,
+    [userid]
+  );
   const data = helper.emptyOrRows(rows);
-  const meta = {page};
+  const perPage = config.listPerPage;
+  const meta = {page, total, perPage};
 
   return {
     data,

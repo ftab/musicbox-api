@@ -9,8 +9,13 @@ async function getMultiple(page = 1){
     FROM user ORDER BY userId LIMIT ?,?`,
     [offset, config.listPerPage]
   );
+  const total = await db.query(
+    `SELECT COUNT(*) AS numRows FROM user`,
+    [userid]
+  );
   const data = helper.emptyOrRows(rows);
-  const meta = {page};
+  const perPage = config.listPerPage;
+  const meta = {page, total, perPage};
 
   return {
     data,

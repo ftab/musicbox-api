@@ -6,7 +6,7 @@ const config = {
     database: "ircbot",
     connectTimeout: 60000
   },
-  listPerPage: '100',
+  listPerPage: '10000',
 };
 
 module.exports = config;
