@@ -30,7 +30,13 @@ This project provides an interface to the MusicBox database. See #randommusic on
    npm install
    ```
 
-3. **Configure Database Settings**
+3. **Install Database**
+
+   ```bash
+   mysql -uyour-database-user -p your-database-name < db.sql
+   ```
+
+4. **Configure Database Settings**
 
    - Copy the example configuration file to `config.js`.
 
