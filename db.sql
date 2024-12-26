@@ -1,3 +1,12 @@
+CREATE TABLE `user` (
+  `userId` int(11) NOT NULL AUTO_INCREMENT,
+  `nickname` varchar(45) NOT NULL,
+  `isAdminIndicator` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`userId`),
+  UNIQUE KEY `userId_UNIQUE` (`userId`),
+  UNIQUE KEY `nickname_UNIQUE` (`nickname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
 CREATE TABLE `user_video` (
   `uservideoId` int(11) NOT NULL AUTO_INCREMENT,
   `userId` int(11) NOT NULL,
@@ -24,3 +33,4 @@ CREATE TABLE `video` (
   UNIQUE KEY `videoId_UNIQUE` (`videoId`),
   FULLTEXT KEY `title` (`title`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
