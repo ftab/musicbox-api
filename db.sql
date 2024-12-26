@@ -1,7 +1,7 @@
 CREATE TABLE `user` (
   `userId` int(11) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(45) NOT NULL,
-  `isAdminIndicator` tinyint(1) NOT NULL DEFAULT '0',
+  `isAdminIndicator` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`userId`),
   UNIQUE KEY `userId_UNIQUE` (`userId`),
   UNIQUE KEY `nickname_UNIQUE` (`nickname`)
