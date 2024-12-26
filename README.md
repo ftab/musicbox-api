@@ -70,7 +70,7 @@ This project provides an interface to the MusicBox database. See #randommusic on
   npm start
   ```
 
-- The API will be running on `http://localhost:3000`.
+- The API will be running on `http://localhost:5000`.
 
 ## Endpoints
 
