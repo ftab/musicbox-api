@@ -105,18 +105,38 @@ h1 {
     margin-block: 1rem;
 }
 
+.user-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem 2.5rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+    font-size: .85rem;
+}
+
+.user-stats dt {
+    opacity: .6;
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: .15rem;
+}
+
+.user-stats dd {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
 .linklist-item {
-    display: grid;
-    grid-template-columns: 2rem 1fr;
+    display: flex;
+    align-items: center;
     gap: .5rem;
     padding: .5rem;
     color: inherit;
     text-decoration: none;
     border-bottom: 1px solid #ccc;
-}
-
-.linklist-item:not(:last-child) {
-    border-bottom: 1px solid #ccc;
+    min-width: 0;
 }
 
 .linklist-item:hover {
@@ -129,11 +149,30 @@ h1 {
     font-weight: bold;
     text-align: right;
     opacity: .5;
-    align-self: center;
+    flex-shrink: 0;
+    width: 1.5rem;
+}
+
+.linklist-badge--flagged {
+    opacity: .7;
+    color: #c0392b;
+    width: auto;
 }
 
 .linklist-title {
+    flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.linklist-meta {
+    font-size: .75rem;
+    opacity: .55;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.linklist-meta--tags {
+    font-style: italic;
 }
