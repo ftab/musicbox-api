@@ -27,7 +27,6 @@ html(lang="en")
             span(class="linklist-badge") VI
             span(class="linklist-title")= title
         else if vid.soundcloudId
-          - const scId = vid.soundcloudId.split(':').pop()
-          a(class="linklist-item" href=`https://soundcloud.com/tracks/${scId}` target='_blank' rel='noopener')
+          div(class="linklist-item")
             span(class="linklist-badge") SC
             span(class="linklist-title")= title
