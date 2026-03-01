@@ -6,7 +6,7 @@ async function getMultiple(userid, page = 1){
   const offset = helper.getOffset(page, config.listPerPage);
   // Resolve all userIds for this user including aliases, then fetch videos for all of them.
   const rows = await db.query(
-    `SELECT uservideoId, videoId, youtubeId, soundcloudId, soundcloudUrl, vimeoId, bandcampId, isFlagged, tags, title
+    `SELECT uservideoId, videoId, youtubeId, soundcloudId, NULLIF(soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl, vimeoId, bandcampId, isFlagged, tags, title
     FROM video LEFT JOIN user_video USING (videoId)
     WHERE userId IN (
       SELECT u.userId FROM user u
