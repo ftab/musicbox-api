@@ -15,9 +15,12 @@ const helpRouter = require("./routes/help");
 const linksRouter = require("./routes/links");
 
 const leaderboardRouter = require("./routes/api/leaderboard");
+const tracksRouter = require("./routes/api/tracks");
 const userStatsRouter = require("./routes/api/userStats");
 const usersRouter = require("./routes/api/users");
 const videosRouter = require("./routes/api/videos");
+
+const topTracksRouter = require("./routes/topTracks");
 
 app.set('view engine', 'pug');
 
@@ -28,9 +31,12 @@ app.use("/help", helpRouter);
 app.use("/links", linksRouter);
 
 app.use("/api/leaderboard", leaderboardRouter);
+app.use("/api/tracks", tracksRouter);
 app.use("/api/users/:nickname/stats", userStatsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/videos", videosRouter);
+
+app.use("/top-tracks", topTracksRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

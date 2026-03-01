@@ -1,0 +1,41 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href=`/app.css?v=${v}`)
+    title MusicBox Top Tracks
+  body
+    header(class="header")
+      hgroup
+        h1 MusicBox Top Tracks
+        h2 Most played across all users
+    section(class="leaderboard")
+      each track, index in tracks.data
+        - const title = track.title || 'Untitled'
+        div
+          span(class="leaderboard-number")= index + 1 + "."
+          span(class="leaderboard-nickname")
+            if track.youtubeId
+              a(href='https://youtu.be/'+track.youtubeId target='_blank' rel='noopener')
+                span(class="linklist-badge") YT
+                = title
+            else if track.bandcampId
+              - const [bcArtist, bcTrack] = track.bandcampId.split(';')
+              a(href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target='_blank' rel='noopener')
+                span(class="linklist-badge") BC
+                = title
+            else if track.vimeoId
+              a(href='https://vimeo.com/'+track.vimeoId target='_blank' rel='noopener')
+                span(class="linklist-badge") VI
+                = title
+            else if track.soundcloudId
+              if track.soundcloudUrl
+                a(href=track.soundcloudUrl target='_blank' rel='noopener')
+                  span(class="linklist-badge") SC
+                  = title
+              else
+                | #{title}
+            else
+              | #{title}
+          span(class="leaderboard-video-count")= track.totalPlays + ' plays'
