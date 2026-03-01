@@ -59,3 +59,41 @@ h1 {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.leaderboard-nickname a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.help-content {
+    max-width: 750px;
+    padding-inline: 1rem;
+    margin-inline: auto;
+    margin-block: 1rem;
+    line-height: 1.6;
+}
+
+.help-content h2 {
+    margin-top: 2rem;
+    margin-bottom: .5rem;
+    padding-bottom: .25rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.help-content h3 {
+    margin-top: 1.5rem;
+    margin-bottom: .25rem;
+    font-family: monospace;
+    font-size: 1rem;
+}
+
+.help-content code {
+    background: #f4f4f4;
+    padding: .1em .3em;
+    border-radius: 3px;
+    font-size: .9em;
+}
+
+.help-content ul {
+    padding-left: 1.5rem;
+}
