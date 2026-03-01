@@ -22,8 +22,33 @@ h1 {
 .header {
     background: #333;
     color: #fafafa;
-    padding: 4rem 1rem;
+    padding: 2rem 1rem 3rem;
     text-align: center;
+}
+
+.site-nav {
+    display: flex;
+    justify-content: center;
+    gap: .25rem;
+    margin-bottom: 2rem;
+}
+
+.site-nav-link {
+    color: #fafafa;
+    text-decoration: none;
+    font-size: .8rem;
+    font-weight: bold;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    padding: .3rem .7rem;
+    border-radius: 3px;
+    opacity: .6;
+    transition: opacity .15s, background .15s;
+}
+
+.site-nav-link:hover {
+    opacity: 1;
+    background: rgba(255,255,255,.1);
 }
 
 .leaderboard {

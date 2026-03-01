@@ -13,6 +13,7 @@ const port = process.env.PORT || 5000;
 const homeRouter = require("./routes/home");
 const helpRouter = require("./routes/help");
 const linksRouter = require("./routes/links");
+const apiDocsRouter = require("./routes/apiDocs");
 
 const leaderboardRouter = require("./routes/api/leaderboard");
 const tracksRouter = require("./routes/api/tracks");
@@ -43,6 +44,7 @@ app.use("/api/admin/videos", adminVideosRouter);
 
 app.use("/top-tracks", topTracksRouter);
 app.use("/activity", activityRouter);
+app.use("/api/docs", apiDocsRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

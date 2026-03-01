@@ -1,0 +1,25 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href=`/app.css?v=${v}`)
+    title MusicBox API Docs
+  body
+    header(class="header")
+      include includes/nav
+      hgroup
+        h1 MusicBox API
+        h2 Reference documentation
+    div(id="redoc-container")
+    script(src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js")
+    script.
+      Redoc.init('/openapi.yaml', {
+        hideDownloadButton: true,
+        disableSearch: false,
+        theme: {
+          colors: { primary: { main: '#fafafa' } },
+          sidebar: { backgroundColor: '#333', textColor: '#fafafa' },
+          rightPanel: { backgroundColor: '#222' }
+        }
+      }, document.getElementById('redoc-container'))
