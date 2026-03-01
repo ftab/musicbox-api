@@ -1,3 +1,22 @@
+CREATE TABLE `aliases` (
+  `aliasId` INT NOT NULL AUTO_INCREMENT,
+  `primaryNick` VARCHAR(45) NOT NULL,
+  `aliasNick` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`aliasId`),
+  UNIQUE KEY `uk_aliasNick` (`aliasNick`),
+  INDEX `idx_primaryNick` (`primaryNick`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+CREATE TABLE `chat_log` (
+  `logId` BIGINT NOT NULL AUTO_INCREMENT,
+  `nickname` VARCHAR(45) NOT NULL,
+  `message` TEXT NOT NULL,
+  `timestamp` DATETIME NOT NULL,
+  PRIMARY KEY (`logId`),
+  INDEX `idx_chatlog_nickname` (`nickname`),
+  INDEX `idx_chatlog_timestamp` (`timestamp`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
 CREATE TABLE `user` (
   `userId` int(11) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(45) NOT NULL,
@@ -22,6 +41,7 @@ CREATE TABLE `video` (
   `videoId` int(11) NOT NULL AUTO_INCREMENT,
   `youtubeId` varchar(50) DEFAULT NULL,
   `soundcloudId` varchar(50) DEFAULT NULL,
+  `soundcloudUrl` varchar(255) DEFAULT NULL,
   `vimeoId` varchar(50) DEFAULT NULL,
   `bandcampId` varchar(50) DEFAULT NULL,
   `isFlagged` tinyint(1) NOT NULL DEFAULT 0,
