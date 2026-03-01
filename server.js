@@ -25,6 +25,7 @@ const adminVideosRouter = require("./routes/api/admin/videos");
 
 const topTracksRouter = require("./routes/topTracks");
 const activityRouter = require("./routes/activity");
+const peepeeRouter = require("./routes/peepee");
 
 app.set('view engine', 'pug');
 
@@ -44,6 +45,7 @@ app.use("/api/admin/videos", adminVideosRouter);
 
 app.use("/top-tracks", topTracksRouter);
 app.use("/activity", activityRouter);
+app.use("/peepee", peepeeRouter);
 app.use("/api/docs", apiDocsRouter);
 
 app.use((err, req, res, next) => {

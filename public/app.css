@@ -51,6 +51,32 @@ h1 {
     background: rgba(255,255,255,.1);
 }
 
+.ad-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: #fffbe6;
+    border-bottom: 1px solid #ffe58f;
+    padding: .6rem 1rem;
+    font-size: .85rem;
+}
+
+.ad-dismiss {
+    flex-shrink: 0;
+    font-size: .75rem;
+    padding: .2rem .6rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: white;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.ad-dismiss:hover {
+    background: #f0f0f0;
+}
+
 .leaderboard {
     max-width: 750px;
     padding-inline: 1rem;

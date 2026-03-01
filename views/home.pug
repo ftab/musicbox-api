@@ -11,6 +11,9 @@ html(lang="en")
       hgroup
         h1 MusicBox Leaderboard
         h2 Top 50
+    div(class="ad-banner" id="ad-banner")
+      span(class="ad-text") 🎉 Congratulations! You have been selected for a FREE Caribbean cruise! Click here to claim your prize!
+      button(class="ad-dismiss" onclick="document.getElementById('ad-banner').remove()") Remove Ads
     section(class="leaderboard")
       each user, index in users.data
         div
