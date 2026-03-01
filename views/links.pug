@@ -10,6 +10,17 @@ html(lang="en")
       hgroup
         h1 MusicBox Links
         h2 A collection of links to the best music on the web, according to #{user.data[0].nickname}
+      if stats && stats.data && stats.data[0]
+        - const s = stats.data[0]
+        dl(class="user-stats")
+          dt Unique tracks
+          dd= s.uniqueVideos
+          dt Total plays
+          dd= s.totalPlays
+          dt First shared
+          dd= s.firstShared ? new Date(s.firstShared).toLocaleDateString('en-CA') : '—'
+          dt Last played
+          dd= s.mostRecentPlayed ? new Date(s.mostRecentPlayed).toLocaleDateString('en-CA') : '—'
     section(class="linklist")
       each vid in vids.data
         - const title = vid.title || 'Untitled'

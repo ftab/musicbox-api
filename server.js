@@ -15,6 +15,7 @@ const helpRouter = require("./routes/help");
 const linksRouter = require("./routes/links");
 
 const leaderboardRouter = require("./routes/api/leaderboard");
+const userStatsRouter = require("./routes/api/userStats");
 const usersRouter = require("./routes/api/users");
 const videosRouter = require("./routes/api/videos");
 
@@ -27,6 +28,7 @@ app.use("/help", helpRouter);
 app.use("/links", linksRouter);
 
 app.use("/api/leaderboard", leaderboardRouter);
+app.use("/api/users/:nickname/stats", userStatsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/videos", videosRouter);
 
