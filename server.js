@@ -20,6 +20,7 @@ const userStatsRouter = require("./routes/api/userStats");
 const usersRouter = require("./routes/api/users");
 const videosRouter = require("./routes/api/videos");
 const activityApiRouter = require("./routes/api/activity");
+const adminVideosRouter = require("./routes/api/admin/videos");
 
 const topTracksRouter = require("./routes/topTracks");
 const activityRouter = require("./routes/activity");
@@ -38,6 +39,7 @@ app.use("/api/users/:nickname/stats", userStatsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/videos", videosRouter);
 app.use("/api/activity", activityApiRouter);
+app.use("/api/admin/videos", adminVideosRouter);
 
 app.use("/top-tracks", topTracksRouter);
 app.use("/activity", activityRouter);

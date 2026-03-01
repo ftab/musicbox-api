@@ -45,6 +45,26 @@ async function getMultiple(userid, page = 1){
   }
 }
 
+async function getBroken(page = 1) {
+  const offset = helper.getOffset(page, config.listPerPage);
+  const rows = await db.query(
+    `SELECT videoId, title, youtubeId, soundcloudId, vimeoId, bandcampId,
+            apiFailures, latestApiSuccess
+     FROM video
+     WHERE apiFailures > 0
+     ORDER BY apiFailures DESC LIMIT ?,?`,
+    [offset, config.listPerPage]
+  );
+  const total = await db.query(
+    `SELECT COUNT(*) AS numRows FROM video WHERE apiFailures > 0`
+  );
+  const data = helper.emptyOrRows(rows);
+  const perPage = config.listPerPage;
+  const meta = { page, total, perPage };
+  return { data, meta };
+}
+
 module.exports = {
-  getMultiple
+  getMultiple,
+  getBroken
 }
