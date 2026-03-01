@@ -15,11 +15,5 @@ html(lang="en")
     script(src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js")
     script.
       Redoc.init('/openapi.yaml', {
-        hideDownloadButton: true,
-        disableSearch: false,
-        theme: {
-          colors: { primary: { main: '#fafafa' } },
-          sidebar: { backgroundColor: '#333', textColor: '#fafafa' },
-          rightPanel: { backgroundColor: '#222' }
-        }
+        hideDownloadButton: true
       }, document.getElementById('redoc-container'))
