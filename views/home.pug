@@ -14,5 +14,6 @@ html(lang="en")
       each user, index in users.data
         div
           span(class="leaderboard-number")= index + 1 + "."
-          span(class="leaderboard-nickname")= user.nickname
+          span(class="leaderboard-nickname")
+            a(href='/links?nickname=' + user.nickname)= user.nickname
           span(class="leaderboard-video-count")= user.video_count

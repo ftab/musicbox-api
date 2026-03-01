@@ -41,9 +41,11 @@ async function getByNickname(nickname){
     `SELECT u.userId, COALESCE(a.primaryNick, u.nickname) AS nickname
     FROM user u
     LEFT JOIN aliases a ON LOWER(u.nickname) = LOWER(a.aliasNick)
-    WHERE LOWER(u.nickname) = LOWER(?) OR LOWER(a.aliasNick) = LOWER(?)
+    WHERE LOWER(u.nickname) = LOWER(?)
+       OR LOWER(a.aliasNick) = LOWER(?)
+       OR LOWER(a.primaryNick) = LOWER(?)
     LIMIT 1`,
-    [nickname, nickname]
+    [nickname, nickname, nickname]
   );
   const data = helper.emptyOrRows(rows);
 
