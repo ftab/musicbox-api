@@ -61,3 +61,6 @@ typings/
 .next
 
 config.js
+
+# Mac files
+.DS_Store

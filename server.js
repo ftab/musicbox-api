@@ -4,6 +4,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const homeRouter = require("./routes/home");
+const linksRouter = require("./routes/links");
 
 const leaderboardRouter = require("./routes/api/leaderboard");
 const usersRouter = require("./routes/api/users");
@@ -14,6 +15,7 @@ app.set('view engine', 'pug');
 app.use(express.static('public'));
 
 app.use("/", homeRouter);
+app.use("/links", linksRouter);
 
 app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/users", usersRouter);

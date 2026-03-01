@@ -1,0 +1,19 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="/app.css")
+    title MusicBox Links
+  body
+    header(class="header")
+      hgroup
+        h1 MusicBox Links
+        h2 A collection of links to the best music on the web, according to #{user.data[0].nickname}
+    section(class="linklist")
+      each vid, index in vids.data
+        div
+          if vid.youtubeId
+              span(class="linklist-link")
+                a(href='https://youtu.be/'+vid.youtubeId target='_blank') #{vid.youtubeId}
+          span(class="linklist-title")= vid.title
