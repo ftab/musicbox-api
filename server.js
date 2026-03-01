@@ -1,5 +1,12 @@
 const express = require("express");
+const { execSync } = require("child_process");
 const app = express();
+
+try {
+  app.locals.v = execSync('git rev-parse --short HEAD').toString().trim();
+} catch {
+  app.locals.v = Date.now();
+}
 
 const port = process.env.PORT || 5000;
 
