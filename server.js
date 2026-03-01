@@ -19,8 +19,10 @@ const tracksRouter = require("./routes/api/tracks");
 const userStatsRouter = require("./routes/api/userStats");
 const usersRouter = require("./routes/api/users");
 const videosRouter = require("./routes/api/videos");
+const activityApiRouter = require("./routes/api/activity");
 
 const topTracksRouter = require("./routes/topTracks");
+const activityRouter = require("./routes/activity");
 
 app.set('view engine', 'pug');
 
@@ -35,8 +37,10 @@ app.use("/api/tracks", tracksRouter);
 app.use("/api/users/:nickname/stats", userStatsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/videos", videosRouter);
+app.use("/api/activity", activityApiRouter);
 
 app.use("/top-tracks", topTracksRouter);
+app.use("/activity", activityRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
