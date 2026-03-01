@@ -16,8 +16,7 @@ html(lang="en")
         - const title = item.title || 'Untitled'
         - const ts = item.lastPlayedTimestamp ? new Date(item.lastPlayedTimestamp).toLocaleDateString('en-CA') : '—'
         div(class="linklist-item")
-          span(class="leaderboard-nickname")
-            a(href='/links?nickname='+item.nickname)= item.nickname
+          a(class="activity-nick" href='/links?nickname='+item.nickname)= item.nickname
           if item.youtubeId
             a(class="activity-link" href='https://youtu.be/'+item.youtubeId target='_blank' rel='noopener')
               span(class="linklist-badge") YT
@@ -37,6 +36,7 @@ html(lang="en")
                 span(class="linklist-badge") SC
                 span(class="linklist-title")= title
             else
-              span(class="linklist-badge") SC
-              span(class="linklist-title")= title
+              span(class="activity-link")
+                span(class="linklist-badge") SC
+                span(class="linklist-title")= title
           span(class="linklist-meta")= ts
