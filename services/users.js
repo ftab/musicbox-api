@@ -22,6 +22,38 @@ async function getMultiple(page = 1){
   }
 }
 
+async function getOne(userid){
+  const rows = await db.query(
+    `SELECT nickname
+    FROM user
+    WHERE userId = ?`,
+    [userid]
+  );
+  const data = helper.emptyOrRows(rows);
+
+  return {
+    data
+  }
+}
+
+async function getByNickname(nickname){
+  const rows = await db.query(
+    `SELECT u.userId, COALESCE(a.primaryNick, u.nickname) AS nickname
+    FROM user u
+    LEFT JOIN aliases a ON LOWER(u.nickname) = LOWER(a.aliasNick)
+    WHERE LOWER(u.nickname) = LOWER(?) OR LOWER(a.aliasNick) = LOWER(?)
+    LIMIT 1`,
+    [nickname, nickname]
+  );
+  const data = helper.emptyOrRows(rows);
+
+  return {
+    data
+  }
+}
+
 module.exports = {
-  getMultiple
+  getMultiple,
+  getOne,
+  getByNickname
 }

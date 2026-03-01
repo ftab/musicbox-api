@@ -2,8 +2,12 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
 
-const sql = `SELECT nickname, COUNT(DISTINCT videoId) AS video_count FROM user_video
-  INNER JOIN user ON user_video.userId = user.userId GROUP BY user_video.userId
+const sql = `SELECT COALESCE(a.primaryNick, u.nickname) AS nickname,
+  COUNT(DISTINCT uv.videoId) AS video_count
+  FROM user_video uv
+  INNER JOIN user u ON uv.userId = u.userId
+  LEFT JOIN aliases a ON LOWER(u.nickname) = LOWER(a.aliasNick)
+  GROUP BY COALESCE(a.primaryNick, u.nickname)
   ORDER BY video_count DESC LIMIT ?,?`;
 
 async function get(page = 1){
