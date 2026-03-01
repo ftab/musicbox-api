@@ -97,3 +97,43 @@ h1 {
 .help-content ul {
     padding-left: 1.5rem;
 }
+
+.linklist {
+    max-width: 750px;
+    padding-inline: 1rem;
+    margin-inline: auto;
+    margin-block: 1rem;
+}
+
+.linklist-item {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: .5rem;
+    padding: .5rem;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.linklist-item:not(:last-child) {
+    border-bottom: 1px solid #ccc;
+}
+
+.linklist-item:hover {
+    background: #333;
+    color: #fafafa;
+}
+
+.linklist-badge {
+    font-size: .7rem;
+    font-weight: bold;
+    text-align: right;
+    opacity: .5;
+    align-self: center;
+}
+
+.linklist-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

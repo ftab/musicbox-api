@@ -11,9 +11,22 @@ html(lang="en")
         h1 MusicBox Links
         h2 A collection of links to the best music on the web, according to #{user.data[0].nickname}
     section(class="linklist")
-      each vid, index in vids.data
-        div
-          if vid.youtubeId
-              span(class="linklist-link")
-                a(href='https://youtu.be/'+vid.youtubeId target='_blank') #{vid.youtubeId}
-          span(class="linklist-title")= vid.title
+      each vid in vids.data
+        - const title = vid.title || 'Untitled'
+        if vid.youtubeId
+          a(class="linklist-item" href='https://youtu.be/'+vid.youtubeId target='_blank' rel='noopener')
+            span(class="linklist-badge") YT
+            span(class="linklist-title")= title
+        else if vid.bandcampId
+          - const [bcArtist, bcTrack] = vid.bandcampId.split(';')
+          a(class="linklist-item" href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target='_blank' rel='noopener')
+            span(class="linklist-badge") BC
+            span(class="linklist-title")= title
+        else if vid.vimeoId
+          a(class="linklist-item" href='https://vimeo.com/'+vid.vimeoId target='_blank' rel='noopener')
+            span(class="linklist-badge") VI
+            span(class="linklist-title")= title
+        else if vid.soundcloudId
+          div(class="linklist-item")
+            span(class="linklist-badge") SC
+            span(class="linklist-title")= title
