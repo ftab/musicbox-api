@@ -1,0 +1,19 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href=`/css/normalize.css?v=${v}`)
+    link(rel="stylesheet", href=`/css/app.css?v=${v}`)
+    block title
+  body
+    - const dateOptions = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    div(class="wrap")
+      nav(class="site-nav")
+        a(class=`site-nav-link ${active('/')}` href="/") Leaderboard
+        a(class=`site-nav-link ${active('/top-tracks')}` href="/top-tracks") Top Tracks
+        a(class=`site-nav-link ${active('/activity')}` href="/activity") Activity
+        a(class=`site-nav-link ${active('/peepee')}` href="/peepee") 🍆
+        a(class=`site-nav-link ${active('/help')}` href="/help") Help
+        a(class=`site-nav-link ${active('/api/docs')}` href="/api/docs" target="_blank") API
+      block body
