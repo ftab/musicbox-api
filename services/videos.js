@@ -18,7 +18,7 @@ async function getMultiple(userid, page = 1){
         (SELECT nickname FROM user WHERE userId = ?)
       )
     )
-    ORDER BY uv.uservideoId LIMIT ?,?`,
+    ORDER BY uv.lastPlayedTimestamp DESC LIMIT ?,?`,
     [userid, userid, offset, config.listPerPage]
   );
   const total = await db.query(
