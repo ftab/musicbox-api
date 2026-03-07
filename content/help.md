@@ -7,7 +7,7 @@ All bot commands are executed from the IRC channel.
 * [Cytube Stream](https://cytu.be/r/MusicBox)
 * [Last.fm Scrobbles](https://www.last.fm/user/MusicBoxIRC)
 * [Top 50 Leaderboard](https://musicbox.gamefiar.com)
-* [We also have an API](https://github.com/ftab/musicbox-api)
+* [We also have an API](/api/docs)
 
 To add a song, simply paste a YouTube, Bandcamp or SoundCloud URL.
 
@@ -18,13 +18,6 @@ To add a song, simply paste a YouTube, Bandcamp or SoundCloud URL.
 ### `.commands|.help|!help`
 
 Show the link to this README.
-
-### `.start` and `.stop`
-
-Start or stop the stream on Cytube.
-
-Usually the stream is always running. Just after restarting the bot, the stream has to be started manually once.
-There is actually no reason to stop the stream, but who knows.
 
 ### `.yt|.you|.youtube <query>`
 
