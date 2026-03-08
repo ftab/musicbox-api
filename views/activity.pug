@@ -9,7 +9,7 @@ block body
   section(class="list")
     each item in activity.data
       - const title = item.title || 'Untitled';
-      - const ts = item.lastPlayedTimestamp ? new Date(item.lastPlayedTimestamp).toLocaleDateString(navigator.language, dateOptions) : '—';
+      - const ts = item.lastPlayedTimestamp ? new Date(item.lastPlayedTimestamp).toLocaleDateString('en-GB', dateOptions) : '—';
       div(class="list-row")
         span(class="accent")=item.nickname
         if item.youtubeId

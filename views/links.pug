@@ -7,13 +7,13 @@ block body
   h2=`A collection of links by ${user.data[0].nickname}`
   if stats && stats.data && stats.data[0]
     - const s = stats.data[0];
-    - const since = s.firstShared ? new Date(s.firstShared).toLocaleDateString(navigator.language, dateOptions) : '—';
+    - const since = s.firstShared ? new Date(s.firstShared).toLocaleDateString('en-GB', dateOptions) : '—';
     p=`${s.uniqueVideos} unique songs since ${since}`
   section(class="list")
     each vid in vids.data
       - const title = vid.title || 'Untitled'
       - const playInfo = vid.playCount ? `${vid.playCount} relink${vid.playCount === 1 ? '' : 's'}` : null
-      - const lastPlayed = vid.lastPlayedTimestamp ? new Date(vid.lastPlayedTimestamp).toLocaleDateString(navigator.language, dateOptions) : null
+      - const lastPlayed = vid.lastPlayedTimestamp ? new Date(vid.lastPlayedTimestamp).toLocaleDateString('en-GB', dateOptions) : null
       div(class="list-row")
         span(class="accent")=lastPlayed
         if vid.youtubeId
