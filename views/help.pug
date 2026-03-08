@@ -1,15 +1,8 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1")
-    link(rel="stylesheet", href=`/app.css?v=${v}`)
-    title MusicBox Help
-  body
-    header(class="header")
-      include includes/nav
-      hgroup
-        h1 MusicBox Help
-        h2 Commands &amp; Info
-    section(class="help-content")
-      != content
+extends layouts/app
+
+block title
+  title Help - Musicbox IRC
+
+block body
+  section(class="help-content")
+    != content

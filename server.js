@@ -29,6 +29,11 @@ const peepeeRouter = require("./routes/peepee");
 
 app.set('view engine', 'pug');
 
+app.use((req, res, next) => {
+    res.locals.active = path => req.originalUrl === path ? 'active' : '';
+    next();
+});
+
 app.use(express.static('public'));
 
 app.use("/", homeRouter);

@@ -1,61 +1,46 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1")
-    link(rel="stylesheet", href=`/app.css?v=${v}`)
-    title MusicBox Links
-  body
-    header(class="header")
-      include includes/nav
-      hgroup
-        h1 MusicBox Links
-        h2 A collection of links to the best music on the web, according to #{user.data[0].nickname}
-      if stats && stats.data && stats.data[0]
-        - const s = stats.data[0]
-        dl(class="user-stats")
-          dt Unique tracks
-          dd= s.uniqueVideos
-          dt Total plays
-          dd= s.totalPlays
-          dt First shared
-          dd= s.firstShared ? new Date(s.firstShared).toLocaleDateString('en-CA') : '—'
-          dt Last played
-          dd= s.mostRecentPlayed ? new Date(s.mostRecentPlayed).toLocaleDateString('en-CA') : '—'
-    section(class="linklist")
-      each vid in vids.data
-        - const title = vid.title || 'Untitled'
-        - const playInfo = vid.playCount ? `${vid.playCount} play${vid.playCount === 1 ? '' : 's'}` : null
-        - const lastPlayed = vid.lastPlayedTimestamp ? new Date(vid.lastPlayedTimestamp).toLocaleDateString('en-CA') : null
-        mixin vidMeta
-          if vid.isFlagged
-            span(class="linklist-badge linklist-badge--flagged") ⚑
-          span(class="linklist-title")= title
-          if vid.tags
-            span(class="linklist-meta linklist-meta--tags")= vid.tags
-          if playInfo
-            span(class="linklist-meta")= playInfo
-          if lastPlayed
-            span(class="linklist-meta")= lastPlayed
+extends layouts/app
+
+block title
+  title=`A collection of links by ${user.data[0].nickname} - MusicBox IRC`
+
+block body
+  h2=`A collection of links by ${user.data[0].nickname}`
+  if stats && stats.data && stats.data[0]
+    - const s = stats.data[0];
+    - const since = s.firstShared ? new Date(s.firstShared).toLocaleDateString(navigator.language, dateOptions) : '—';
+    p=`${s.uniqueVideos} unique songs since ${since}`
+  section(class="list")
+    each vid in vids.data
+      - const title = vid.title || 'Untitled'
+      - const playInfo = vid.playCount ? `${vid.playCount} relink${vid.playCount === 1 ? '' : 's'}` : null
+      - const lastPlayed = vid.lastPlayedTimestamp ? new Date(vid.lastPlayedTimestamp).toLocaleDateString(navigator.language, dateOptions) : null
+      div(class="list-row")
+        span(class="accent")=lastPlayed
         if vid.youtubeId
-          a(class="linklist-item" href='https://youtu.be/'+vid.youtubeId target='_blank' rel='noopener')
-            span(class="linklist-badge") YT
-            +vidMeta
+          a(href=`https://youtu.be/${vid.youtubeId}` target="_blank" class="ellipsis" title=title)
+            span(class="linklist-badge")
+              include includes/youtube-icon
+            span(class="linklist-title")=title
         else if vid.bandcampId
           - const [bcArtist, bcTrack] = vid.bandcampId.split(';')
-          a(class="linklist-item" href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target='_blank' rel='noopener')
-            span(class="linklist-badge") BC
-            +vidMeta
+          a(href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target="_blank" class="ellipsis" title=title)
+            span(class="linklist-badge")
+              include includes/bandcamp-icon
+            span(class="linklist-title")=title
         else if vid.vimeoId
-          a(class="linklist-item" href='https://vimeo.com/'+vid.vimeoId target='_blank' rel='noopener')
-            span(class="linklist-badge") VI
-            +vidMeta
+          a(href=`https://vimeo.com/${vid.vimeoId}` target="_blank" class="ellipsis" title=title)
+            span(class="linklist-badge")
+              include includes/vimeo-icon
+            span(class="linklist-title")=title
         else if vid.soundcloudId
           if vid.soundcloudUrl
-            a(class="linklist-item" href=vid.soundcloudUrl target='_blank' rel='noopener')
-              span(class="linklist-badge") SC
-              +vidMeta
+            a(href=vid.soundcloudUrl target="_blank" class="ellipsis" title=title)
+              span(class="linklist-badge")
+                include includes/soundcloud-icon
+              span(class="linklist-title")=title
           else
-            div(class="linklist-item")
-              span(class="linklist-badge") SC
-              +vidMeta
+            div(class="ellipsis" title=title)
+              span(class="linklist-badge")
+                include includes/soundcloud-icon
+              span(class="linklist-title")=title
+        span(class="dim")=playInfo
