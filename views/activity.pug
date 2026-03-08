@@ -13,29 +13,29 @@ block body
       div(class="list-row")
         span(class="accent")=item.nickname
         if item.youtubeId
-          a(class="ellipsis" href=`https://youtu.be/${item.youtubeId}` target="_blank")
+          a(class="ellipsis" href=`https://youtu.be/${item.youtubeId}` target="_blank" title=title)
             span(class="linklist-badge")
               include includes/youtube-icon
             span(class="linklist-title")=title
         else if item.bandcampId
           - const [bcArtist, bcTrack] = item.bandcampId.split(';')
-          a(class="ellipsis" href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target="_blank")
+          a(class="ellipsis" href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target="_blank" title=title)
             span(class="linklist-badge")
               include includes/bandcamp-icon
             span(class="linklist-title")=title
         else if item.vimeoId
-          a(class="ellipsis" href=`https://vimeo.com/${item.vimeoId}` target="_blank")
+          a(class="ellipsis" href=`https://vimeo.com/${item.vimeoId}` target="_blank" title=title)
             span(class="linklist-badge")
               include includes/vimeo-icon
             span(class="linklist-title")=title
         else if item.soundcloudId
           if item.soundcloudUrl
-            a(class="ellipsis" href=item.soundcloudUrl target="_blank")
+            a(class="ellipsis" href=item.soundcloudUrl target="_blank" title=title)
               span(class="linklist-badge")
                 include includes/soundcloud-icon
               span(class="linklist-title")=title
           else
-            div(class="ellipsis")
+            div(class="ellipsis" title=title)
               span(class="linklist-badge")
                 include includes/soundcloud-icon
               span(class="linklist-title")=title

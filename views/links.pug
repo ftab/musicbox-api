@@ -17,29 +17,29 @@ block body
       div(class="list-row")
         span(class="accent")=lastPlayed
         if vid.youtubeId
-          a(href=`https://youtu.be/${vid.youtubeId}` target="_blank" class="ellipsis")
+          a(href=`https://youtu.be/${vid.youtubeId}` target="_blank" class="ellipsis" title=title)
             span(class="linklist-badge")
               include includes/youtube-icon
             span(class="linklist-title")=title
         else if vid.bandcampId
           - const [bcArtist, bcTrack] = vid.bandcampId.split(';')
-          a(href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target="_blank" class="ellipsis")
+          a(href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target="_blank" class="ellipsis" title=title)
             span(class="linklist-badge")
               include includes/bandcamp-icon
             span(class="linklist-title")=title
         else if vid.vimeoId
-          a(href=`https://vimeo.com/${vid.vimeoId}` target="_blank" class="ellipsis")
+          a(href=`https://vimeo.com/${vid.vimeoId}` target="_blank" class="ellipsis" title=title)
             span(class="linklist-badge")
               include includes/vimeo-icon
             span(class="linklist-title")=title
         else if vid.soundcloudId
           if vid.soundcloudUrl
-            a(href=vid.soundcloudUrl target="_blank" class="ellipsis")
+            a(href=vid.soundcloudUrl target="_blank" class="ellipsis" title=title)
               span(class="linklist-badge")
                 include includes/soundcloud-icon
               span(class="linklist-title")=title
           else
-            div(class="ellipsis")
+            div(class="ellipsis" title=title)
               span(class="linklist-badge")
                 include includes/soundcloud-icon
               span(class="linklist-title")=title
