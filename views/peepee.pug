@@ -1,20 +1,16 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1")
-    link(rel="stylesheet", href=`/app.css?v=${v}`)
-    title MusicBox PP Leaderboard
-  body
-    header(class="header")
-      include includes/nav
-      hgroup
-        h1 PP Leaderboard
-        h2 Ranked by PP score (total plays)
-    section(class="leaderboard")
-      each entry, index in rankings.data
-        div
-          span(class="leaderboard-number")= index + 1 + "."
-          span(class="leaderboard-nickname")
-            a(href='/links?nickname=' + entry.nickname)= entry.nickname
-          span(class="leaderboard-video-count")= entry.pp_score + ' PP'
+extends layouts/app
+
+block title
+  title PP Leaderboard - MusicBox IRC
+
+block body
+  h2 PP Leaderboard
+  p Ranked by PP score (total relinks)
+  section(class="list")
+    each entry, index in rankings.data
+      - let rank = index + 1
+      div(class="list-row")
+        span(class="accent")=`${rank}.`
+        span(class="nickname ellipsis")
+          a(href=`/links?nickname=${entry.nickname}` title=entry.nickname)=entry.nickname
+        span(class="dim")=`${entry.pp_score} PP`

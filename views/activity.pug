@@ -1,42 +1,42 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1")
-    link(rel="stylesheet", href=`/app.css?v=${v}`)
-    title MusicBox Activity
-  body
-    header(class="header")
-      include includes/nav
-      hgroup
-        h1 MusicBox Activity
-        h2 Recently played
-    section(class="linklist")
-      each item in activity.data
-        - const title = item.title || 'Untitled'
-        - const ts = item.lastPlayedTimestamp ? new Date(item.lastPlayedTimestamp).toLocaleDateString('en-CA') : '—'
-        div(class="linklist-item")
-          a(class="activity-nick" href='/links?nickname='+item.nickname)= item.nickname
-          if item.youtubeId
-            a(class="activity-link" href='https://youtu.be/'+item.youtubeId target='_blank' rel='noopener')
-              span(class="linklist-badge") YT
-              span(class="linklist-title")= title
-          else if item.bandcampId
-            - const [bcArtist, bcTrack] = item.bandcampId.split(';')
-            a(class="activity-link" href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target='_blank' rel='noopener')
-              span(class="linklist-badge") BC
-              span(class="linklist-title")= title
-          else if item.vimeoId
-            a(class="activity-link" href='https://vimeo.com/'+item.vimeoId target='_blank' rel='noopener')
-              span(class="linklist-badge") VI
-              span(class="linklist-title")= title
-          else if item.soundcloudId
-            if item.soundcloudUrl
-              a(class="activity-link" href=item.soundcloudUrl target='_blank' rel='noopener')
-                span(class="linklist-badge") SC
-                span(class="linklist-title")= title
-            else
-              span(class="activity-link")
-                span(class="linklist-badge") SC
-                span(class="linklist-title")= title
-          span(class="linklist-meta")= ts
+extends layouts/app
+
+block title
+  title Last activity - MusicBox IRC
+
+block body
+  h2 Last activity
+  p Recently added songs
+  section(class="list")
+    each item in activity.data
+      - const title = item.title || 'Untitled';
+      - const ts = item.lastPlayedTimestamp ? new Date(item.lastPlayedTimestamp).toLocaleDateString(navigator.language, dateOptions) : '—';
+      div(class="list-row")
+        span(class="accent")=item.nickname
+        if item.youtubeId
+          a(class="ellipsis" href=`https://youtu.be/${item.youtubeId}` target="_blank" title=title)
+            span(class="linklist-badge")
+              include includes/youtube-icon
+            span(class="linklist-title")=title
+        else if item.bandcampId
+          - const [bcArtist, bcTrack] = item.bandcampId.split(';')
+          a(class="ellipsis" href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target="_blank" title=title)
+            span(class="linklist-badge")
+              include includes/bandcamp-icon
+            span(class="linklist-title")=title
+        else if item.vimeoId
+          a(class="ellipsis" href=`https://vimeo.com/${item.vimeoId}` target="_blank" title=title)
+            span(class="linklist-badge")
+              include includes/vimeo-icon
+            span(class="linklist-title")=title
+        else if item.soundcloudId
+          if item.soundcloudUrl
+            a(class="ellipsis" href=item.soundcloudUrl target="_blank" title=title)
+              span(class="linklist-badge")
+                include includes/soundcloud-icon
+              span(class="linklist-title")=title
+          else
+            div(class="ellipsis" title=title)
+              span(class="linklist-badge")
+                include includes/soundcloud-icon
+              span(class="linklist-title")=title
+        span(class="dim")=ts

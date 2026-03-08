@@ -1,23 +1,16 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport", content="width=device-width, initial-scale=1")
-    link(rel="stylesheet", href=`/app.css?v=${v}`)
-    title MusicBox Leaderboard
-  body
-    header(class="header")
-      include includes/nav
-      hgroup
-        h1 MusicBox Leaderboard
-        h2 Top 50
-    div(class="ad-banner" id="ad-banner")
-      span(class="ad-text") 🎉 Congratulations! You have been selected for a FREE Caribbean cruise! Click here to claim your prize!
-      button(class="ad-dismiss" onclick="document.getElementById('ad-banner').remove()") Remove Ads
-    section(class="leaderboard")
-      each user, index in users.data
-        div
-          span(class="leaderboard-number")= index + 1 + "."
-          span(class="leaderboard-nickname")
-            a(href='/links?nickname=' + user.nickname)= user.nickname
-          span(class="leaderboard-video-count")= user.video_count
+extends layouts/app
+
+block title
+  title Leaderboard - MusicBox IRC
+
+block body
+  h2 Top 50 Contributors
+  p=`${totalSongs.data} unique songs collected`
+  section(class="list leaderboard")
+    each user, index in users.data
+      - let rank = index + 1
+      div(class="list-row")
+        span(class="accent")=`${rank}.`
+        span(class="nickname ellipsis")
+          a(href=`/links?nickname=${user.nickname}` title=user.nickname)=user.nickname
+        span(class="dim")=`${user.video_count} songs`
