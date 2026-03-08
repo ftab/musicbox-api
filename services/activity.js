@@ -3,6 +3,7 @@ const helper = require('../helper');
 const config = require('../config');
 
 async function getRecent(page = 1, limit = config.listPerPage) {
+  limit = Number(limit);
   const offset = helper.getOffset(page, limit);
   const rows = await db.query(
     `SELECT COALESCE(a.primaryNick, u.nickname) AS nickname,

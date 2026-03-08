@@ -3,18 +3,18 @@ const helper = require('../helper');
 const config = require('../config');
 
 async function getMultiple(page = 1){
-  const offset = helper.getOffset(page, config.listPerPage);
+  const limit = Number(config.listPerPage);
+  const offset = helper.getOffset(page, limit);
   const rows = await db.query(
     `SELECT userId, nickname
     FROM user ORDER BY userId LIMIT ?,?`,
-    [offset, config.listPerPage]
+    [offset, limit]
   );
   const total = await db.query(
     `SELECT COUNT(*) AS numRows FROM user`
   );
   const data = helper.emptyOrRows(rows);
-  const perPage = config.listPerPage;
-  const meta = {page, total, perPage};
+  const meta = {page, total, perPage: limit};
 
   return {
     data,

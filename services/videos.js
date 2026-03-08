@@ -3,6 +3,7 @@ const helper = require('../helper');
 const config = require('../config');
 
 async function getMultiple(userid, page = 1, limit = config.listPerPage){
+  limit = Number(limit);
   const offset = helper.getOffset(page, limit);
   // Resolve all userIds for this user including aliases, then fetch videos for all of them.
   const rows = await db.query(
@@ -45,21 +46,21 @@ async function getMultiple(userid, page = 1, limit = config.listPerPage){
 }
 
 async function getBroken(page = 1) {
-  const offset = helper.getOffset(page, config.listPerPage);
+  const limit = Number(config.listPerPage);
+  const offset = helper.getOffset(page, limit);
   const rows = await db.query(
     `SELECT videoId, title, youtubeId, soundcloudId, vimeoId, bandcampId,
             apiFailures, latestApiSuccess
      FROM video
      WHERE apiFailures > 0
      ORDER BY apiFailures DESC LIMIT ?,?`,
-    [offset, config.listPerPage]
+    [offset, limit]
   );
   const total = await db.query(
     `SELECT COUNT(*) AS numRows FROM video WHERE apiFailures > 0`
   );
   const data = helper.emptyOrRows(rows);
-  const perPage = config.listPerPage;
-  const meta = { page, total, perPage };
+  const meta = { page, total, perPage: limit };
   return { data, meta };
 }
 

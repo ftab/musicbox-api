@@ -11,8 +11,9 @@ const sql = `SELECT COALESCE(a.primaryNick, u.nickname) AS nickname,
   ORDER BY video_count DESC LIMIT ?,?`;
 
 async function get(page = 1){
-  const offset = helper.getOffset(page, config.listPerPage);
-  const rows = await db.query(sql, [offset, config.listPerPage]);
+  const limit = Number(config.listPerPage);
+  const offset = helper.getOffset(page, limit);
+  const rows = await db.query(sql, [offset, limit]);
   const data = helper.emptyOrRows(rows);
   const meta = {page};
 
@@ -23,7 +24,7 @@ async function get(page = 1){
 }
 
 async function getTop50() {
-  const rows = await db.query(sql, ['0', '50']);
+  const rows = await db.query(sql, [0, 50]);
   const data = helper.emptyOrRows(rows);
 
   return {
