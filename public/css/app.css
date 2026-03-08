@@ -30,6 +30,7 @@
 html,
 body {
     scrollbar-gutter: stable;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -200,4 +201,35 @@ code {
 .dim {
     color: var(--color-neutral);
     text-align: right;
+}
+
+.hidden {
+    display: none;
+}
+
+.scroll-top {
+    display: none;
+}
+
+@supports(animation-timeline: scroll()) {
+    .scroll-top {
+        display: initial;
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        opacity: 0;
+        z-index: 1;
+        animation: show linear both;
+        animation-timeline: scroll();
+        animation-range: 400px 500px;
+
+        & svg {
+            width: 3rem;
+            fill: var(--color-accent);
+        }
+    }
+
+    @keyframes show {
+        to { opacity: 1; }
+    }
 }
