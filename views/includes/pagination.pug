@@ -1,0 +1,10 @@
+- const totalRows = meta.total && meta.total[0] ? meta.total[0].numRows : 0;
+- const totalPages = Math.ceil(totalRows / meta.perPage);
+- const currentPage = parseInt(meta.page, 10) || 1;
+if totalPages > 1
+  nav(class="pagination")
+    if currentPage > 1
+      a(href=`${basePath}?${queryPrefix ? queryPrefix + '&' : ''}page=${currentPage - 1}` class="pagination-link") ← Prev
+    span(class="pagination-info")=`Page ${currentPage} of ${totalPages}`
+    if currentPage < totalPages
+      a(href=`${basePath}?${queryPrefix ? queryPrefix + '&' : ''}page=${currentPage + 1}` class="pagination-link") Next →

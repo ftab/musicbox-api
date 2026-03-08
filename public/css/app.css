@@ -227,6 +227,26 @@ header a {
     display: none;
 }
 
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.pagination-link {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.pagination-link:hover {
+    text-decoration: underline;
+}
+
+.pagination-info {
+    color: var(--color-neutral);
+}
+
 .scroll-top {
     display: none;
 }

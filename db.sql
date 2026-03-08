@@ -36,7 +36,9 @@ CREATE TABLE `user_video` (
   PRIMARY KEY (`uservideoId`),
   UNIQUE KEY `uservideoId_UNIQUE` (`uservideoId`),
   INDEX `idx_userId` (`userId`),
-  INDEX `idx_userId_videoId` (`userId`, `videoId`)
+  INDEX `idx_userId_videoId` (`userId`, `videoId`),
+  INDEX `idx_hideFromList_lastPlayed` (`hideFromList`, `lastPlayedTimestamp`),
+  INDEX `idx_videoId` (`videoId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 CREATE TABLE `video` (

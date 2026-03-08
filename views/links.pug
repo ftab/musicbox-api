@@ -44,3 +44,5 @@ block body
                 include includes/soundcloud-icon
               span(class="linklist-title")=title
         span(class="dim")=playInfo
+  - const meta = vids.meta; const basePath = '/links'; const queryPrefix = `nickname=${encodeURIComponent(user.data[0].nickname)}`;
+  include includes/pagination

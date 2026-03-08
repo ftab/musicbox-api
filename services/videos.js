@@ -2,8 +2,8 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
 
-async function getMultiple(userid, page = 1){
-  const offset = helper.getOffset(page, config.listPerPage);
+async function getMultiple(userid, page = 1, limit = config.listPerPage){
+  const offset = helper.getOffset(page, limit);
   // Resolve all userIds for this user including aliases, then fetch videos for all of them.
   const rows = await db.query(
     `SELECT uv.uservideoId, v.videoId, v.youtubeId, v.soundcloudId, NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl, v.vimeoId, v.bandcampId, v.isFlagged, v.tags, v.title, uv.playCount, uv.lastPlayedTimestamp
@@ -19,7 +19,7 @@ async function getMultiple(userid, page = 1){
       )
     )
     ORDER BY uv.lastPlayedTimestamp DESC LIMIT ?,?`,
-    [userid, userid, offset, config.listPerPage]
+    [userid, userid, offset, limit]
   );
   const total = await db.query(
     `SELECT COUNT(*) AS numRows FROM user_video
@@ -36,8 +36,7 @@ async function getMultiple(userid, page = 1){
     [userid, userid]
   );
   const data = helper.emptyOrRows(rows);
-  const perPage = config.listPerPage;
-  const meta = {page, total, perPage};
+  const meta = {page, total, perPage: limit};
 
   return {
     data,

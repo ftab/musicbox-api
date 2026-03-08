@@ -2,8 +2,8 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
 
-async function getRecent(page = 1) {
-  const offset = helper.getOffset(page, config.listPerPage);
+async function getRecent(page = 1, limit = config.listPerPage) {
+  const offset = helper.getOffset(page, limit);
   const rows = await db.query(
     `SELECT COALESCE(a.primaryNick, u.nickname) AS nickname,
             v.title, v.youtubeId, v.soundcloudId,
@@ -16,14 +16,13 @@ async function getRecent(page = 1) {
      INNER JOIN video v ON uv.videoId = v.videoId
      WHERE uv.hideFromList = 0
      ORDER BY uv.lastPlayedTimestamp DESC LIMIT ?,?`,
-    [offset, config.listPerPage]
+    [offset, limit]
   );
   const total = await db.query(
     `SELECT COUNT(*) AS numRows FROM user_video WHERE hideFromList = 0`
   );
   const data = helper.emptyOrRows(rows);
-  const perPage = config.listPerPage;
-  const meta = { page, total, perPage };
+  const meta = { page, total, perPage: limit };
   return { data, meta };
 }
 

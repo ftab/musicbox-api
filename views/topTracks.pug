@@ -9,7 +9,8 @@ block body
   section(class="list")
     each track, index in tracks.data
       - const title = track.title || 'Untitled';
-      - let rank = index + 1;
+      - const pageNum = parseInt(tracks.meta.page, 10) || 1;
+      - let rank = (pageNum - 1) * tracks.meta.perPage + index + 1;
       div(class="list-row")
         span(class="accent")=`${rank}.`
         if track.youtubeId
@@ -39,3 +40,5 @@ block body
         else
           | #{title}
         span(class="dim")=`${track.totalPlays} relinks`
+  - const meta = tracks.meta; const basePath = '/top-tracks'; const queryPrefix = '';
+  include includes/pagination
