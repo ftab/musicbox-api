@@ -1,13 +1,9 @@
-# Musicbox Help
+## How it works
 
 All bot commands are executed from the IRC channel.
 
 * Server: irc.rizon.net
 * Channel: #randommusic
-* [Cytube Stream](https://cytu.be/r/MusicBox)
-* [Last.fm Scrobbles](https://www.last.fm/user/MusicBoxIRC)
-* [Top 50 Leaderboard](https://musicbox.gamefiar.com)
-* [We also have an API](/api/docs)
 
 To add a song, simply paste a YouTube, Bandcamp or SoundCloud URL.
 
