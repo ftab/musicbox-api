@@ -6,7 +6,7 @@ const sql = `SELECT COALESCE(a.primaryNick, u.nickname) AS nickname,
   COUNT(DISTINCT uv.videoId) AS video_count
   FROM user_video uv
   INNER JOIN user u ON uv.userId = u.userId
-  LEFT JOIN aliases a ON LOWER(u.nickname) = LOWER(a.aliasNick)
+  LEFT JOIN aliases a ON u.nickname = a.aliasNick
   GROUP BY COALESCE(a.primaryNick, u.nickname)
   ORDER BY video_count DESC LIMIT ?,?`;
 

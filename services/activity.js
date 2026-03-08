@@ -12,7 +12,7 @@ async function getRecent(page = 1) {
             uv.lastPlayedTimestamp
      FROM user_video uv
      INNER JOIN user u ON uv.userId = u.userId
-     LEFT JOIN aliases a ON LOWER(u.nickname) = LOWER(a.aliasNick)
+     LEFT JOIN aliases a ON u.nickname = a.aliasNick
      INNER JOIN video v ON uv.videoId = v.videoId
      WHERE uv.hideFromList = 0
      ORDER BY uv.lastPlayedTimestamp DESC LIMIT ?,?`,

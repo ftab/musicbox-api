@@ -34,7 +34,9 @@ CREATE TABLE `user_video` (
   `playCount` int(11) NOT NULL DEFAULT 1,
   `hideFromList` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`uservideoId`),
-  UNIQUE KEY `uservideoId_UNIQUE` (`uservideoId`)
+  UNIQUE KEY `uservideoId_UNIQUE` (`uservideoId`),
+  INDEX `idx_userId` (`userId`),
+  INDEX `idx_userId_videoId` (`userId`, `videoId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 CREATE TABLE `video` (
