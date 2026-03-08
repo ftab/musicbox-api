@@ -11,10 +11,10 @@ async function getMultiple(userid, page = 1){
     WHERE uv.hideFromList = 0 AND uv.userId IN (
       SELECT u.userId FROM user u
       WHERE COALESCE(
-        (SELECT primaryNick FROM aliases WHERE LOWER(aliasNick) = LOWER(u.nickname) LIMIT 1),
+        (SELECT primaryNick FROM aliases WHERE aliasNick = u.nickname LIMIT 1),
         u.nickname
       ) = COALESCE(
-        (SELECT primaryNick FROM aliases WHERE LOWER(aliasNick) = (SELECT LOWER(nickname) FROM user WHERE userId = ?) LIMIT 1),
+        (SELECT primaryNick FROM aliases WHERE aliasNick = (SELECT nickname FROM user WHERE userId = ?) LIMIT 1),
         (SELECT nickname FROM user WHERE userId = ?)
       )
     )
@@ -26,10 +26,10 @@ async function getMultiple(userid, page = 1){
     WHERE hideFromList = 0 AND userId IN (
       SELECT u.userId FROM user u
       WHERE COALESCE(
-        (SELECT primaryNick FROM aliases WHERE LOWER(aliasNick) = LOWER(u.nickname) LIMIT 1),
+        (SELECT primaryNick FROM aliases WHERE aliasNick = u.nickname LIMIT 1),
         u.nickname
       ) = COALESCE(
-        (SELECT primaryNick FROM aliases WHERE LOWER(aliasNick) = (SELECT LOWER(nickname) FROM user WHERE userId = ?) LIMIT 1),
+        (SELECT primaryNick FROM aliases WHERE aliasNick = (SELECT nickname FROM user WHERE userId = ?) LIMIT 1),
         (SELECT nickname FROM user WHERE userId = ?)
       )
     )`,

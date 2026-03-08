@@ -40,10 +40,10 @@ async function getByNickname(nickname){
   const rows = await db.query(
     `SELECT u.userId, COALESCE(a.primaryNick, u.nickname) AS nickname
     FROM user u
-    LEFT JOIN aliases a ON LOWER(u.nickname) = LOWER(a.aliasNick)
-    WHERE LOWER(u.nickname) = LOWER(?)
-       OR LOWER(a.aliasNick) = LOWER(?)
-       OR LOWER(a.primaryNick) = LOWER(?)
+    LEFT JOIN aliases a ON u.nickname = a.aliasNick
+    WHERE u.nickname = ?
+       OR a.aliasNick = ?
+       OR a.primaryNick = ?
     LIMIT 1`,
     [nickname, nickname, nickname]
   );

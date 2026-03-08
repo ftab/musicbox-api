@@ -9,16 +9,16 @@ async function getStats(nickname) {
             MIN(uv.lastPlayedTimestamp) AS firstShared,
             MAX(uv.lastPlayedTimestamp) AS mostRecentPlayed
      FROM user u
-     LEFT JOIN aliases a ON LOWER(u.nickname) = LOWER(a.aliasNick)
+     LEFT JOIN aliases a ON u.nickname = a.aliasNick
      INNER JOIN user_video uv ON u.userId = uv.userId
      WHERE uv.hideFromList = 0
        AND COALESCE(a.primaryNick, u.nickname) = (
          SELECT COALESCE(a2.primaryNick, u2.nickname)
          FROM user u2
-         LEFT JOIN aliases a2 ON LOWER(u2.nickname) = LOWER(a2.aliasNick)
-         WHERE LOWER(u2.nickname) = LOWER(?)
-            OR LOWER(a2.aliasNick) = LOWER(?)
-            OR LOWER(a2.primaryNick) = LOWER(?)
+         LEFT JOIN aliases a2 ON u2.nickname = a2.aliasNick
+         WHERE u2.nickname = ?
+            OR a2.aliasNick = ?
+            OR a2.primaryNick = ?
          LIMIT 1
        )
      GROUP BY COALESCE(a.primaryNick, u.nickname)`,
