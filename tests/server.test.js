@@ -8,7 +8,7 @@ describe('GET /help', () => {
 
     assert.equal(res.status, 200);
     assert.equal(res.type, 'text/html');
-    assert.ok(res.text.includes('MusicBox Help'));
+    assert.ok(res.text.includes('How it works'));
   });
 });
 
@@ -56,7 +56,7 @@ describe('GET /top-tracks', () => {
     const res = await request(app).get('/top-tracks');
     assert.equal(res.status, 200);
     assert.equal(res.type, 'text/html');
-    assert.ok(res.text.includes('MusicBox Top Tracks'));
+    assert.ok(res.text.includes('Top Tracks'));
   });
 });
 
@@ -74,7 +74,7 @@ describe('GET /activity', () => {
     const res = await request(app).get('/activity');
     assert.equal(res.status, 200);
     assert.equal(res.type, 'text/html');
-    assert.ok(res.text.includes('MusicBox Activity'));
+    assert.ok(res.text.includes('Activity'));
   });
 });
 
