@@ -112,11 +112,16 @@ code {
     padding: 0.05rem 0.2rem;
 }
 
-header {
-    display: flex;
+header a {
+    display: inline-flex;
     align-items: center;
     gap: 1rem;
     margin-top: 1.5rem;
+    text-decoration: none;
+
+    &:hover {
+        color: currentColor;
+    }
 
     & svg {
         height: 2rem;
