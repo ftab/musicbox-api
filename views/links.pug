@@ -14,7 +14,7 @@ block body
       - const title = vid.title || 'Untitled'
       - const playInfo = vid.playCount ? `${vid.playCount} relink${vid.playCount === 1 ? '' : 's'}` : null
       - const lastPlayed = vid.lastPlayedTimestamp ? new Date(vid.lastPlayedTimestamp).toLocaleDateString('en-GB', dateOptions) : null
-      div(class="list-row")
+      div(class="list-row" data-flagged=vid.isFlagged)
         span(class="accent")=lastPlayed
         if vid.youtubeId
           a(href=`https://youtu.be/${vid.youtubeId}` target="_blank" class="ellipsis" title=title)

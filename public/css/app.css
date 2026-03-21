@@ -239,6 +239,16 @@ header a {
     transition: box-shadow 300ms ease-in-out;
 }
 
+.list-row[data-flagged="1"]::before {
+    content: '🏴‍☠';
+    position: absolute;
+    font-size: 1.1rem;
+    top: -7px;
+    left: -5px;
+    border-radius: 100%;
+    z-index: 1;
+}
+
 .list-row:hover {
     box-shadow: -3px 0 0 var(--color-accent);
 }
