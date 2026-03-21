@@ -112,6 +112,48 @@ code {
     padding: 0.05rem 0.2rem;
 }
 
+progress {
+    appearance: none;
+    width: 50px;
+    height: 4px;
+    background: var(--color-dark);
+    border: none;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+    background: var(--color-dark);
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+    background: var(--color-accent);
+    border-radius: 10px;
+}
+
+progress::-moz-progress-bar {
+    background: var(--color-accent);
+}
+
+.progress-area {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 0.5rem;
+}
+
+.wrap {
+    padding-inline: 1rem;
+}
+
+@media(width > calc(786px + 2rem)) {
+    .wrap {
+        width: 786px;
+        margin: auto;
+        padding-inline: 0;
+    }
+}
+
 header a {
     display: inline-flex;
     align-items: center;

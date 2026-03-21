@@ -6,11 +6,17 @@ block title
 block body
   h2 Top 50 Contributors
   p=`${totalSongs.data} unique songs collected`
+  - const highestUserPercentage = users.data[0].video_count
   section(class="list leaderboard")
     each user, index in users.data
       - let rank = index + 1
+      - const userPercentage = ((user.video_count / totalSongs.data) * 100).toFixed(1)
+      - const progressWidth = ((user.video_count / highestUserPercentage) * 100)
       div(class="list-row")
         span(class="accent")=`${rank}.`
         span(class="nickname ellipsis")
           a(href=`/links?nickname=${user.nickname}` title=user.nickname)=user.nickname
-        span(class="dim")=`${user.video_count} songs`
+        div(class="progress-area")
+          span(class="dim")=`${user.video_count} songs`
+          progress(max="100" value=progressWidth)=`${userPercentage}`
+          small(class="dim")=`${userPercentage.padStart(4, 0)}%`
