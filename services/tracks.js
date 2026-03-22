@@ -8,7 +8,7 @@ async function getTop(page = 1, limit = config.listPerPage) {
   const rows = await db.query(
     `SELECT v.videoId, v.title, v.youtubeId, v.soundcloudId,
             NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl,
-            v.vimeoId, v.bandcampId,
+            v.vimeoId, v.bandcampId, v.isFlagged,
             SUM(uv.playCount) AS totalPlays
      FROM user_video uv
      INNER JOIN video v ON uv.videoId = v.videoId
