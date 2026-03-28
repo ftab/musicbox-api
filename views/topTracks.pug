@@ -11,7 +11,7 @@ block body
       - const title = track.title || 'Untitled';
       - const pageNum = parseInt(tracks.meta.page, 10) || 1;
       - let rank = (pageNum - 1) * tracks.meta.perPage + index + 1;
-      div(class="list-row")
+      div(class="list-row" data-flagged=track.isFlagged)
         span(class="accent")=`${rank}.`
         if track.youtubeId
           a(href=`https://youtu.be/${track.youtubeId}` target="_blank" title=title class="ellipsis")

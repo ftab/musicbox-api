@@ -9,7 +9,7 @@ async function getRecent(page = 1, limit = config.listPerPage) {
     `SELECT COALESCE(a.primaryNick, u.nickname) AS nickname,
             v.videoId, v.title, v.youtubeId, v.soundcloudId,
             NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl,
-            v.vimeoId, v.bandcampId,
+            v.vimeoId, v.bandcampId, v.isFlagged,
             uv.lastPlayedTimestamp
      FROM user_video uv
      INNER JOIN user u ON uv.userId = u.userId

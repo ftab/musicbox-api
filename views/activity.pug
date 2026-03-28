@@ -10,7 +10,7 @@ block body
     each item in activity.data
       - const title = item.title || 'Untitled';
       - const ts = item.lastPlayedTimestamp ? new Date(item.lastPlayedTimestamp).toLocaleDateString('en-GB', dateOptions) : '—';
-      div(class="list-row")
+      div(class="list-row" data-flagged=item.isFlagged)
         span(class="accent")
           a(href=`/user/${encodeURIComponent(item.nickname)}`)=item.nickname
         if item.youtubeId

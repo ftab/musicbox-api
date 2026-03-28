@@ -33,7 +33,12 @@ const artistRouter = require("./routes/artist");
 app.set('view engine', 'pug');
 
 app.use((req, res, next) => {
-    res.locals.active = path => req.originalUrl === path ? 'active' : '';
+    res.locals.active = path => {
+        if(path === '/') {
+            return req.originalUrl === '/' ? 'active' : '';
+        }
+        return req.originalUrl.startsWith(path) ? 'active' : '';
+    };
     next();
 });
 
