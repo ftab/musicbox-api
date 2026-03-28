@@ -45,6 +45,7 @@ CREATE TABLE `user_video` (
 CREATE TABLE `video` (
   `videoId` int(11) NOT NULL AUTO_INCREMENT,
   `youtubeId` varchar(50) DEFAULT NULL,
+  `youtubeChannelName` varchar(255) DEFAULT NULL,
   `soundcloudId` varchar(50) DEFAULT NULL,
   `soundcloudUrl` varchar(255) DEFAULT NULL,
   `vimeoId` varchar(50) DEFAULT NULL,
