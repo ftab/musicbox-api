@@ -1,0 +1,95 @@
+extends layouts/app
+
+block title
+  title=`${song.title || 'Untitled'} - MusicBox IRC`
+
+block body
+  - const title = song.title || 'Untitled';
+  h2=title
+
+  //- Source link and platform
+  div(class="song-meta")
+    if song.youtubeId
+      a(href=`https://youtu.be/${song.youtubeId}` target="_blank" class="song-source")
+        span(class="linklist-badge")
+          include includes/youtube-icon
+        span YouTube
+      if song.youtubeChannelName
+        span(class="dim")  · #{song.youtubeChannelName}
+    else if song.bandcampId
+      - const [bcArtist, bcTrack] = song.bandcampId.split(';');
+      a(href=`https://${bcArtist}.bandcamp.com/track/${bcTrack}` target="_blank" class="song-source")
+        span(class="linklist-badge")
+          include includes/bandcamp-icon
+        span Bandcamp
+    else if song.vimeoId
+      a(href=`https://vimeo.com/${song.vimeoId}` target="_blank" class="song-source")
+        span(class="linklist-badge")
+          include includes/vimeo-icon
+        span Vimeo
+    else if song.soundcloudId && song.soundcloudUrl
+      a(href=song.soundcloudUrl target="_blank" class="song-source")
+        span(class="linklist-badge")
+          include includes/soundcloud-icon
+        span SoundCloud
+
+  //- Artists
+  if artists && artists.length > 0
+    div(class="song-section")
+      h3 Artists
+      div(class="song-artists")
+        each artist in artists
+          a(href=`/artist/${artist.artistId}` class="song-artist-tag")
+            span=artist.name
+            span(class="song-artist-role")=artist.role
+
+  //- Tags
+  if song.tags && song.tags.length > 0
+    div(class="song-section")
+      h3 Tags
+      div(class="song-tags")
+        each tag in song.tags.split(', ')
+          span(class="song-tag")=tag
+
+  //- Shared by
+  if sharedBy && sharedBy.length > 0
+    div(class="song-section")
+      h3 Shared by
+      section(class="list")
+        each user in sharedBy
+          - const lastPlayed = user.lastPlayedTimestamp ? new Date(user.lastPlayedTimestamp).toLocaleDateString('en-GB', dateOptions) : null
+          div(class="list-row")
+            span(class="accent")
+              a(href=`/user/${encodeURIComponent(user.nickname)}`)=user.nickname
+            span(class="dim")=`${user.playCount} relink${user.playCount === 1 ? '' : 's'}`
+            span(class="dim")=lastPlayed
+
+  //- More from this artist
+  if moreTracks && moreTracks.length > 0
+    div(class="song-section")
+      h3 More from this artist
+      section(class="list")
+        each track in moreTracks
+          - const t = track.title || 'Untitled';
+          div(class="list-row")
+            span(class="accent")
+              if track.artistName
+                =track.artistName
+            if track.youtubeId
+              a(href=`/song/${track.videoId}` class="ellipsis" title=t)
+                span(class="linklist-badge")
+                  include includes/youtube-icon
+                span=t
+            else if track.bandcampId
+              a(href=`/song/${track.videoId}` class="ellipsis" title=t)
+                span(class="linklist-badge")
+                  include includes/bandcamp-icon
+                span=t
+            else if track.soundcloudId
+              a(href=`/song/${track.videoId}` class="ellipsis" title=t)
+                span(class="linklist-badge")
+                  include includes/soundcloud-icon
+                span=t
+            else
+              a(href=`/song/${track.videoId}` class="ellipsis" title=t)=t
+            span

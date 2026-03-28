@@ -15,7 +15,7 @@ block body
       div(class="list-row")
         span(class="accent")=`${rank}.`
         span(class="nickname ellipsis")
-          a(href=`/links?nickname=${user.nickname}` title=user.nickname)=user.nickname
+          a(href=`/user/${encodeURIComponent(user.nickname)}` title=user.nickname)=user.nickname
         div(class="progress-area")
           span(class="dim")=`${user.video_count} songs`
           progress(max="100" value=progressWidth)=`${userPercentage}`

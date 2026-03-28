@@ -292,6 +292,109 @@ header a {
     color: var(--color-neutral);
 }
 
+/* Song detail, user profile, and artist pages */
+
+.song-meta {
+    margin-bottom: 1.5rem;
+}
+
+.song-source {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.song-section {
+    margin-top: 2rem;
+}
+
+.song-section h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-accent);
+}
+
+.song-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.song-tag {
+    background: var(--color-dark);
+    padding: 0.25rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+.song-artists {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.song-artist-tag {
+    background: var(--color-darker);
+    padding: 0.4rem 0.75rem;
+    text-decoration: none;
+    transition: box-shadow 300ms ease-in-out;
+}
+
+.song-artist-tag:hover {
+    box-shadow: -2px 0 0 var(--color-accent);
+    color: var(--color-light);
+}
+
+.song-artist-role {
+    color: var(--color-neutral);
+    font-size: 0.8rem;
+    margin-left: 0.4rem;
+}
+
+.profile-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+@media(width > 576px) {
+    .profile-columns {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.profile-column h3 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-accent);
+}
+
+.profile-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.profile-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.3rem 0.6rem;
+    background: var(--color-darker);
+}
+
+.profile-list-item a {
+    text-decoration: none;
+}
+
+.profile-list-item a:hover {
+    color: var(--color-accent);
+}
+
 .scroll-top {
     display: none;
 }

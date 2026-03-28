@@ -11,7 +11,8 @@ block body
       - const title = item.title || 'Untitled';
       - const ts = item.lastPlayedTimestamp ? new Date(item.lastPlayedTimestamp).toLocaleDateString('en-GB', dateOptions) : '—';
       div(class="list-row")
-        span(class="accent")=item.nickname
+        span(class="accent")
+          a(href=`/user/${encodeURIComponent(item.nickname)}`)=item.nickname
         if item.youtubeId
           a(class="ellipsis" href=`https://youtu.be/${item.youtubeId}` target="_blank" title=title)
             span(class="linklist-badge")

@@ -1,0 +1,54 @@
+extends layouts/app
+
+block title
+  title=`${artist.name} - MusicBox IRC`
+
+block body
+  h2=artist.name
+
+  //- Top sharers
+  if topSharers && topSharers.length > 0
+    div(class="song-section")
+      h3 Top Sharers
+      div(class="profile-list")
+        each sharer in topSharers
+          div(class="profile-list-item")
+            a(href=`/user/${encodeURIComponent(sharer.nickname)}`)=sharer.nickname
+            span(class="dim")=`${sharer.trackCount} track${sharer.trackCount === 1 ? '' : 's'}`
+
+  //- Tracks
+  if tracks && tracks.data && tracks.data.length > 0
+    div(class="song-section")
+      h3 Tracks
+      p=`${tracks.meta.total && tracks.meta.total[0] ? tracks.meta.total[0].numRows : tracks.data.length} tracks in library`
+      section(class="list")
+        each track in tracks.data
+          - const title = track.title || 'Untitled';
+          - const plays = track.totalPlays ? `${track.totalPlays} relinks` : null;
+          div(class="list-row")
+            span(class="accent")
+              if track.role && track.role !== 'primary'
+                =track.role
+            if track.youtubeId
+              a(href=`/song/${track.videoId}` class="ellipsis" title=title)
+                span(class="linklist-badge")
+                  include includes/youtube-icon
+                span=title
+            else if track.bandcampId
+              a(href=`/song/${track.videoId}` class="ellipsis" title=title)
+                span(class="linklist-badge")
+                  include includes/bandcamp-icon
+                span=title
+            else if track.soundcloudId
+              if track.soundcloudUrl
+                a(href=`/song/${track.videoId}` class="ellipsis" title=title)
+                  span(class="linklist-badge")
+                    include includes/soundcloud-icon
+                  span=title
+              else
+                a(href=`/song/${track.videoId}` class="ellipsis" title=title)=title
+            else
+              a(href=`/song/${track.videoId}` class="ellipsis" title=title)=title
+            span(class="dim")=plays
+      - const meta = tracks.meta; const basePath = `/artist/${artist.artistId}`; const queryPrefix = '';
+      include includes/pagination

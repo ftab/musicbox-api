@@ -26,6 +26,9 @@ const adminVideosRouter = require("./routes/api/admin/videos");
 const topTracksRouter = require("./routes/topTracks");
 const activityRouter = require("./routes/activity");
 const peepeeRouter = require("./routes/peepee");
+const songRouter = require("./routes/song");
+const userRouter = require("./routes/user");
+const artistRouter = require("./routes/artist");
 
 app.set('view engine', 'pug');
 
@@ -52,6 +55,9 @@ app.use("/top-tracks", topTracksRouter);
 app.use("/activity", activityRouter);
 app.use("/peepee", peepeeRouter);
 app.use("/api/docs", apiDocsRouter);
+app.use("/song", songRouter);
+app.use("/user", userRouter);
+app.use("/artist", artistRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

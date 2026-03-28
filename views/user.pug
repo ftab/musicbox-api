@@ -1,0 +1,108 @@
+extends layouts/app
+
+block title
+  title=`${user.nickname} - MusicBox IRC`
+
+block body
+  h2=user.nickname
+
+  //- Stats summary
+  if stats
+    - const since = stats.firstShared ? new Date(stats.firstShared).toLocaleDateString('en-GB', dateOptions) : null;
+    - const recent = stats.mostRecentPlayed ? new Date(stats.mostRecentPlayed).toLocaleDateString('en-GB', dateOptions) : null;
+    p=`${stats.uniqueVideos} unique songs · ${stats.totalPlays} total relinks${since ? ` · sharing since ${since}` : ''}`
+
+  //- Top artists and tags side by side
+  if (topArtists && topArtists.length > 0) || (topTags && topTags.length > 0)
+    div(class="profile-columns")
+      if topArtists && topArtists.length > 0
+        div(class="profile-column")
+          h3 Top Artists
+          div(class="profile-list")
+            each artist in topArtists
+              div(class="profile-list-item")
+                a(href=`/artist/${artist.artistId}`)=artist.name
+                span(class="dim")=`${artist.trackCount} track${artist.trackCount === 1 ? '' : 's'}`
+
+      if topTags && topTags.length > 0
+        div(class="profile-column")
+          h3 Top Genres
+          div(class="song-tags")
+            each tag in topTags
+              span(class="song-tag")
+                =tag.name
+                span(class="dim")  (#{tag.count})
+
+  //- Recent activity
+  if recentActivity && recentActivity.length > 0
+    div(class="song-section")
+      h3 Recent Activity
+      section(class="list")
+        each track in recentActivity
+          - const title = track.title || 'Untitled';
+          - const lastPlayed = track.lastPlayedTimestamp ? new Date(track.lastPlayedTimestamp).toLocaleDateString('en-GB', dateOptions) : null;
+          div(class="list-row")
+            span(class="accent")=lastPlayed
+            if track.youtubeId
+              a(href=`/song/${track.videoId}` class="ellipsis" title=title)
+                span(class="linklist-badge")
+                  include includes/youtube-icon
+                span=title
+            else if track.bandcampId
+              a(href=`/song/${track.videoId}` class="ellipsis" title=title)
+                span(class="linklist-badge")
+                  include includes/bandcamp-icon
+                span=title
+            else if track.soundcloudId
+              if track.soundcloudUrl
+                a(href=`/song/${track.videoId}` class="ellipsis" title=title)
+                  span(class="linklist-badge")
+                    include includes/soundcloud-icon
+                  span=title
+              else
+                a(href=`/song/${track.videoId}` class="ellipsis" title=title)=title
+            else
+              a(href=`/song/${track.videoId}` class="ellipsis" title=title)=title
+            span(class="dim")=`${track.playCount} relink${track.playCount === 1 ? '' : 's'}`
+
+  //- Full collection
+  if vids && vids.data && vids.data.length > 0
+    div(class="song-section")
+      h3 Full Collection
+      section(class="list")
+        each vid in vids.data
+          - const title = vid.title || 'Untitled';
+          - const playInfo = vid.playCount ? `${vid.playCount} relink${vid.playCount === 1 ? '' : 's'}` : null;
+          - const lastPlayed = vid.lastPlayedTimestamp ? new Date(vid.lastPlayedTimestamp).toLocaleDateString('en-GB', dateOptions) : null;
+          div(class="list-row" data-flagged=vid.isFlagged)
+            span(class="accent")=lastPlayed
+            if vid.youtubeId
+              a(href=`/song/${vid.videoId}` class="ellipsis" title=title)
+                span(class="linklist-badge")
+                  include includes/youtube-icon
+                span(class="linklist-title")=title
+            else if vid.bandcampId
+              - const [bcArtist, bcTrack] = vid.bandcampId.split(';')
+              a(href=`/song/${vid.videoId}` class="ellipsis" title=title)
+                span(class="linklist-badge")
+                  include includes/bandcamp-icon
+                span(class="linklist-title")=title
+            else if vid.vimeoId
+              a(href=`/song/${vid.videoId}` class="ellipsis" title=title)
+                span(class="linklist-badge")
+                  include includes/vimeo-icon
+                span(class="linklist-title")=title
+            else if vid.soundcloudId
+              if vid.soundcloudUrl
+                a(href=`/song/${vid.videoId}` class="ellipsis" title=title)
+                  span(class="linklist-badge")
+                    include includes/soundcloud-icon
+                  span(class="linklist-title")=title
+              else
+                a(href=`/song/${vid.videoId}` class="ellipsis" title=title)
+                  span(class="linklist-badge")
+                    include includes/soundcloud-icon
+                  span(class="linklist-title")=title
+            span(class="dim")=playInfo
+      - const meta = vids.meta; const basePath = `/user/${encodeURIComponent(user.nickname)}`; const queryPrefix = '';
+      include includes/pagination
