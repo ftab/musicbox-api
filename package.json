@@ -2,15 +2,30 @@
   "name": "musicbox-api",
   "version": "0.0.0",
   "private": "true",
-  "main": "server.js",
+  "main": "backend/server.js",
   "scripts": {
-    "test": "mocha --exit tests/*",
-    "start": "node server.js"
+    "dev:server": "node --watch backend/server.js",
+    "dev:client": "vite",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "build": "vite build --emptyOutDir",
+    "test:api": "NODE_ENV=test mocha --exit tests/api/*",
+    "test:vue": "vitest run",
+    "test": "npm run test:api && npm run test:vue",
+    "start": "NODE_ENV=production node backend/server.js"
   },
   "license": "MIT",
   "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.5",
+    "@vue/test-utils": "^2.4.6",
+    "concurrently": "^9.2.1",
+    "jsdom": "^29.0.1",
     "mocha": "^10.2.0",
-    "supertest": "^6.3.4"
+    "supertest": "^6.3.4",
+    "vite": "^8.0.3",
+    "vitest": "^4.1.2",
+    "vue": "^3.5.31",
+    "vue-awesome-paginate": "^1.2.0",
+    "vue-router": "^5.0.4"
   },
   "dependencies": {
     "express": "^4.19.2",

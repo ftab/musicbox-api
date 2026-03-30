@@ -12,7 +12,13 @@ Web interface and API for the MusicBox IRC bot database. See `#randommusic` on R
 ```bash
 npm install
 cp config.js.example config.js   # then fill in your DB credentials
-npm start                         # runs on http://localhost:5000
+
+# Development
+npm run dev                      # runs on http://localhost:5173
+
+# Production
+npm run build
+npm start                        # runs on http://localhost:5000
 ```
 
 ## Pages
@@ -37,7 +43,7 @@ The app is deployed via GitHub Actions (rsync + PM2). The PM2 process must be na
 
 ```bash
 cd /home/musicbox/api/production
-pm2 start server.js --name API
+pm2 start backend/server.js --name API
 pm2 save
 ```
 

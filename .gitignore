@@ -64,3 +64,6 @@ config.js
 
 # Mac files
 .DS_Store
+
+# Vite build output
+dist/
