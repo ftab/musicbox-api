@@ -1,0 +1,14 @@
+[Unit]
+Description=MusicBox API
+After=network.target mysql.service
+
+[Service]
+Type=simple
+WorkingDirectory=/home/musicbox/api/production
+ExecStart=/usr/bin/node backend/server.js
+Environment=NODE_ENV=production
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

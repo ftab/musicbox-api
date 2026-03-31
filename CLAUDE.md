@@ -41,10 +41,16 @@ Key pattern used throughout: `COALESCE(a.primaryNick, u.nickname)` after a `LEFT
 
 ## Deployment
 
-CI/CD via `.github/workflows/node.js.yml`: rsync to server, then `pm2 restart API`. The PM2 process **must be named `API`** (case-sensitive). To register it the first time on the server:
+CI/CD via `.github/workflows/node.js.yml`: rsync to server, `vite build`, then restart via systemd user unit. The unit file `musicbox-api.service` is in the repo and gets copied to `~/.config/systemd/user/` on deploy. First-time setup on the server:
 
 ```sh
+# Enable lingering so the user unit runs without an active login session
+sudo loginctl enable-linger musicbox
+
 cd /home/musicbox/api/production
-pm2 start server.js --name API
-pm2 save
+npm run build
+mkdir -p ~/.config/systemd/user
+cp musicbox-api.service ~/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable --now musicbox-api
 ```

@@ -39,12 +39,16 @@ npm start                        # runs on http://localhost:5000
 
 ## Deployment
 
-The app is deployed via GitHub Actions (rsync + PM2). The PM2 process must be named `API`:
+The app is deployed via GitHub Actions (rsync + systemd user unit). First-time setup on the server:
 
 ```bash
+sudo loginctl enable-linger musicbox
 cd /home/musicbox/api/production
-pm2 start backend/server.js --name API
-pm2 save
+npm run build
+mkdir -p ~/.config/systemd/user
+cp musicbox-api.service ~/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable --now musicbox-api
 ```
 
 `config.js` is protected from rsync overwrites by the deploy workflow.

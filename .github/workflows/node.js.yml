@@ -78,5 +78,8 @@ jobs:
           cd api/production
           npm install
           npm run build
-          pm2 restart API
+          mkdir -p ~/.config/systemd/user
+          cp musicbox-api.service ~/.config/systemd/user/
+          systemctl --user daemon-reload
+          systemctl --user restart musicbox-api
           ENDSSH
