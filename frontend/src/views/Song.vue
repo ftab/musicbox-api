@@ -10,7 +10,7 @@
             <span v-if="song.youtubeChannelName" class="dim"> · {{ song.youtubeChannelName }}</span>
         </p>
 
-        <div v-if="artists.length">
+        <template v-if="artists.length">
             <h3>Artists</h3>
 
             <ul>
@@ -20,17 +20,17 @@
                     </RouterLink>
                 </li>
             </ul>
-        </div>
+        </template>
 
-        <div v-if="song.tags">
+        <template v-if="song.tags">
             <h3>Tags</h3>
 
             <ul class="tag-list">
                 <li v-for="(tag, index) in song.tags.split(', ')" :key="tag" v-text="tag"></li>
             </ul>
-        </div>
+        </template>
 
-        <div v-if="sharedBy.length">
+        <template v-if="sharedBy.length">
             <h3>Shared by</h3>
 
             <section class="list">
@@ -44,9 +44,9 @@
                     <span class="accent">{{ formatTimestamp(user.lastPlayedTimestamp) }}</span>
                 </div>
             </section>
-        </div>
+        </template>
 
-        <div v-if="moreTracks.length">
+        <template v-if="moreTracks.length">
             <h3>More from this artist</h3>
 
             <section class="list">
@@ -58,7 +58,7 @@
                     </RouterLink>
                 </div>
             </section>
-        </div>
+        </template>
     </template>
 </template>
 

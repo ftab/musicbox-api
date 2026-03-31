@@ -76,7 +76,9 @@ h2 + p {
 h2:has(+ h3),
 ul:has(+ h3),
 p:has(+ h2),
-p:has(+ h3) {
+p:has(+ h3),
+.list:has(+ h3),
+ul.tag-list:has(+ h3) {
     margin-bottom: 2rem;
 }
 
@@ -234,10 +236,6 @@ header a {
         position: absolute;
         inset: 0;
     }
-}
-
-.list:has(+ h3) {
-    margin-bottom: 2.5rem;
 }
 
 .list-row {
