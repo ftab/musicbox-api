@@ -46,10 +46,10 @@ CREATE TABLE `video` (
   `videoId` int(11) NOT NULL AUTO_INCREMENT,
   `youtubeId` varchar(50) DEFAULT NULL,
   `youtubeChannelName` varchar(255) DEFAULT NULL,
-  `soundcloudId` varchar(50) DEFAULT NULL,
+  `soundcloudId` varchar(255) DEFAULT NULL,
   `soundcloudUrl` varchar(255) DEFAULT NULL,
   `vimeoId` varchar(50) DEFAULT NULL,
-  `bandcampId` varchar(50) DEFAULT NULL,
+  `bandcampId` varchar(255) DEFAULT NULL,
   `isFlagged` tinyint(1) NOT NULL DEFAULT 0,
   `tags` varchar(500) DEFAULT NULL,
   `title` varchar(500) DEFAULT NULL,
@@ -58,5 +58,24 @@ CREATE TABLE `video` (
   PRIMARY KEY (`videoId`),
   UNIQUE KEY `videoId_UNIQUE` (`videoId`),
   FULLTEXT KEY `title` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+CREATE TABLE `artist` (
+  `artistId` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`artistId`),
+  UNIQUE KEY `uk_artist_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+CREATE TABLE `video_artist` (
+  `videoArtistId` INT NOT NULL AUTO_INCREMENT,
+  `videoId` INT NOT NULL,
+  `artistId` INT NOT NULL,
+  `role` ENUM('primary','featured','remixer') NOT NULL DEFAULT 'primary',
+  PRIMARY KEY (`videoArtistId`),
+  UNIQUE KEY `uk_video_artist_role` (`videoId`, `artistId`, `role`),
+  INDEX `idx_artist_video` (`artistId`),
+  CONSTRAINT `fk_va_video` FOREIGN KEY (`videoId`) REFERENCES `video` (`videoId`) ON DELETE CASCADE,
+  CONSTRAINT `fk_va_artist` FOREIGN KEY (`artistId`) REFERENCES `artist` (`artistId`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
