@@ -1,31 +1,31 @@
 import { mount, flushPromises } from '@vue/test-utils';
-import { describe, it, expect, vi } from 'vitest';
+import { beforeEach, it, expect } from 'vitest';
+import { stats } from './mocks/stats';
+import { leaderboard } from './mocks/leaderboard';
 import Home from '../../frontend/src/views/Home.vue';
 
-it('shows a top 50 leaderboard', async () => {
-    global.fetch = vi.fn()
-        .mockResolvedValueOnce({
-            json: () => Promise.resolve({ data: 72150 }),
-        })
-        .mockResolvedValueOnce({
-            json: () => Promise.resolve({
-                data: [
-                    { nickname: 'Rae', video_count: 9978 },
-                    { nickname: 'keypusher', video_count: 7321 },
-                    { nickname: 'fury', video_count: 6830 },
-                ]
-            }),
-        });
+let wrapper, html;
 
-    const wrapper = mount(Home);
+beforeEach(async () => {
+    fetch
+        .mockResolvedValueOnce({ json: () => Promise.resolve(stats) })
+        .mockResolvedValueOnce({ json: () => Promise.resolve(leaderboard) });
+
+    wrapper = mount(Home);
 
     await flushPromises();
 
-    [
-        'Top 50 Contributors',
-        '72150 unique songs collected',
-        '1.Rae9978 songs',
-        '2.keypusher7321 songs',
-        '3.fury6830 songs',
-    ].every(val => expect(wrapper.text()).toContain(val));
+    html = wrapper.html();
+});
+
+it('shows total songs collected', async () => {
+    expect(html).toContain('Top 50 Contributors');
+    expect(html).toContain(`${stats.totalSongs} unique songs collected`);
+});
+
+it('shows users', async () => {
+    leaderboard.data.forEach(user => {
+        expect(html).toContain(user.nickname);
+        expect(html).toContain(user.video_count);
+    });
 });

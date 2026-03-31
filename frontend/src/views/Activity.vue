@@ -1,50 +1,53 @@
 <template>
-    <h2>Last activity</h2>
-    <p>Recently added songs</p>
+    <Spinner v-if="isLoading" />
 
-    <Pagination v-if="activity.length" :meta="meta" @pageChange="fetchActivity" />
+    <template v-else>
+        <h2>Last activity</h2>
+        <p>Recently added songs</p>
 
-    <section class="list">
-        <div v-if="activity.length" v-for="(item, index) in activity" :key="index" class="list-row">
-            <span class="accent">{{ item.nickname }}</span>
-            <a :href="formatProviderUrl(item)" :title="getTrackTitle(item)" target="_blank" class="ellipsis">
-                <span class="linklist-badge">
-                    <BandcampIcon v-if="item.bandcampId" />
-                    <SoundcloudIcon v-if="item.soundcloudId" />
-                    <VimeoIcon v-if="item.vimeoId" />
-                    <YoutubeIcon v-if="item.youtubeId" />
-                </span>
-                <span v-text="getTrackTitle(item)"></span>
-            </a>
-            <span class="dim">{{ formatTimestamp(item.lastPlayedTimestamp) }}</span>
-        </div>
-    </section>
+        <section class="list">
+            <div v-for="(item, index) in activity" :key="index" class="list-row">
+                <span class="accent">{{ item.nickname }}</span>
+                <a :href="formatProviderUrl(item)" :title="getTrackTitle(item)" target="_blank" class="ellipsis">
+                    <ProviderIcons :track="item" />
+                    <span v-text="getTrackTitle(item)"></span>
+                </a>
+                <span class="dim">{{ formatTimestamp(item.lastPlayedTimestamp) }}</span>
+            </div>
+        </section>
 
-    <Pagination v-if="activity.length" :meta="meta" @pageChange="fetchActivity" />
+        <Pagination v-if="meta && meta.total[0].numRows > meta.perPage" :meta="meta" @pageChange="fetchActivity" />
+    </template>
 </template>
 
 <script setup>
     import { onMounted, ref } from 'vue';
     import { formatTimestamp, formatProviderUrl, getTrackTitle } from '../utils';
-    import BandcampIcon from '../components/BandcampIcon.vue';
-    import SoundcloudIcon from '../components/SoundcloudIcon.vue';
-    import VimeoIcon from '../components/VimeoIcon.vue';
-    import YoutubeIcon from '../components/YoutubeIcon.vue';
+    import ProviderIcons from '../components/ProviderIcons.vue';
     import Pagination from '../components/Pagination.vue';
+    import Spinner from '../components/Spinner.vue';
 
-    let activity = ref([]);
-    let meta = ref({});
-
-    const fetchActivity = async (page = 1) => {
-        try {
-            const activityResponse = await fetch(`/api/activity?page=${page}&limit=50`);
-            const activityJson = await activityResponse.json();
-
-            activity.value = activityJson.data;
-            meta.value = activityJson.meta;
-        } catch(err) {
-            console.error(err);
+    const props = defineProps({
+        initialPage: {
+            type: Number,
+            default: 1,
         }
+    });
+
+    const isLoading = ref(true);
+    const activity = ref([]);
+    const meta = ref(null);
+
+    const fetchActivity = async (page = props.initialPage) => {
+        isLoading.value = true;
+
+        const activityResponse = await fetch(`/api/activity?page=${page}&limit=50`);
+        const activityJson = await activityResponse.json();
+
+        activity.value = activityJson.data;
+        meta.value = activityJson.meta;
+
+        isLoading.value = false;
     }
 
     onMounted(fetchActivity);

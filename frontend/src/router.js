@@ -1,61 +1,97 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import { error } from './state';
+import { setPageTitle } from './utils';
 import Home from './views/Home.vue';
 import User from './views/User.vue';
+import Song from './views/Song.vue';
+import Artist from './views/Artist.vue';
 import TopTracks from './views/TopTracks.vue';
 import Activity from './views/Activity.vue';
 import PeePee from './views/PeePee.vue';
 import Help from './views/Help.vue';
 import ApiDocs from './views/ApiDocs.vue';
+import Error from './views/Error.vue';
 
 const routes = [
     {
         path: '/',
+        name: 'home',
         component: Home,
         meta: { title: 'Leaderboard' },
     },
     {
         path: '/user/:nickname',
+        name: 'profile',
         component: User,
     },
     {
+        path: '/song/:id',
+        name: 'song',
+        component: Song,
+    },
+    {
+        path: '/artist/:id',
+        name: 'artist',
+        component: Artist,
+    },
+    {
         path: '/top-tracks',
+        name: 'top-tracks',
         component: TopTracks,
         meta: { title: 'Top Tracks' },
+        props: route => ({ initialPage: parseInt(route.query.page, 10) || 1 }),
     },
     {
         path: '/activity',
+        name: 'activity',
         component: Activity,
         meta: { title: 'Last activity' },
+        props: route => ({ initialPage: parseInt(route.query.page, 10) || 1 }),
     },
     {
         path: '/peepee',
+        name: 'peepee',
         component: PeePee,
         meta: { title: 'PP Leaderboard' },
     },
     {
         path: '/help',
+        name: 'help',
         component: Help,
         meta: { title: 'Help' },
     },
     {
         path: '/docs/api',
+        name: 'api-docs',
         component: ApiDocs,
         meta: { title: 'API Docs', noLayout: true },
     },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'error',
+        component: Error,
+        meta: { title: 'Uh oh', noLayout: true },
+    }
 ];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        if(savedPosition) {
+            return savedPosition;
+        }
+
+        return { top: 0, behavior: 'smooth' };
+    },
 });
 
 router.afterEach(to => {
-    if(to.params.nickname) {
-        document.title = `${to.params.nickname} - MusicBox IRC`;
-        return;
-    }
+    error.value = null;
 
-    document.title = to.meta.title ? `${to.meta.title} - MusicBox IRC` : 'MusicBox IRC';
+    if(to.meta.title) {
+        setPageTitle(to.meta.title);
+    }
 });
 
 export default router;

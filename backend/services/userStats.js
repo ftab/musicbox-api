@@ -3,7 +3,8 @@ const helper = require('../helper');
 
 async function getStats(nickname) {
   const rows = await db.query(
-    `SELECT COALESCE(a.primaryNick, u.nickname) AS nickname,
+    `SELECT MIN(u.userId) AS userId,
+            COALESCE(a.primaryNick, u.nickname) AS nickname,
             SUM(uv.playCount)           AS totalPlays,
             COUNT(DISTINCT uv.videoId)  AS uniqueVideos,
             MIN(uv.lastPlayedTimestamp) AS firstShared,

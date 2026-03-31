@@ -1,66 +1,31 @@
 import { mount, flushPromises } from '@vue/test-utils';
-import { describe, it, expect, vi } from 'vitest';
-import { createRouter, createWebHistory } from 'vue-router'
-import VueAwesomePaginate from 'vue-awesome-paginate'
+import { beforeEach, it, expect } from 'vitest';
+import VueAwesomePaginate from 'vue-awesome-paginate';
 import Activity from '../../frontend/src/views/Activity.vue';
+import { activity } from './mocks/activity';
 
-it('shows a top tracks list', async () => {
-    global.fetch = vi.fn()
-        .mockResolvedValueOnce({
-            json: () => Promise.resolve({
-                data: [
-                    {
-                        'nickname': 'keypusher',
-                        'videoId': 72155,
-                        'title': 'Launch Code to the Nuclear Payload, by Heavy Metal Shrapnel',
-                        'youtubeId': null,
-                        'soundcloudId': null,
-                        'soundcloudUrl': null,
-                        'vimeoId': null,
-                        'bandcampId': 'heavymetalshrapnel;launch-code-to-the-nuclear-payload',
-                        'isFlagged': 0,
-                        'lastPlayedTimestamp': '2026-03-13T20:26:27.000Z'
-                    },
-                    {
-                        'nickname': 'fury',
-                        'videoId': 72154,
-                        'title': 'Mike Posner - I Went Back To Ibiza (Official Lyric Video)',
-                        'youtubeId': 'UDL6SEW4xKU',
-                        'soundcloudId': null,
-                        'soundcloudUrl': null,
-                        'vimeoId': null,
-                        'bandcampId': null,
-                        'isFlagged': 0,
-                        'lastPlayedTimestamp': '2026-03-08T11:57:33.000Z'
-                    },
-                ],
-                meta: {
-                    page: 1,
-                    total: [
-                        { numRows: 2 },
-                    ],
-                    perPage: 50,
-                },
-            }),
-        });
+let wrapper, html;
 
-    const router = createRouter({
-        history: createWebHistory(),
-        routes: [{ path: '/', component: {} }],
-    });
+beforeEach(async () => {
+    fetch.mockResolvedValueOnce({ json: () => Promise.resolve(activity) });
 
-    const wrapper = mount(Activity, {
-        global: { plugins: [router, VueAwesomePaginate] }
+    wrapper = mount(Activity, {
+        global: { plugins: [VueAwesomePaginate] }
     });
 
     await flushPromises();
 
-    [
-        'Last activity',
-        'Recently added songs',
-        'keypusher',
-        'Launch Code to the Nuclear Payload, by Heavy Metal Shrapnel',
-        'fury',
-        'Mike Posner - I Went Back To Ibiza (Official Lyric Video)',
-    ].every(val => expect(wrapper.text()).toContain(val));
+    html = wrapper.html();
+});
+
+it('shows recently added songs', async () => {
+    activity.data.forEach(song => {
+        expect(html).toContain(song.nickname);
+        expect(html).toContain(song.title);
+        expect(html).toContain(new Date(song.lastPlayedTimestamp).toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        }));
+    });
 });

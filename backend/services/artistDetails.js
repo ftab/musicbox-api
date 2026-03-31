@@ -23,7 +23,7 @@ async function getTracks(artistId, page = 1, limit = 50) {
      GROUP BY v.videoId, v.title, v.youtubeId, v.soundcloudId,
               v.soundcloudUrl, v.vimeoId, v.bandcampId, va.role
      ORDER BY totalPlays DESC
-     LIMIT ?,?`,
+     LIMIT ?, ?`,
     [artistId, offset, limit]
   );
   const total = await db.query(

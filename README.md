@@ -17,7 +17,7 @@ cp config.js.example config.js   # then fill in your DB credentials
 npm run dev                      # runs on http://localhost:5173
 
 # Production
-npm run build
+npm run build                    # build /dist
 npm start                        # runs on http://localhost:5000
 ```
 

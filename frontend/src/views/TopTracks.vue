@@ -1,56 +1,58 @@
 <template>
-    <h2>Top Tracks</h2>
-    <p>Most added songs across all users</p>
+    <Spinner v-if="isLoading" />
 
-    <Pagination v-if="topTracks.length" :meta="meta" @pageChange="fetchTopTracks" />
+    <template v-else>
+        <h2>Top Tracks</h2>
+        <p>Most added songs across all users</p>
 
-    <section class="list">
-        <div v-if="topTracks.length" v-for="(track, index) in topTracks" :key="index" :data-flagged="track.isFlagged" class="list-row">
-            <span class="accent">{{ calculateRank(index, meta) }}.</span>
-            <a :href="formatProviderUrl(track)" :title="getTrackTitle(track)" target="_blank" class="ellipsis">
-                <span class="linklist-badge">
-                    <BandcampIcon v-if="track.bandcampId" />
-                    <SoundcloudIcon v-if="track.soundcloudId" />
-                    <VimeoIcon v-if="track.vimeoId" />
-                    <YoutubeIcon v-if="track.youtubeId" />
-                </span>
-                <span v-text="getTrackTitle(track)"></span>
-            </a>
-            <span class="dim">{{ track.totalPlays }} relinks</span>
-        </div>
-    </section>
+        <section class="list">
+            <div v-for="(track, index) in topTracks" :key="index" :data-flagged="track.isFlagged" class="list-row">
+                <span class="accent">{{ calculateRank(index, meta) }}.</span>
+                <a :href="formatProviderUrl(track)" :title="getTrackTitle(track)" target="_blank" class="ellipsis">
+                    <ProviderIcons :track="track" />
+                    <span v-text="getTrackTitle(track)"></span>
+                </a>
+                <span class="dim">{{ pluralize(track.totalPlays, 'relink') }}</span>
+            </div>
+        </section>
 
-    <Pagination v-if="topTracks.length" :meta="meta" @pageChange="fetchTopTracks" />
+        <Pagination v-if="meta && meta.total[0].numRows > meta.perPage" :meta="meta" @pageChange="fetchTopTracks" />
+    </template>
 </template>
 
 <script setup>
     import { onMounted, ref } from 'vue';
-    import { formatProviderUrl, getTrackTitle } from '../utils';
-    import BandcampIcon from '../components/BandcampIcon.vue';
-    import SoundcloudIcon from '../components/SoundcloudIcon.vue';
-    import VimeoIcon from '../components/VimeoIcon.vue';
-    import YoutubeIcon from '../components/YoutubeIcon.vue';
+    import { formatProviderUrl, getTrackTitle, pluralize } from '../utils';
+    import ProviderIcons from '../components/ProviderIcons.vue';
     import Pagination from '../components/Pagination.vue';
+    import Spinner from '../components/Spinner.vue';
 
-    let topTracks = ref([]);
-    let meta = ref({});
+    const props = defineProps({
+        initialPage: {
+            type: Number,
+            default: 1,
+        }
+    });
+
+    const isLoading = ref(false);
+    const topTracks = ref([]);
+    const meta = ref(null);
 
     const calculateRank = (index, meta) => {
         const pageNum = parseInt(meta.page, 10) || 1;
-
         return (pageNum - 1) * meta.perPage + index + 1;
     };
 
-    const fetchTopTracks = async (page = 1) => {
-        try {
-            const topTracksResponse = await fetch(`/api/tracks/top?page=${page}&limit=50`);
-            const topTracksJson = await topTracksResponse.json();
+    const fetchTopTracks = async (page = props.initialPage) => {
+        isLoading.value = true;
 
-            topTracks.value = topTracksJson.data;
-            meta.value = topTracksJson.meta;
-        } catch(err) {
-            console.error(err);
-        }
+        const topTracksResponse = await fetch(`/api/tracks/top?page=${page}&limit=50`);
+        const topTracksJson = await topTracksResponse.json();
+
+        topTracks.value = topTracksJson.data;
+        meta.value = topTracksJson.meta;
+
+        isLoading.value = false;
     };
 
     onMounted(fetchTopTracks);

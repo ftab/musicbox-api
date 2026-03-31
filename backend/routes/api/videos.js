@@ -5,7 +5,7 @@ const videos = require('../../services/videos');
 /* GET videos */
 router.get('/', async function(req, res, next) {
   try {
-    res.json(await videos.getMultiple(req.query.userid, req.query.page));
+    res.json(await videos.getMultiple(req.query.userid, req.query.page, req.query.limit));
   } catch (err) {
     console.error(`Error while getting videos `, err.message);
     next(err);

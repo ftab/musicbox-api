@@ -18,31 +18,26 @@ router.get('/', async function(req, res, next) {
 router.get('/:nickname', async function(req, res, next) {
     try {
         const nickname = req.params.nickname;
-        const page = parseInt(req.query.page, 10) || 1;
-
         const user = await users.getByNickname(nickname);
+
         if (user.data.length === 0) {
-            res.json({ error: 'User not found' });
+            res.status(404).json({ error: 'User not found' });
             return;
         }
 
-        const [stats, topArtists, topTags, recentActivity, vids] = await Promise.all([
+        const [stats, topArtists, topTags] = await Promise.all([
             userStats.getStats(nickname),
             userProfile.getTopArtists(nickname, 15),
             userProfile.getTopTags(nickname, 15),
-            userProfile.getRecentActivity(nickname, 10),
-            videos.getMultiple(user.data[0].userId, page)
         ]);
 
         res.json({
             user: user.data[0],
-            stats: stats.data[0] || null,
+            stats: stats.data[0],
             topArtists,
             topTags,
-            recentActivity,
-            vids
         });
-    } catch (err) {
+    } catch(err) {
         console.error('Error getting user profile', err.message);
         next(err);
     }

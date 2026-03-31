@@ -1,18 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const songDetails = require('../services/songDetails');
+const songDetails = require('../../services/songDetails');
 
 router.get('/:videoId', async function(req, res, next) {
     try {
         const videoId = parseInt(req.params.videoId, 10);
+
         if (isNaN(videoId)) {
-            res.status(400).send('Invalid video ID');
+            res.status(400).json({ error: 'Invalid video ID' });
             return;
         }
 
         const video = await songDetails.getById(videoId);
+
         if (video.data.length === 0) {
-            res.status(404).send('Song not found');
+            res.status(404).json({ error: 'Song not found' });
             return;
         }
 
@@ -28,7 +30,7 @@ router.get('/:videoId', async function(req, res, next) {
             })
         ]);
 
-        return res.render('song', {
+        return res.json({
             song: video.data[0],
             artists,
             sharedBy,

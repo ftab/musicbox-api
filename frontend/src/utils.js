@@ -1,5 +1,13 @@
+export function setPageTitle(title) {
+    document.title = `${title} - MusicBox IRC`;
+};
+
 export function getTrackTitle(track) {
     return track.title || 'Untitled';
+};
+
+export function pluralize(count, word) {
+    return `${count} ${word}${count > 1 ? 's' : ''}`;
 };
 
 export function formatProviderUrl(item) {

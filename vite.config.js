@@ -13,6 +13,7 @@ export default defineConfig({
         environment: 'jsdom',
         root: '.',
         include: ['tests/vue/**/*.test.js'],
+        setupFiles: ['tests/vue/setup.js'],
     },
     server: {
         proxy: {

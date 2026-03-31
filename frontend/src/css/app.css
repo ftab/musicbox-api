@@ -6,9 +6,15 @@
     --color-darkest: #0d0d0d;
     --color-darker: #161616;
     --color-dark: #1e1e1e;
-    --color-accent: #4ade80;
+    --color-accent-light: #4ade80;
+    --color-accent-dark: #1a2e1a;
     --color-light: #f0f0f0;
     --color-neutral: #666666;
+}
+
+::selection {
+    background: var(--color-accent-dark);
+    color: var(--color-accent-light);
 }
 
 @font-face {
@@ -32,6 +38,7 @@ body {
     scrollbar-gutter: stable;
     scroll-behavior: smooth;
     color-scheme: dark;
+    min-height: 100%;
 }
 
 body {
@@ -42,10 +49,7 @@ body {
     line-height: 1.4;
     margin: 0;
     padding-bottom: 2rem;
-}
-
-body.no-style {
-    background: white;
+    overflow-y: scroll;
 }
 
 h1,
@@ -79,17 +83,23 @@ p:has(+ h3) {
 a {
     color: var(--color-light);
     text-underline-offset: 5px;
-    text-decoration-color: var(--color-accent);
+    text-decoration-color: var(--color-accent-light);
 
     &:hover {
         text-decoration: none;
-        color: var(--color-accent);
+        color: var(--color-accent-light);
     }
+}
+
+button {
+    font-family: inherit;
+    line-height: 1;
+    cursor: pointer;
 }
 
 strong {
     font-weight: 800;
-    color: var(--color-accent);
+    color: var(--color-accent-light);
 }
 
 svg {
@@ -106,13 +116,13 @@ ul {
     }
 
     & li::marker {
-        color: var(--color-accent);
+        color: var(--color-accent-light);
     }
 }
 
 code {
     background-color: var(--color-dark);
-    color: var(--color-accent);
+    color: var(--color-accent-light);
     padding: 0.05rem 0.2rem;
 }
 
@@ -131,12 +141,12 @@ progress::-webkit-progress-bar {
 }
 
 progress::-webkit-progress-value {
-    background: var(--color-accent);
+    background: var(--color-accent-light);
     border-radius: 10px;
 }
 
 progress::-moz-progress-bar {
-    background: var(--color-accent);
+    background: var(--color-accent-light);
 }
 
 .progress-area {
@@ -196,7 +206,7 @@ header a {
 }
 
 .site-nav-link.active {
-    color: var(--color-accent);
+    color: var(--color-accent-light);
 }
 
 @media(width > 576px) {
@@ -226,6 +236,10 @@ header a {
     }
 }
 
+.list:has(+ h3) {
+    margin-bottom: 2.5rem;
+}
+
 .list-row {
     position: relative;
     display: grid;
@@ -247,11 +261,32 @@ header a {
 }
 
 .list-row:hover {
-    box-shadow: -3px 0 0 var(--color-accent);
+    box-shadow: -3px 0 0 var(--color-accent-light);
+}
+
+ul.tag-list {
+    display: flex;
+    gap: .7rem;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.tag-list li {
+    font-size: .8rem;
+    color: var(--color-accent-light);
+    background: transparent;
+    padding: .3rem .5rem;
+    border: 1px solid var(--color-accent-dark);
+
+    & span {
+        color: color-mix(in srgb, var(--color-accent-light) 50%, black);
+    }
 }
 
 .accent {
-    color: var(--color-accent);
+    color: var(--color-accent-light);
     text-align: right;
 }
 
@@ -272,156 +307,11 @@ header a {
     text-align: right;
 }
 
+.flush {
+    margin: 0;
+    padding: 0;
+}
+
 .hidden {
     display: none;
-}
-
-.pagination {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.pagination-link {
-    color: var(--color-accent);
-    text-decoration: none;
-}
-
-.pagination-link:hover {
-    text-decoration: underline;
-}
-
-.pagination-info {
-    color: var(--color-neutral);
-}
-
-/* Song detail, user profile, and artist pages */
-
-.song-meta {
-    margin-bottom: 1.5rem;
-}
-
-.song-source {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.song-section {
-    margin-top: 2rem;
-}
-
-.song-section h3 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-    color: var(--color-accent);
-}
-
-.song-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.song-tag {
-    background: var(--color-dark);
-    padding: 0.25rem 0.6rem;
-    font-size: 0.85rem;
-}
-
-.song-artists {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.song-artist-tag {
-    background: var(--color-darker);
-    padding: 0.4rem 0.75rem;
-    text-decoration: none;
-    transition: box-shadow 300ms ease-in-out;
-}
-
-.song-artist-tag:hover {
-    box-shadow: -2px 0 0 var(--color-accent);
-    color: var(--color-light);
-}
-
-.song-artist-role {
-    color: var(--color-neutral);
-    font-size: 0.8rem;
-    margin-left: 0.4rem;
-}
-
-.profile-columns {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    margin-top: 1.5rem;
-}
-
-@media(width > 576px) {
-    .profile-columns {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-.profile-column h3 {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-    margin-bottom: 0.75rem;
-    color: var(--color-accent);
-}
-
-.profile-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-}
-
-.profile-list-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.3rem 0.6rem;
-    background: var(--color-darker);
-}
-
-.profile-list-item a {
-    text-decoration: none;
-}
-
-.profile-list-item a:hover {
-    color: var(--color-accent);
-}
-
-.scroll-top {
-    display: none;
-}
-
-@supports(animation-timeline: scroll()) {
-    .scroll-top {
-        display: initial;
-        position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-        opacity: 0;
-        z-index: 1;
-        animation: show linear both;
-        animation-timeline: scroll();
-        animation-range: 400px 500px;
-
-        & svg {
-            width: 3rem;
-            fill: var(--color-accent);
-        }
-    }
-
-    @keyframes show {
-        to { opacity: 1; }
-    }
 }

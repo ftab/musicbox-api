@@ -1,33 +1,34 @@
 const express = require('express');
 const router = express.Router();
-const artistDetails = require('../services/artistDetails');
-
-const WEB_PER_PAGE = 50;
+const artistDetails = require('../../services/artistDetails');
 
 router.get('/:artistId', async function(req, res, next) {
     try {
         const artistId = parseInt(req.params.artistId, 10);
+
         if (isNaN(artistId)) {
-            res.status(400).send('Invalid artist ID');
+            res.status(400).json({ error: 'Invalid artist ID' });
             return;
         }
 
         const artist = await artistDetails.getById(artistId);
+
         if (artist.data.length === 0) {
-            res.status(404).send('Artist not found');
+            res.status(404).json({ error: 'Artist not found' });
             return;
         }
 
         const page = parseInt(req.query.page, 10) || 1;
+        const limit = parseInt(req.query.limit, 10) || 50;
         const [tracks, topSharers] = await Promise.all([
-            artistDetails.getTracks(artistId, page, WEB_PER_PAGE),
+            artistDetails.getTracks(artistId, page, limit),
             artistDetails.getTopSharers(artistId)
         ]);
 
-        return res.render('artist', {
+        return res.json({
             artist: artist.data[0],
             tracks,
-            topSharers
+            topSharers,
         });
     } catch (err) {
         console.error('Error getting artist details', err.message);

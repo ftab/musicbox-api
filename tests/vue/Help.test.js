@@ -1,5 +1,5 @@
-import { mount, flushPromises } from '@vue/test-utils';
-import { describe, it, expect, vi } from 'vitest';
+import { mount } from '@vue/test-utils';
+import { it, expect } from 'vitest';
 import Help from '../../frontend/src/views/Help.vue';
 
 it('shows a help page', async () => {

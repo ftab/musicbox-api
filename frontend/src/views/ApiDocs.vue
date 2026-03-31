@@ -18,10 +18,16 @@
             }, redocContainer.value);
         }
 
-        document.body.classList.add('no-style');
-
         document.head.appendChild(script);
+
+        document.body.classList.add('api-docs');
     });
 
-    onUnmounted(() => document.body.classList.remove('no-style'));
+    onUnmounted(() => document.body.classList.remove('api-docs'));
 </script>
+
+<style>
+    body.api-docs {
+        background: white;
+    }
+</style>
