@@ -1,8 +1,8 @@
 <template>
     <div class="tabs">
         <div class="tab-buttons">
-            <button @click="activate(index)" v-for="(label, index) in labels" :class="{ 'tab-button': true, 'active': index === activeIndex }">
-                {{ label }}
+            <button @click="activate(index)" v-for="(tab, index) in tabs" :class="{ 'tab-button': true, 'active': index === activeIndex }">
+                {{ tab.props?.label }}
             </button>
         </div>
 
@@ -11,14 +11,10 @@
 </template>
 
 <script setup>
-    import { provide, ref } from 'vue';
+    import { provide, ref, useSlots, computed } from 'vue';
 
-    const props = defineProps({
-        labels: {
-            type: Array,
-            required: true
-        },
-    });
+    const slots = useSlots();
+    const tabs = computed(() => slots.default().filter(node => node.type?.__name === 'Tab'));
 
     const activeIndex = ref(0);
     const tabIndex = ref(0);

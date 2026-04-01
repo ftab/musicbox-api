@@ -5,8 +5,8 @@
         <h2 v-text="stats.nickname"></h2>
         <p>{{ stats.uniqueVideos }} unique songs · {{ stats.totalPlays }} total relinks · sharing since {{ formatTimestamp(stats.firstShared) }}</p>
 
-        <Tabs :labels="['Top Genres', 'Top Artists']">
-            <Tab>
+        <Tabs v-if="tags.length || artists.length">
+            <Tab v-if="tags.length" label="Top Genres">
                 <ul class="tag-list">
                     <li v-for="(tag, index) in tags" :key="tag">
                         {{ tag.name }} <span>({{ tag.count }})</span>
@@ -14,7 +14,7 @@
                 </ul>
             </Tab>
 
-            <Tab>
+            <Tab v-if="artists.length" label="Top Artists">
                 <section class="list">
                     <div v-for="(artist, index) in artists" class="list-row flush">
                         <span class="accent">{{ index + 1 }}.</span>

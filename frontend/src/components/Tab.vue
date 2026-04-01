@@ -7,6 +7,8 @@
 <script setup>
     import { inject } from 'vue';
 
+    defineProps({ label: String, required: true });
+
     const activeIndex = inject('activeIndex');
     const registerTab = inject('registerTab');
 
