@@ -26,7 +26,7 @@
     }
 
     .spinner svg {
-        fill: var(--color-accent-light);
+        fill: var(--color-dark);
     }
 
     @keyframes rotate {

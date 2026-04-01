@@ -16,9 +16,9 @@
 
             <Tab v-if="artists.length" label="Top Artists">
                 <section class="list">
-                    <div v-for="(artist, index) in artists" class="list-row flush">
+                    <div v-for="(artist, index) in artists" :key="artist.artistId" :title="artist.name" class="list-row flush">
                         <span class="accent">{{ index + 1 }}.</span>
-                        <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }">
+                        <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }" class="ellipsis">
                             <span>{{ artist.name }}</span>
                         </RouterLink>
                         <span class="dim">{{ pluralize(artist.trackCount, 'track') }}</span>
@@ -30,7 +30,7 @@
         <h3>Full collection <small class="dim">(Ordered by recent activity)</small></h3>
 
         <section class="list">
-            <div v-for="(video, index) in videos" :key="video.videoId" :data-flagged="video.isFlagged" class="list-row">
+            <div v-for="(video, index) in videos" :key="video.videoId" :data-flagged="video.isFlagged" :title="getTrackTitle(video)" class="list-row">
                 <span class="accent">{{ formatTimestamp(video.lastPlayedTimestamp) }}</span>
                 <RouterLink :to="{ name: 'song', params: { id: video.videoId }}" class="ellipsis">
                     <ProviderIcons :track="video" />

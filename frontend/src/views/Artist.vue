@@ -32,9 +32,9 @@
                     <span class="dim">{{ pluralize(track.totalPlays, 'relink')}}</span>
                 </div>
             </section>
-
-            <Pagination v-if="meta && meta.total[0].numRows > meta.perPage" :meta="meta" @pageChange="fetchArtist" />
         </template>
+
+        <Pagination v-if="meta && meta.total[0].numRows > meta.perPage" :meta="meta" @pageChange="fetchArtist" />
     </template>
 </template>
 

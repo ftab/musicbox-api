@@ -15,7 +15,7 @@
 
             <ul>
                 <li v-for="(artist, index) in artists" :key="artist.artistId">
-                    <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }">
+                    <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }" :title="artist.name">
                         {{ artist.name }} ({{ artist.role }})
                     </RouterLink>
                 </li>
@@ -35,13 +35,14 @@
 
             <section class="list">
                 <div v-for="(user, index) in sharedBy" :key="user.nickname" class="list-row">
-                    <span class="nickname ellipsis">
-                        <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }">
-                            {{ user.nickname }}
-                        </RouterLink>
+                    <span class="accent">{{ index + 1 }}.</span>
+                    <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname" class="nickname ellipsis">
+                        {{ user.nickname }}
+                    </RouterLink>
+                    <span class="dim">
+                        {{ pluralize(user.playCount, 'relink') }}
+                        {{ formatTimestamp(user.lastPlayedTimestamp) }}
                     </span>
-                    <span class="dim">{{ pluralize(user.playCount, 'relink') }}</span>
-                    <span class="accent">{{ formatTimestamp(user.lastPlayedTimestamp) }}</span>
                 </div>
             </section>
         </template>
@@ -52,7 +53,7 @@
             <section class="list">
                 <div v-for="(track, index) in moreTracks" :key="track.videoId" class="list-row">
                     <span v-if="track.artistName" class="ellipsis accent">{{ track.artistName }}</span>
-                    <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" class="ellipsis" :title="getTrackTitle(track)">
+                    <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" :title="getTrackTitle(track)" class="ellipsis">
                         <ProviderIcons :track="track" />
                         <span>{{ getTrackTitle(track) }}</span>
                     </RouterLink>

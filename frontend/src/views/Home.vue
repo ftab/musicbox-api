@@ -6,7 +6,7 @@
         <p>{{ totalSongCount }} unique songs collected</p>
 
         <section key="list" class="list leaderboard">
-            <div v-for="(user, index) in leaderboardItems" :key="index" class="list-row">
+            <div v-for="(user, index) in leaderboardItems" :key="index" :title="user.nickname" class="list-row">
                 <span class="accent">{{ index + 1 }}.</span>
                 <span class="nickname ellipsis">
                     <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }">

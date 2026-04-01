@@ -6,7 +6,7 @@
         <p>Most added songs across all users</p>
 
         <section class="list">
-            <div v-for="(track, index) in topTracks" :key="index" :data-flagged="track.isFlagged" class="list-row">
+            <div v-for="(track, index) in topTracks" :key="index" :data-flagged="track.isFlagged" :title="getTrackTitle(track)" class="list-row">
                 <span class="accent">{{ calculateRank(index, meta) }}.</span>
                 <a :href="formatProviderUrl(track)" :title="getTrackTitle(track)" target="_blank" class="ellipsis">
                     <ProviderIcons :track="track" />
