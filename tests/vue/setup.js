@@ -3,6 +3,7 @@ import { config } from '@vue/test-utils';
 
 let mockRoute = {
     params: {},
+    query: {},
 };
 
 global.fetch = vi.fn();
