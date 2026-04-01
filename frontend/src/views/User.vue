@@ -54,13 +54,6 @@
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const props = defineProps({
-        initialPage: {
-            type: Number,
-            default: 1,
-        }
-    });
-
     const isLoading = ref(true);
     const route = useRoute();
     const stats = ref({});
@@ -80,7 +73,7 @@
         setPageTitle(stats.value.nickname);
     };
 
-    const fetchVideos = async (page = props.initialPage) => {
+    const fetchVideos = async (page = (route.query.page || 1)) => {
         isLoading.value = true;
 
         const videosResponse = await fetch(`/api/videos?userid=${stats.value.userId}&page=${page}&limit=50`);

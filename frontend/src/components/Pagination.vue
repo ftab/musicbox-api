@@ -25,9 +25,6 @@
     });
 
     const pageChange = page => {
-        if(page < 1) page = 1;
-        if(page > totalPages.value) page = totalPages.value;
-
         currentPage.value = page;
 
         router.push({
@@ -37,6 +34,12 @@
             },
         });
     };
+
+    onMounted(() => {
+        if(currentPage.value > totalPages.value) {
+            pageChange(totalPages.value);
+        }
+    });
 </script>
 
 <style>

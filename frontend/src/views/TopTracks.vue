@@ -22,19 +22,14 @@
 
 <script setup>
     import { onMounted, ref } from 'vue';
+    import { useRoute } from 'vue-router';
     import { formatProviderUrl, getTrackTitle, pluralize } from '../utils';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const props = defineProps({
-        initialPage: {
-            type: Number,
-            default: 1,
-        }
-    });
-
     const isLoading = ref(false);
+    const route = useRoute();
     const topTracks = ref([]);
     const meta = ref(null);
 
@@ -43,7 +38,7 @@
         return (pageNum - 1) * meta.perPage + index + 1;
     };
 
-    const fetchTopTracks = async (page = props.initialPage) => {
+    const fetchTopTracks = async (page = (route.query.page || 1)) => {
         isLoading.value = true;
 
         const topTracksResponse = await fetch(`/api/tracks/top?page=${page}&limit=50`);

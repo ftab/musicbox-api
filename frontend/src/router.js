@@ -39,14 +39,12 @@ const routes = [
         name: 'top-tracks',
         component: TopTracks,
         meta: { title: 'Top Tracks' },
-        props: route => ({ initialPage: parseInt(route.query.page, 10) || 1 }),
     },
     {
         path: '/activity',
         name: 'activity',
         component: Activity,
         meta: { title: 'Last activity' },
-        props: route => ({ initialPage: parseInt(route.query.page, 10) || 1 }),
     },
     {
         path: '/peepee',
@@ -84,6 +82,16 @@ const router = createRouter({
 
         return { top: 0, behavior: 'smooth' };
     },
+});
+
+router.beforeEach(to => {
+    if(to.query.page !== undefined) {
+        const page = parseInt(to.query.page, 10);
+
+        if(isNaN(page) || page < 2) {
+            return { ...to, query: { ...to.query, page: undefined } };
+        }
+    }
 });
 
 router.afterEach(to => {

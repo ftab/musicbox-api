@@ -22,23 +22,18 @@
 
 <script setup>
     import { onMounted, ref } from 'vue';
+    import { useRoute } from 'vue-router';
     import { formatTimestamp, formatProviderUrl, getTrackTitle } from '../utils';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const props = defineProps({
-        initialPage: {
-            type: Number,
-            default: 1,
-        }
-    });
-
     const isLoading = ref(true);
+    const route = useRoute();
     const activity = ref([]);
     const meta = ref(null);
 
-    const fetchActivity = async (page = props.initialPage) => {
+    const fetchActivity = async (page = (route.query.page || 1)) => {
         isLoading.value = true;
 
         const activityResponse = await fetch(`/api/activity?page=${page}&limit=50`);

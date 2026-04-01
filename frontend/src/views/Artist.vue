@@ -46,13 +46,6 @@
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const props = defineProps({
-        initialPage: {
-            type: Number,
-            default: 1,
-        }
-    });
-
     const isLoading = ref(true);
     const route = useRoute();
     const artist = ref(null);
@@ -60,7 +53,7 @@
     const topSharers = ref([]);
     const meta = ref(null);
 
-    const fetchArtist = async (page = props.initialPage) => {
+    const fetchArtist = async (page = (route.query.page || 1)) => {
         isLoading.value = true;
 
         const artistResponse = await fetch(`/api/artist/${route.params.id}?page=${page}&limit=50`);
