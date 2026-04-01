@@ -1,5 +1,5 @@
-export function setPageTitle(title) {
-    document.title = `${title} - MusicBox IRC`;
+export function setPageTitle(title = null, prefix = 'MusicBox IRC') {
+    document.title = title ? `${title} - ${prefix}` : prefix;
 };
 
 export function getTrackTitle(track) {
@@ -7,7 +7,9 @@ export function getTrackTitle(track) {
 };
 
 export function pluralize(count, word) {
-    return `${count} ${word}${count > 1 ? 's' : ''}`;
+    count = Number(count);
+
+    return `${count} ${word}${(count !== 1) ? 's' : ''}`;
 };
 
 export function formatProviderUrl(item) {
