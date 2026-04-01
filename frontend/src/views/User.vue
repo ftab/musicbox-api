@@ -30,7 +30,7 @@
         <h3>Full collection <small class="dim">(Ordered by recent activity)</small></h3>
 
         <section class="list">
-            <div v-for="(video, index) in videos" :key="video.videoId" class="list-row">
+            <div v-for="(video, index) in videos" :key="video.videoId" :data-flagged="video.isFlagged" class="list-row">
                 <span class="accent">{{ formatTimestamp(video.lastPlayedTimestamp) }}</span>
                 <RouterLink :to="{ name: 'song', params: { id: video.videoId }}" class="ellipsis">
                     <ProviderIcons :track="video" />

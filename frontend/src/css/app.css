@@ -63,6 +63,20 @@ h2 {
     text-wrap: balance;
 }
 
+h2[data-flagged="1"] {
+    position: relative;
+
+    &::before {
+        content: '🏴‍☠';
+        position: absolute;
+        font-size: 1.1rem;
+        top: -10px;
+        left: -15px;
+        border-radius: 100%;
+        z-index: 1;
+    }
+}
+
 p {
     text-wrap: pretty;
 }
@@ -231,7 +245,7 @@ header a {
         color: currentColor;
     }
 
-    & a:after {
+    & a::after {
         content: '';
         position: absolute;
         inset: 0;

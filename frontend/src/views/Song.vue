@@ -2,7 +2,7 @@
     <Spinner v-if="isLoading" />
 
     <template v-else>
-        <h2>{{ getTrackTitle(song) }}</h2>
+        <h2 :data-flagged="song.isFlagged">{{ getTrackTitle(song) }}</h2>
         <p>
             <a :href="formatProviderUrl(song)" target="_blank">
                 <ProviderIcons :track="song" :labels="true" />
