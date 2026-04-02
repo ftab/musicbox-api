@@ -1,5 +1,5 @@
 INSERT INTO user (userId, nickname, isAdminIndicator) VALUES
-  (1, 'testuser', 0),
+  (1, 'Cuckoo', 0),
   (2, 'adminuser', 1);
 
 INSERT INTO video (videoId, youtubeId, title, youtubeChannelName) VALUES
