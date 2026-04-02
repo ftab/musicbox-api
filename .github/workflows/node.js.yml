@@ -51,7 +51,7 @@ jobs:
             database: "ircbot",
             connectTimeout: 60000
           },
-          listPerPage: '10000',
+          listPerPage: 10000,
         };
         module.exports = config;
         EOF
