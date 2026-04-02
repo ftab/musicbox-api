@@ -57,6 +57,8 @@ jobs:
         EOF
     - name: Initialize database schema
       run: mysql -h 127.0.0.1 -uroot -proot ircbot < db.sql
+    - name: Seed test data
+      run: mysql -h 127.0.0.1 -uroot -proot ircbot < seed.sql
     - run: npm test
     - run: find .
   deploy:
