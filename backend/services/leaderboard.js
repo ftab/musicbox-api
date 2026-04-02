@@ -10,29 +10,27 @@ const sql = `SELECT COALESCE(a.primaryNick, u.nickname) AS nickname,
   GROUP BY COALESCE(a.primaryNick, u.nickname)
   ORDER BY video_count DESC LIMIT ?,?`;
 
-async function get(page = 1){
-  const limit = Number(config.listPerPage);
-  const offset = helper.getOffset(page, limit);
+async function get(page = 1, limit = config.listPerPage){
+  const  offset = helper.getOffset(page, limit);
   const rows = await db.query(sql, [offset, limit]);
   const data = helper.emptyOrRows(rows);
-  const meta = {page};
-
+  const total = await db.query(`
+    SELECT COUNT(*) AS numRows
+    FROM (
+      SELECT COALESCE(a.primaryNick, u.nickname) AS nickname
+      FROM user_video uv
+      INNER JOIN user u ON uv.userId = u.userId
+      LEFT JOIN aliases a ON u.nickname = a.aliasNick
+      GROUP BY COALESCE(a.primaryNick, u.nickname)
+    ) AS grouped
+  `);
+  const meta = {page, total, perPage: limit};
   return {
     data,
     meta
   }
 }
 
-async function getTop50() {
-  const rows = await db.query(sql, [0, 50]);
-  const data = helper.emptyOrRows(rows);
-
-  return {
-    data,
-  }
-}
-
 module.exports = {
   get,
-  getTop50,
 }

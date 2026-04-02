@@ -1,27 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const artistDetails = require('../../services/artistDetails');
+const { validateQuery, validateParams } = require('../../middleware/validate');
+const { artistIdParamSchema, paginationQuerySchema } = require('../../schema');
 
-router.get('/:artistId', async function(req, res, next) {
+router.get('/:artistId', validateParams(artistIdParamSchema), validateQuery(paginationQuerySchema), async function(req, res, next) {
     try {
-        const artistId = parseInt(req.params.artistId, 10);
-
-        if (isNaN(artistId)) {
-            res.status(400).json({ error: 'Invalid artist ID' });
-            return;
-        }
-
+        const artistId = req.params.artistId;
         const artist = await artistDetails.getById(artistId);
 
         if (artist.data.length === 0) {
-            res.status(404).json({ error: 'Artist not found' });
-            return;
+            return res.status(404).json({ error: [
+                { message: 'Artist not found' }
+            ]});
         }
 
-        const page = parseInt(req.query.page, 10) || 1;
-        const limit = parseInt(req.query.limit, 10) || 50;
         const [tracks, topSharers] = await Promise.all([
-            artistDetails.getTracks(artistId, page, limit),
+            artistDetails.getTracks(artistId, req.query.page, req.query.limit),
             artistDetails.getTopSharers(artistId)
         ]);
 

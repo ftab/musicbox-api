@@ -39,7 +39,7 @@
     onMounted(async () => {
         const statsResponse = await fetch('/api/stats');
         const statsJson = await statsResponse.json();
-        const leaderboardResponse = await fetch('/api/leaderboard/top-50');
+        const leaderboardResponse = await fetch('/api/leaderboard?limit=50');
         const leaderboardJson = await leaderboardResponse.json();
 
         totalSongCount.value = statsJson.totalSongs;

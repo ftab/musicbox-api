@@ -2,8 +2,7 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../../config');
 
-async function getMultiple(page = 1){
-  const limit = Number(config.listPerPage);
+async function getMultiple(page = 1, limit = config.listPerPage) {
   const offset = helper.getOffset(page, limit);
   const rows = await db.query(
     `SELECT userId, nickname

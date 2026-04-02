@@ -1,21 +1,20 @@
 const express = require('express');
 const router = express.Router();
 const songDetails = require('../../services/songDetails');
+const { validateParams } = require('../../middleware/validate');
+const { videoIdParamSchema } = require('../../schema');
 
-router.get('/:videoId', async function(req, res, next) {
+router.get('/:videoId', validateParams(videoIdParamSchema), async function(req, res, next) {
     try {
-        const videoId = parseInt(req.params.videoId, 10);
-
-        if (isNaN(videoId)) {
-            res.status(400).json({ error: 'Invalid video ID' });
-            return;
-        }
-
+        const videoId = req.params.videoId;
         const video = await songDetails.getById(videoId);
 
         if (video.data.length === 0) {
-            res.status(404).json({ error: 'Song not found' });
-            return;
+            return res.status(404).json({
+                error: [
+                    { message: 'Song not found' },
+                ],
+            });
         }
 
         const [artists, sharedBy, moreTracks] = await Promise.all([
