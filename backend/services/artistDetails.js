@@ -12,9 +12,9 @@ async function getById(artistId) {
 async function getTracks(artistId, page = 1, limit = 50) {
   const offset = helper.getOffset(page, limit);
   const rows = await db.query(
-    `SELECT v.videoId, v.title, v.youtubeId, v.soundcloudId,
+    `SELECT v.videoId, v.youtubeId, v.soundcloudId,
             NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl,
-            v.vimeoId, v.bandcampId, va.role,
+            v.vimeoId, v.bandcampId, v.title, va.role,
             SUM(uv.playCount) AS totalPlays
      FROM video_artist va
      INNER JOIN video v ON va.videoId = v.videoId

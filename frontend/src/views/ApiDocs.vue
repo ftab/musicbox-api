@@ -29,5 +29,6 @@
 <style>
     body.api-docs {
         background: white;
+        scroll-behavior: auto;
     }
 </style>

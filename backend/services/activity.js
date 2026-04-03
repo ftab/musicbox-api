@@ -6,9 +6,9 @@ async function getRecent(page = 1, limit = config.listPerPage) {
   const offset = helper.getOffset(page, limit);
   const rows = await db.query(
     `SELECT COALESCE(a.primaryNick, u.nickname) AS nickname,
-            v.videoId, v.title, v.youtubeId, v.soundcloudId,
+            v.videoId, v.youtubeId, v.soundcloudId,
             NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl,
-            v.vimeoId, v.bandcampId, v.isFlagged,
+            v.vimeoId, v.bandcampId, v.title, v.isFlagged,
             uv.lastPlayedTimestamp
      FROM user_video uv
      INNER JOIN user u ON uv.userId = u.userId

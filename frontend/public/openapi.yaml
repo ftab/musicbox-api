@@ -1,9 +1,10 @@
 openapi: 3.0.3
 info:
   title: MusicBox API
-  description: >
+  description: |
     REST API for MusicBox, an IRC bot that tracks music links shared in chat.
-    All endpoints return JSON. Paginated endpoints accept a `page` query parameter
+
+    Base URL is `https://musicbox.gamefiar.com/api/`. All endpoints return JSON. Paginated endpoints accept a `page` and `limit` query parameter
     and return `{ data: [...], meta: { page, total, perPage } }`.
   version: 0.0.1
 
@@ -12,6 +13,8 @@ servers:
     description: Same-origin API
 
 tags:
+  - name: Stats
+    description: Global statistics
   - name: Leaderboard
     description: User rankings by video count
   - name: Users
@@ -19,13 +22,32 @@ tags:
   - name: Videos
     description: Video lists and metadata
   - name: Tracks
-    description: Aggregate track statistics across all users
+    description: Track lookups and aggregate track statistics across all users
+  - name: Artists
+    description: Artist lookups
   - name: Activity
     description: Recent play history across all users
   - name: Admin
     description: Diagnostic endpoints
 
 paths:
+  /stats:
+    get:
+      tags: [Stats]
+      summary: Global statistics
+      description: Returns total song count
+      responses:
+        '200':
+          description: Stats response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalSongs:
+                    type: integer
+                    example: 72605
+
   /leaderboard:
     get:
       tags: [Leaderboard]
@@ -33,6 +55,7 @@ paths:
       description: Returns users ranked by the number of unique videos they have shared, grouping aliased nicknames under their primary nick.
       parameters:
         - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
       responses:
         '200':
           description: Paginated leaderboard
@@ -47,14 +70,31 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/LeaderboardEntry'
-              example:
-                data:
-                  - nickname: fury
-                    video_count: 6812
-                  - nickname: dan
-                    video_count: 4201
-                meta:
-                  page: 1
+                    example:
+                      data:
+                        - nickname: fury
+                          video_count: 6812
+                        - nickname: dan
+                          video_count: 4201
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+              examples:
+                invalidPage:
+                  summary: Invalid page
+                  value:
+                    error:
+                      - field: page
+                        message: 'Invalid input: expected number, received NaN'
+                invalidLimit:
+                  summary: Invalid limit
+                  value:
+                    error:
+                      - field: limit
+                        message: 'Invalid input: expected number, received NaN'
 
   /users:
     get:
@@ -62,6 +102,7 @@ paths:
       summary: All users
       parameters:
         - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
       responses:
         '200':
           description: Paginated user list
@@ -76,6 +117,89 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/User'
+                    example:
+                      data:
+                        - userId: 1
+                          nickname: fury
+                        - userId: 2
+                          nickname: dan
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+              examples:
+                invalidPage:
+                  summary: Invalid page
+                  value:
+                    error:
+                      - field: page
+                        message: 'Invalid input: expected number, received NaN'
+                invalidLimit:
+                  summary: Invalid limit
+                  value:
+                    error:
+                      - field: limit
+                        message: 'Invalid input: expected number, received NaN'
+
+  /users/{nickname}:
+    get:
+      tags: [Users]
+      summary: Single user
+      description: Returns a users statistic, top artists and top tags.
+      parameters:
+        - name: nickname
+          in: path
+          required: true
+          schema:
+            type: string
+          example: fury
+      responses:
+        '200':
+          description: User response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/User'
+                  stats:
+                    $ref: '#/components/schemas/UserStats'
+                  topArtists:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/Artist'
+                        - type: object
+                          properties:
+                            trackCount:
+                              type: integer
+                              example: 139
+                  topTags:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Tag'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+              example:
+                error:
+                  - field: nickname
+                  - message: ''
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+              example:
+                error:
+                  - message: User not found
 
   /users/{nickname}/stats:
     get:
@@ -101,21 +225,24 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/UserStats'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
               example:
-                data:
-                  - nickname: fury
-                    totalPlays: 8941
-                    uniqueVideos: 6812
-                    firstShared: '2020-03-15T00:00:00.000Z'
-                    mostRecentPlayed: '2026-03-01T00:00:00.000Z'
+                error:
+                  - field: nickname
+                    message: 'Too big: expected string to have <=30 characters'
         '404':
           description: User not found
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/404'
 
-  /videos:
+  /videos?userid={userid}:
     get:
       tags: [Videos]
       summary: Videos for a user
@@ -128,6 +255,7 @@ paths:
             type: integer
           example: 1
         - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
       responses:
         '200':
           description: Paginated video list
@@ -142,6 +270,40 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Video'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+              examples:
+                invalidUserId:
+                  summary: Invalid userid
+                  value:
+                    error:
+                      - field: userid
+                        message: 'Invalid input: expected number, received NaN'
+                invalidPage:
+                  summary: Invalid page
+                  value:
+                    error:
+                      - field: page
+                        message: 'Invalid input: expected number, received NaN'
+                invalidLimit:
+                  summary: Invalid limit
+                  value:
+                    error:
+                      - field: limit
+                        message: 'Invalid input: expected number, received NaN'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+              example:
+                error:
+                  - message: 'User not found'
 
   /tracks/top:
     get:
@@ -150,6 +312,7 @@ paths:
       description: Returns tracks ranked by total play count aggregated across all users. Excludes admin-hidden entries.
       parameters:
         - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
       responses:
         '200':
           description: Paginated top tracks
@@ -163,17 +326,198 @@ paths:
                       data:
                         type: array
                         items:
-                          $ref: '#/components/schemas/TopTrack'
+                          allOf:
+                            - $ref: '#/components/schemas/BaseVideo'
+                            - type: object
+                              properties:
+                                isFlagged:
+                                  type: integer
+                                  enum: [0, 1]
+                                  example: 0
+                                title:
+                                  type: string
+                                  nullable: true
+                                  example: null
+                                totalPlays:
+                                  type: integer
+                                  example: 196
+
+  /song/{videoId}:
+    get:
+      tags: [Tracks]
+      summary: Single track
+      description: Returns detailed information for a track, including all users who have shared it, the associated artists, and other tracks by those artists.
+      parameters:
+        - name: videoId
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Track response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  song:
+                    allOf:
+                      - $ref: '#/components/schemas/BaseVideo'
+                      - type: object
+                        properties:
+                          isFlagged:
+                            type: integer
+                            enum: [0, 1]
+                            example: 0
+                          title:
+                            type: string
+                            nullable: true
+                            example: null
+                          tags:
+                            type: string
+                            example: 'Progressive House, House, trance, electronic'
+                          youtubeChannel:
+                            type: string
+                            example: 'EDX - Topic'
+                  artists:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/Artist'
+                        - type: object
+                          properties:
+                            role:
+                              type: string
+                              example: primary
+                  sharedBy:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Sharer'
+                  moreTracks:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/BaseVideo'
+                        - type: object
+                          properties:
+                            title:
+                              type: string
+                              nullable: true
+                              example: null
+                            artistName:
+                              type: string
+                              example: EDX
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
               example:
-                data:
-                  - videoId: 42
-                    title: Stumbleine - Cherry Blossom
-                    youtubeId: AbCdEfGhIjK
-                    soundcloudId: null
-                    soundcloudUrl: null
-                    vimeoId: null
-                    bandcampId: null
-                    totalPlays: 37
+                error:
+                  - field: videoId
+                    message: 'Invalid input: expected number, received NaN'
+        '404':
+          description: Song not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+              example:
+                error:
+                  - message: Song not found
+
+  /artist/{artistId}:
+    get:
+      tags: [Artists]
+      summary: Single artist
+      description: Returns an artist, paginated tracks and top sharers.
+      parameters:
+        - name: artistId
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: Artist response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  artist:
+                    $ref: '#/components/schemas/Artist'
+                  tracks:
+                    allOf:
+                      - $ref: '#/components/schemas/PaginatedResponse'
+                      - type: object
+                        properties:
+                          data:
+                            type: array
+                            items:
+                              allOf:
+                                - $ref: '#/components/schemas/BaseVideo'
+                                - type: object
+                                  properties:
+                                    title:
+                                      type: string
+                                      example: null
+                                    role:
+                                      type: string
+                                      example: primary
+                                    totalPlays:
+                                      type: integer
+                                      example: 196
+                  topSharers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        nickname:
+                          type: string
+                          example: fury
+                        trackCount:
+                          type: integer
+                          example: 196
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+              examples:
+                invalidArtistId:
+                  summary: Invalid artistId
+                  value:
+                    error:
+                      - field: artistId
+                        message: 'Invalid input: expected number, received NaN'
+                invalidPage:
+                  summary: Invalid page
+                  value:
+                    error:
+                      - field: page
+                        message: 'Invalid input: expected number, received NaN'
+                invalidLimit:
+                  summary: Invalid limit
+                  value:
+                    error:
+                      - field: limit
+                        message: 'Invalid input: expected number, received NaN'
+        '404':
+          description: Artist not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/404'
+              example:
+                error:
+                  - message: Artist not found
 
   /activity:
     get:
@@ -182,6 +526,7 @@ paths:
       description: Returns the most recently played entries across all users, ordered by timestamp descending.
       parameters:
         - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
       responses:
         '200':
           description: Paginated activity feed
@@ -196,16 +541,25 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/ActivityEntry'
-              example:
-                data:
-                  - nickname: fury
-                    title: Stumbleine - Cherry Blossom
-                    youtubeId: AbCdEfGhIjK
-                    soundcloudId: null
-                    soundcloudUrl: null
-                    vimeoId: null
-                    bandcampId: null
-                    lastPlayedTimestamp: '2026-03-01T14:22:00.000Z'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+              examples:
+                invalidPage:
+                  summary: Invalid page
+                  value:
+                    error:
+                      - field: page
+                        message: 'Invalid input: expected number, received NaN'
+                invalidLimit:
+                  summary: Invalid limit
+                  value:
+                    error:
+                      - field: limit
+                        message: 'Invalid input: expected number, received NaN'
 
   /admin/videos/broken:
     get:
@@ -214,6 +568,7 @@ paths:
       description: Returns videos where the metadata API has failed one or more times, sorted by failure count descending. Useful for diagnosing broken links.
       parameters:
         - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
       responses:
         '200':
           description: Paginated broken video list
@@ -228,6 +583,25 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/BrokenVideo'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+              examples:
+                invalidPage:
+                  summary: Invalid page
+                  value:
+                    error:
+                      - field: page
+                        message: 'Invalid input: expected number, received NaN'
+                invalidLimit:
+                  summary: Invalid limit
+                  value:
+                    error:
+                      - field: limit
+                        message: 'Invalid input: expected number, received NaN'
 
 components:
   parameters:
@@ -240,6 +614,15 @@ components:
         minimum: 1
         default: 1
       description: Page number for paginated results
+    limit:
+      name: limit
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1000
+      description: Limit for paginated results
 
   schemas:
     PaginatedResponse:
@@ -253,17 +636,43 @@ components:
           properties:
             page:
               type: integer
+              example: 1
             total:
               type: array
               description: Raw COUNT(*) result from MySQL
+              items:
+                type: object
+                properties:
+                  numRows:
+                    type: integer
+                    example: 6812
             perPage:
-              type: string
+              type: integer
+              example: 1000
 
-    Error:
+    '404':
       type: object
       properties:
-        message:
-          type: string
+        error:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+
+    '400':
+      type: object
+      properties:
+        error:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string
 
     LeaderboardEntry:
       type: object
@@ -278,141 +687,157 @@ components:
       properties:
         userId:
           type: integer
+          example: 1
         nickname:
           type: string
+          example: fury
 
     UserStats:
-      type: object
-      properties:
-        nickname:
-          type: string
-        totalPlays:
-          type: integer
-        uniqueVideos:
-          type: integer
-        firstShared:
-          type: string
-          format: date-time
-          nullable: true
-        mostRecentPlayed:
-          type: string
-          format: date-time
-          nullable: true
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          properties:
+            totalPlays:
+              type: integer
+              example: 9034
+            uniqueVideos:
+              type: integer
+              example: 6858
+            firstShared:
+              type: string
+              format: date-time
+              nullable: true
+            mostRecentPlayed:
+              type: string
+              format: date-time
+              nullable: true
 
-    Video:
+    Tag:
       type: object
       properties:
-        uservideoId:
+        name:
+          type: string
+          example: electronic
+        count:
           type: integer
+          example: 3798
+
+    BaseVideo:
+      type: object
+      properties:
         videoId:
           type: integer
+          example: 1
         youtubeId:
           type: string
           nullable: true
+          example: 'a4L--ynMACs'
         soundcloudId:
           type: string
           nullable: true
+          example: null
         soundcloudUrl:
           type: string
           nullable: true
+          example: null
         vimeoId:
           type: string
           nullable: true
+          example: null
         bandcampId:
           type: string
           nullable: true
           description: "Format: artistSlug;trackSlug"
-        isFlagged:
-          type: integer
-          enum: [0, 1]
-        tags:
-          type: string
-          nullable: true
-        title:
-          type: string
-          nullable: true
-        playCount:
-          type: integer
-        lastPlayedTimestamp:
-          type: string
-          format: date-time
+          example: null
 
-    TopTrack:
+    Video:
+      allOf:
+        - type: object
+          properties:
+            userVideoId:
+              type: integer
+              example: 1
+        - $ref: '#/components/schemas/BaseVideo'
+        - type: object
+          properties:
+            isFlagged:
+              type: integer
+              enum: [0, 1]
+              example: 0
+            tags:
+              type: string
+              nullable: true
+              example: "Progressive House, House, trance, electronic"
+            title:
+              type: string
+              nullable: true
+              example: null
+            playCount:
+              type: integer
+              example: 196
+            lastPlayedTimestamp:
+              type: string
+              format: date-time
+
+    Artist:
       type: object
       properties:
-        videoId:
+        artistId:
           type: integer
-        title:
+          example: 1
+        name:
           type: string
-          nullable: true
-        youtubeId:
-          type: string
-          nullable: true
-        soundcloudId:
-          type: string
-          nullable: true
-        soundcloudUrl:
-          type: string
-          nullable: true
-        vimeoId:
-          type: string
-          nullable: true
-        bandcampId:
-          type: string
-          nullable: true
-        totalPlays:
-          type: integer
+          example: EDX
 
-    ActivityEntry:
+    Sharer:
       type: object
       properties:
         nickname:
           type: string
-        title:
-          type: string
-          nullable: true
-        youtubeId:
-          type: string
-          nullable: true
-        soundcloudId:
-          type: string
-          nullable: true
-        soundcloudUrl:
-          type: string
-          nullable: true
-        vimeoId:
-          type: string
-          nullable: true
-        bandcampId:
-          type: string
-          nullable: true
+          example: fury
+        playCount:
+          type: integer
+          example: 7
         lastPlayedTimestamp:
           type: string
           format: date-time
 
+    ActivityEntry:
+      allOf:
+        - type: object
+          properties:
+            nickname:
+              type: string
+              example: fury
+        - $ref: '#/components/schemas/BaseVideo'
+        - type: object
+          properties:
+            title:
+              type: string
+              nullable: true
+              example: null
+            isFlagged:
+              type: integer
+              enum: [0, 1]
+              example: 0
+            lastPlayedTimestamp:
+              type: string
+              format: date-time
+
     BrokenVideo:
-      type: object
-      properties:
-        videoId:
-          type: integer
-        title:
-          type: string
-          nullable: true
-        youtubeId:
-          type: string
-          nullable: true
-        soundcloudId:
-          type: string
-          nullable: true
-        vimeoId:
-          type: string
-          nullable: true
-        bandcampId:
-          type: string
-          nullable: true
-        apiFailures:
-          type: integer
-        latestApiSuccess:
-          type: string
-          format: date-time
-          nullable: true
+      allOf:
+        - $ref: '#/components/schemas/BaseVideo'
+        - type: object
+          properties:
+            title:
+              type: string
+              nullable: true
+              example: null
+            apiFailures:
+              type: integer
+              example: 10
+            latestApiSuccess:
+              type: string
+              format: date-time
+              nullable: true
+              example: null

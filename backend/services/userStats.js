@@ -5,7 +5,7 @@ async function getStats(nickname) {
   const rows = await db.query(
     `SELECT MIN(u.userId) AS userId,
             COALESCE(a.primaryNick, u.nickname) AS nickname,
-            SUM(uv.playCount)           AS totalPlays,
+            CAST(SUM(uv.playCount) AS UNSIGNED) AS totalPlays,
             COUNT(DISTINCT uv.videoId)  AS uniqueVideos,
             MIN(uv.lastPlayedTimestamp) AS firstShared,
             MAX(uv.lastPlayedTimestamp) AS mostRecentPlayed

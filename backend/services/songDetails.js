@@ -3,9 +3,9 @@ const helper = require('../helper');
 
 async function getById(videoId) {
   const rows = await db.query(
-    `SELECT v.videoId, v.title, v.youtubeId, v.soundcloudId,
+    `SELECT v.videoId, v.youtubeId, v.soundcloudId,
             NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl,
-            v.vimeoId, v.bandcampId, v.tags, v.isFlagged,
+            v.vimeoId, v.bandcampId, v.isFlagged, v.title, v.tags,
             v.youtubeChannelName
      FROM video v
      WHERE v.videoId = ?`,
@@ -44,9 +44,9 @@ async function getOtherTracksByArtists(videoId, artistIds, limit = 10) {
   if (!artistIds || artistIds.length === 0) return [];
   const placeholders = artistIds.map(() => '?').join(',');
   const rows = await db.query(
-    `SELECT DISTINCT v.videoId, v.title, v.youtubeId, v.soundcloudId,
+    `SELECT DISTINCT v.videoId, v.youtubeId, v.soundcloudId,
             NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl,
-            v.vimeoId, v.bandcampId,
+            v.vimeoId, v.bandcampId, v.title,
             a.name AS artistName
      FROM video_artist va
      INNER JOIN video v ON va.videoId = v.videoId

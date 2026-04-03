@@ -5,10 +5,10 @@ const config = require('../../config');
 async function getTop(page = 1, limit = config.listPerPage) {
   const offset = helper.getOffset(page, limit);
   const rows = await db.query(
-    `SELECT v.videoId, v.title, v.youtubeId, v.soundcloudId,
+    `SELECT v.videoId, v.youtubeId, v.soundcloudId,
             NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl,
-            v.vimeoId, v.bandcampId, v.isFlagged,
-            SUM(uv.playCount) AS totalPlays
+            v.vimeoId, v.bandcampId, v.isFlagged, v.title,
+            CAST(SUM(uv.playCount) AS UNSIGNED) AS totalPlays
      FROM user_video uv
      INNER JOIN video v ON uv.videoId = v.videoId
      WHERE uv.hideFromList = 0

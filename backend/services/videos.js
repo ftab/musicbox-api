@@ -48,7 +48,7 @@ async function getMultiple(userid, page = 1, limit = config.listPerPage){
 async function getBroken(page = 1, limit = config.listPerPage) {
   const offset = helper.getOffset(page, limit);
   const rows = await db.query(
-    `SELECT videoId, title, youtubeId, soundcloudId, vimeoId, bandcampId,
+    `SELECT videoId, youtubeId, soundcloudId, vimeoId, bandcampId, title,
             apiFailures, latestApiSuccess
      FROM video
      WHERE apiFailures > 0
