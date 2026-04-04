@@ -69,6 +69,7 @@ const routes = [
         path: '/search',
         name: 'search',
         component: Search,
+        meta: { title: 'Search' },
     },
     {
         path: '/:pathMatch(.*)*',
