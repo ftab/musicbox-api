@@ -34,6 +34,11 @@
     const searchResults = ref([]);
 
     const search = async (term = route.query.searchTerm) => {
+        if( ! term) {
+            isLoading.value = false;
+            return;
+        }
+
         isLoading.value = true;
 
         const searchResponse = await fetch(`/api/search/videos?searchTerm=${encodeURIComponent(term)}`);
