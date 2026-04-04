@@ -110,6 +110,8 @@ a {
 button {
     font-family: inherit;
     line-height: 1;
+    border-radius: 0;
+    border: none;
     cursor: pointer;
 }
 
@@ -225,7 +227,7 @@ header a {
     color: var(--color-accent-light);
 }
 
-@media(width > 576px) {
+@media(width > 645px) {
     .site-nav {
         flex-direction: row;
     }

@@ -63,7 +63,7 @@
     const meta = ref(null);
 
     const fetchUser = async () => {
-        const userResponse = await fetch(`/api/users/${route.params.nickname}`);
+        const userResponse = await fetch(`/api/users/${encodeURIComponent(route.params.nickname)}`);
         const userJson = await userResponse.json();
 
         stats.value = userJson.stats;
@@ -76,7 +76,7 @@
     const fetchVideos = async (page = (route.query.page || 1)) => {
         isLoading.value = true;
 
-        const videosResponse = await fetch(`/api/videos?userid=${stats.value.userId}&page=${page}&limit=50`);
+        const videosResponse = await fetch(`/api/videos?userid=${encodeURIComponent(stats.value.userId)}&page=${encodeURIComponent(page)}&limit=50`);
         const videosJson = await videosResponse.json();
 
         videos.value = videosJson.data;

@@ -6,8 +6,7 @@ import PeePee from '../../frontend/src/views/PeePee.vue';
 let wrapper, html;
 
 beforeEach(async () => {
-    fetch
-        .mockResolvedValueOnce({ json: () => Promise.resolve(peepee) });
+    fetch.mockResolvedValueOnce({ json: () => Promise.resolve(peepee) });
 
     wrapper = mount(PeePee);
 

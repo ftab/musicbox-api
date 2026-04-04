@@ -20,6 +20,9 @@
             <RouterLink :to="{ name: 'peepee' }" active-class="active" class="site-nav-link">
                 🍆
             </RouterLink>
+            <RouterLink :to="{ name: 'search' }" active-class="active" class="site-nav-link">
+                Search
+            </RouterLink>
             <RouterLink :to="{ name: 'help' }" active-class="active" class="site-nav-link">
                 Help
             </RouterLink>
@@ -42,4 +45,5 @@
     import '../css/app.css';
     import DiskIcon from './DiskIcon.vue';
     import ScrollTop from './ScrollTop.vue';
+    import SearchForm from './SearchForm.vue';
 </script>

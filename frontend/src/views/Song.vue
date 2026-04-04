@@ -80,7 +80,7 @@
     const fetchSong = async (id = route.params.id) => {
         isLoading.value = true;
 
-        const songResponse = await fetch(`/api/song/${id}`);
+        const songResponse = await fetch(`/api/song/${encodeURIComponent(id)}`);
         const songJson = await songResponse.json();
 
         song.value = songJson.song;

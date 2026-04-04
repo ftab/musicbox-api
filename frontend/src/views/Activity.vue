@@ -36,7 +36,7 @@
     const fetchActivity = async (page = (route.query.page || 1)) => {
         isLoading.value = true;
 
-        const activityResponse = await fetch(`/api/activity?page=${page}&limit=50`);
+        const activityResponse = await fetch(`/api/activity?page=${encodeURIComponent(page)}&limit=50`);
         const activityJson = await activityResponse.json();
 
         activity.value = activityJson.data;

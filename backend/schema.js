@@ -10,8 +10,12 @@ const useridQuerySchema = z.object({
     userid: z.coerce.number().int().min(1),
 });
 
+const searchTermQuerySchema = z.object({
+    searchTerm: z.string().min(1).max(255),
+});
+
 const nicknameParamSchema = z.object({
-    nickname: z.coerce.string().max(30),
+    nickname: z.string().min(1).max(30),
 });
 
 const videoIdParamSchema = z.object({
@@ -25,6 +29,7 @@ const artistIdParamSchema = z.object({
 module.exports = {
     paginationQuerySchema,
     useridQuerySchema,
+    searchTermQuerySchema,
     nicknameParamSchema,
     videoIdParamSchema,
     artistIdParamSchema,

@@ -56,7 +56,7 @@
     const fetchArtist = async (page = (route.query.page || 1)) => {
         isLoading.value = true;
 
-        const artistResponse = await fetch(`/api/artist/${route.params.id}?page=${page}&limit=50`);
+        const artistResponse = await fetch(`/api/artist/${encodeURIComponent(route.params.id)}?page=${encodeURIComponent(page)}&limit=50`);
         const artistJson = await artistResponse.json();
 
         artist.value = artistJson.artist;

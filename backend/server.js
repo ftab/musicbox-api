@@ -14,6 +14,7 @@ const songRouter = require("./routes/api/song");
 const artistRouter = require("./routes/api/artist");
 const videosRouter = require("./routes/api/videos");
 const activityApiRouter = require("./routes/api/activity");
+const searchRouter = require("./routes/api/search");
 const adminVideosRouter = require("./routes/api/admin/videos");
 
 app.use("/api/leaderboard", leaderboardRouter);
@@ -25,6 +26,7 @@ app.use("/api/song", songRouter);
 app.use("/api/artist", artistRouter);
 app.use("/api/videos", videosRouter);
 app.use("/api/activity", activityApiRouter);
+app.use("/api/search", searchRouter);
 app.use("/api/admin/videos", adminVideosRouter);
 
 app.use((err, req, res, next) => {

@@ -27,6 +27,8 @@ tags:
     description: Artist lookups
   - name: Activity
     description: Recent play history across all users
+  - name: Search
+    description: Search for videos
   - name: Admin
     description: Diagnostic endpoints
 
@@ -190,7 +192,7 @@ paths:
               example:
                 error:
                   - field: nickname
-                  - message: ''
+                    message: 'Too big: expected string to have <=30 characters'
         '404':
           description: User not found
           content:
@@ -560,6 +562,53 @@ paths:
                     error:
                       - field: limit
                         message: 'Invalid input: expected number, received NaN'
+
+  /search/videos:
+    get:
+      tags: [Search]
+      summary: Video search
+      description: Returns search results for videos.
+      parameters:
+        - name: searchTerm
+          in: query
+          required: true
+          description: URL-encoded search string
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of search results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                        - $ref: '#/components/schemas/BaseVideo'
+                        - type: object
+                          properties:
+                            title:
+                              type: string
+                              example: Pluvia
+                            isFlagged:
+                              type: integer
+                              example: 0
+                            nicknames:
+                              type: string
+                              example: keypusher, dan
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+              example:
+                error:
+                  - field: searchTerm
+                    message: 'Invalid input: expected string, received undefined'
 
   /admin/videos/broken:
     get:

@@ -7,6 +7,7 @@ import Song from './views/Song.vue';
 import Artist from './views/Artist.vue';
 import TopTracks from './views/TopTracks.vue';
 import Activity from './views/Activity.vue';
+import Search from './views/Search.vue';
 import PeePee from './views/PeePee.vue';
 import Help from './views/Help.vue';
 import ApiDocs from './views/ApiDocs.vue';
@@ -63,6 +64,11 @@ const routes = [
         name: 'api-docs',
         component: ApiDocs,
         meta: { title: 'API Docs', noLayout: true },
+    },
+    {
+        path: '/search',
+        name: 'search',
+        component: Search,
     },
     {
         path: '/:pathMatch(.*)*',
