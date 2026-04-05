@@ -11,9 +11,35 @@ To add a song, simply paste a YouTube, Bandcamp or SoundCloud URL.
 
 ## Commands
 
+* [.commands|.help|!help](#commands)
+* [.yt|.you|.youtube <query>](#yt)
+* [.soundcloud <query>](#soundcloud)
+* [.random](#random)
+* [.filter on|off](#filter)
+* [.np](#np)
+* [.source](#source)
+* [.skip|.next](#skip)
+* [.search <query>](#search)
+* [.stats](#stats)
+* [.leaderboard](#leaderboard)
+* [.ustat [nick]](#ustat)
+* [.ulist [nick]](#ulist)
+* [.prune <url> and .unprune <url>](#prune)
+* [.flag <url> and .unflag <url>](#flag)
+* [.link <primarynick> and .unlink <primarynick>](#link)
+* [.similar [artist]](#similar)
+* [.band <artist>](#band)
+* [.lastfm-recent <username>](#lastfm-recent)
+* [.yn [string]](#yn)
+* [.8ball [string]](#8ball)
+* [.choose <string>](#choose)
+* [.img <url>](#img)
+* [.drink](#drink)
+* [.bots](#bots)
+
 ### `.commands|.help|!help`
 
-Show the link to this README.
+Show the link to this page.
 
 ### `.yt|.you|.youtube <query>`
 
@@ -60,7 +86,7 @@ Skip the currently playing song on Cytube.
 
 Search for songs in the bot's database.
 
-The bot will generate a [paste.ee](https://paste.ee) link for you, which contains the search results.
+The bot will reply with a link to the [search page](/search) containing your search results.
 
 ### `.stats`
 
@@ -68,9 +94,9 @@ Show the overall statistics about songs in the bot's database.
 
 ### `.leaderboard`
 
-Generates a [paste.ee](https://paste.ee) link for you, which contains the current leaderboard.
+The bot will reply with a [paste.ee](https://paste.ee) link, containing the current leaderboard.
 
-We also have a [graphical leaderboard](https://musicbox.gamefiar.com) of the top 50 submitters.
+We also have a [graphical leaderboard](/) of the top 50 contributors.
 
 ### `.ustat [nick]`
 
@@ -80,9 +106,9 @@ If no nick is passed to the command, the bot will show statistics for yourself.
 
 ### `.ulist [nick]`
 
-Let the bot generate a [paste.ee](https://paste.ee) link for you, which contains all songs a user has posted.
+The bot will reply with a [paste.ee](https://paste.ee) link, containing all songs a user has contributed.
 
-If no nick is passed to the command, the bot will generate a link for all your posted songs.
+If no nick is provided, it will generate a link with all your contributions.
 
 ### `.prune <url>` and `.unprune <url>`
 
@@ -99,6 +125,12 @@ Flag or unflag URLs in the bot's database.
 ### `.link <primarynick>` and `.unlink <primarynick>`
 
 If you are using alternative nicks on IRC, you can link each of them to your primary nick.
+
+### `.similar [query]`
+
+The bot will reply with a [paste.ee](https://paste.ee) link, containing similar tracks based on your query.
+
+If no query is provided, it will use the currently playing song from the stream.
 
 ### `.band <artist>`
 
