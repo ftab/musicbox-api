@@ -1,11 +1,10 @@
 <template>
+    <h2>Search</h2>
+    <SearchForm />
+
     <Spinner v-if="isLoading" />
 
     <template v-else>
-        <h2>Search</h2>
-
-        <SearchForm />
-
         <h3 v-if="searchTerm">Found {{ pluralize(searchResults.length, 'song') }} matching "{{ searchTerm }}"</h3>
 
         <section class="list">
@@ -28,16 +27,13 @@
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const isLoading = ref(true);
+    const isLoading = ref(false);
     const route = useRoute();
     const searchTerm = ref(null);
     const searchResults = ref([]);
 
     const search = async (term = route.query.searchTerm) => {
-        if( ! term) {
-            isLoading.value = false;
-            return;
-        }
+        if( ! term) return;
 
         isLoading.value = true;
 

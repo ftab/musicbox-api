@@ -9,20 +9,20 @@
     import { setPageTitle } from '../utils';
 
     onMounted(() => {
-        document.body.classList.add('error');
+        document.documentElement.classList.add('error');
 
         setPageTitle('Uh oh');
     });
 
-    onUnmounted(() => document.body.classList.remove('error'));
+    onUnmounted(() => document.documentElement.classList.remove('error'));
 </script>
 
 <style>
-    body.error {
+    html.error body {
         display: grid;
         place-content: center;
         text-align: center;
-        background: var(--color-darkest);
+        background: light-dark(var(--color-lighter), var(--color-darkest));
         min-height: 100svh;
     }
 </style>

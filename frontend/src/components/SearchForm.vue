@@ -35,11 +35,11 @@
         display: grid;
         grid-template-columns: auto 1fr auto;
         margin-bottom: 2rem;
-        border-bottom: 1px solid var(--color-neutral);
+        border-bottom: 1px solid light-dark(var(--color-neutral-light), var(--color-neutral-dark));
     }
 
     form:focus-within {
-        border-color: var(--color-accent-light);
+        border-color: light-dark(var(--color-accent-dark), var(--color-accent-light));
 
         & .search-input {
             outline: none;
@@ -47,7 +47,7 @@
     }
 
     .search-prefix {
-        color: var(--color-neutral);
+        color: light-dark(var(--color-neutral-light), var(--color-neutral-dark));
         text-align: center;
         width: 1rem;
         height: 1rem;
@@ -63,11 +63,11 @@
         font-family: inherit;
         background: transparent;
         border: none;
-        caret-color: var(--color-accent-light);
+        caret-color: light-dark(var(--color-accent-dark), var(--color-accent-light));
     }
 
     .search-input::placeholder {
-        color: var(--color-neutral);
+        color: light-dark(var(--color-neutral-light), var(--color-neutral-dark));
         opacity: 1;
     }
 
@@ -78,7 +78,7 @@
         & svg {
             width: 1rem;
             height: 1rem;
-            fill: var(--color-neutral);
+            fill: light-dark(var(--color-neutral-light), var(--color-neutral-dark));
         }
     }
 </style>

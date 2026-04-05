@@ -20,15 +20,23 @@
 
         document.head.appendChild(script);
 
-        document.body.classList.add('api-docs');
+        document.documentElement.classList.add('api-docs');
     });
 
-    onUnmounted(() => document.body.classList.remove('api-docs'));
+    onUnmounted(() => document.documentElement.classList.remove('api-docs'));
 </script>
 
 <style>
-    body.api-docs {
-        background: white;
+    html.api-docs,
+    html.api-docs body {
         scroll-behavior: auto;
+    }
+
+    html.api-docs body {
+        background: white;
+    }
+
+    html.api-docs body .wrap {
+        width: 100vw;
     }
 </style>

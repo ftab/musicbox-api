@@ -37,6 +37,11 @@ app.use((err, req, res, next) => {
 });
 
 if(process.env.NODE_ENV === 'production') {
+    app.use('/assets', express.static(path.join(__dirname, '../dist/assets'), {
+        maxAge: '1y',
+        immutable: true
+    }));
+
     app.use(express.static(path.join(__dirname, '../dist')));
 
     app.get('*', (req, res) => {

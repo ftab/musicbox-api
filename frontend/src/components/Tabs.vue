@@ -46,18 +46,18 @@
     }
 
     .tab-button {
-        background: var(--color-darker);
-        color: var(--color-neutral);
+        background: light-dark(var(--color-lightest), var(--color-darker));
+        color: light-dark(var(--color-neutral-light), var(--color-neutral-dark));
         padding: .5rem 1rem;
         border: none;
 
         &.active {
-            color: var(--color-light);
+            color: light-dark(var(--color-dark), var(--color-light));
         }
     }
 
     .tab-content {
-        background: var(--color-darker);
+        background: light-dark(var(--color-lightest), var(--color-darker));
         padding: 1rem;
     }
 </style>

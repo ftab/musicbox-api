@@ -29,7 +29,7 @@
 
             & svg {
                 width: 3rem;
-                fill: var(--color-accent-light);
+                fill: light-dark(var(--color-accent-dark), var(--color-accent-light));
             }
         }
 
