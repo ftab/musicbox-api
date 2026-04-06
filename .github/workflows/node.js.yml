@@ -51,7 +51,7 @@ jobs:
             database: "ircbot",
             connectTimeout: 60000
           },
-          {
+          cytube: {
             server: "https://cytu.be",
             channel: "MusicBox",
           },
