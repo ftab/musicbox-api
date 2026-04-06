@@ -1,8 +1,8 @@
 const config = {
   db: {
     host: "127.0.0.1",
-    user: "username",
-    password: "hunter2",
+    user: "root",
+    password: "root",
     database: "ircbot",
     connectTimeout: 60000
   },

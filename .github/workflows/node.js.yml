@@ -40,25 +40,8 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
-    - name: Write CI database config
-      run: |
-        cat > config.js << 'EOF'
-        const config = {
-          db: {
-            host: "127.0.0.1",
-            user: "root",
-            password: "root",
-            database: "ircbot",
-            connectTimeout: 60000
-          },
-          cytube: {
-            server: "https://cytu.be",
-            channel: "MusicBox",
-          },
-          listPerPage: 10000,
-        };
-        module.exports = config;
-        EOF
+    - name: Copy example config
+      run: cp config.js.example config.js
     - name: Initialize database schema
       run: mysql -h 127.0.0.1 -uroot -proot ircbot < db.sql
     - name: Seed test data
