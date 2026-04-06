@@ -51,6 +51,10 @@ jobs:
             database: "ircbot",
             connectTimeout: 60000
           },
+          {
+            server: "https://cytu.be",
+            channel: "MusicBox",
+          },
           listPerPage: 10000,
         };
         module.exports = config;
