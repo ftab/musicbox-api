@@ -1,12 +1,12 @@
 const { io } = require('socket.io-client');
 const config = require('../../config');
 const cytubeUrl = `${config.cytube.server}/r/${config.cytube.channel}`;
-const EventEmitter = require('events')
-const emitter = new EventEmitter()
+const EventEmitter = require('events');
+const emitter = new EventEmitter();
 
-emitter.setMaxListeners(100);
+emitter.setMaxListeners(config.emitterMaxListeners);
 
-let socket, currentMedia, playlistMeta;
+let socket, currentMedia, playlistMeta, reconnect;
 
 async function connect() {
     if(process.env.NODE_ENV === 'test') return;
@@ -32,6 +32,8 @@ async function connect() {
 };
 
 function onConnect() {
+    clearTimeout(reconnect);
+
     socket.emit('joinChannel', {
         name: config.cytube.channel,
     });
@@ -39,7 +41,9 @@ function onConnect() {
 
 function onDisconnect(reason) {
     if(reason === 'io server disconnect') {
-        socket.connect();
+        reconnect = setTimeout(() => {
+            socket.connect();
+        }, 5000);
     }
 }
 

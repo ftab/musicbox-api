@@ -26,7 +26,7 @@ To add a song, simply paste a YouTube, Bandcamp or SoundCloud URL.
 * [.ulist [nick]](#ulist)
 * [.prune <url> and .unprune <url>](#prune)
 * [.flag <url> and .unflag <url>](#flag)
-* [.link <primarynick> and .unlink <primarynick>](#link)
+* [.link <nick> and .unlink <nick>](#link)
 * [.similar [query]](#similar)
 * [.band <artist>](#band)
 * [.lastfm-recent <username>](#lastfm-recent)
@@ -122,7 +122,7 @@ Flag or unflag URLs in the bot's database.
 
 **These commands are only available to Admins!**
 
-### `.link <primarynick>` and `.unlink <primarynick>`
+### `.link <nick>` and `.unlink <nick>`
 
 If you are using alternative nicks on IRC, you can link each of them to your primary nick.
 

@@ -7,6 +7,13 @@
     import content from '../../../content/help.md?raw';
 
     const renderer = {
+        link({ href, text }) {
+            const escapedText = text
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            return `<a href="${href}">${escapedText}</a>`;
+        },
         heading({ tokens, depth }) {
             const text = this.parser.parseInline(tokens);
 

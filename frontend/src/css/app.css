@@ -26,10 +26,6 @@
     color-scheme: light;
 }
 
-*:focus-visible {
-    outline: 2px solid light-dark(var(--color-dark), var(--color-light));
-}
-
 ::selection {
     background: light-dark(var(--color-accent-dark), var(--color-accent-light));
     color: light-dark(var(--color-lightest), var(--color-darkest));
@@ -132,6 +128,16 @@ button {
     cursor: pointer;
 }
 
+a:focus,
+button:focus {
+    outline: none;
+}
+
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid light-dark(var(--color-dark), var(--color-light));
+}
+
 strong {
     font-weight: 800;
     color: light-dark(var(--color-accent-dark), var(--color-accent-light));
@@ -207,7 +213,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 1.5rem;
+    padding-block: 1.5rem;
 }
 
 header a {
@@ -226,34 +232,20 @@ header a {
     }
 }
 
-.site-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    padding: 1.5rem 0 1rem;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid light-dark(var(--color-light), var(--color-dark));
-}
-
-.site-nav-link {
-    color: var(--color-neutral-dark);
-    text-decoration: none;
-    white-space: nowrap;
-    transition: color 300ms ease-in-out;
-}
-
-.site-nav-link:hover {
-    color: light-dark(var(--color-dark), var(--color-light));
-}
-
-.site-nav-link.active {
-    color: light-dark(var(--color-accent-dark), var(--color-accent-light));
-}
-
-@media(width > 645px) {
-    .site-nav {
-        flex-direction: row;
+@media(width < 375px) {
+    .progress-area progress,
+    .progress-area small {
+        display: none;
     }
+
+    header a h1 {
+        font-size: 1rem;
+    }
+}
+
+main {
+    padding-top: 1.5rem;
+    border-top: 1px solid light-dark(var(--color-light), var(--color-dark));
 }
 
 .list {
@@ -345,6 +337,10 @@ ul.tag-list li {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.uppercase {
+    text-transform: uppercase;
 }
 
 .dim {
