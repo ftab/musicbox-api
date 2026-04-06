@@ -19,7 +19,7 @@
         .scroll-top {
             display: initial;
             position: fixed;
-            bottom: 1rem;
+            bottom: 3rem;
             right: 1rem;
             opacity: 0;
             z-index: 1;

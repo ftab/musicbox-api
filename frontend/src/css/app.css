@@ -65,7 +65,7 @@ body {
     color: light-dark(var(--color-dark), var(--color-light));
     line-height: 1.4;
     margin: 0;
-    padding-bottom: 2rem;
+    padding-bottom: 3rem;
     overflow-y: scroll;
 }
 

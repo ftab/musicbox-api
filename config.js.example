@@ -6,6 +6,10 @@ const config = {
     database: "ircbot",
     connectTimeout: 60000
   },
+  cytube: {
+    server: "https://cytu.be",
+    channel: "MusicBox",
+  },
   listPerPage: 10000,
 };
 

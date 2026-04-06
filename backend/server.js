@@ -1,7 +1,9 @@
 const express = require("express");
-const { execSync } = require("child_process");
 const path = require('path');
 const app = express();
+const cytube = require('./services/cytube');
+
+cytube.connect();
 
 const port = process.env.PORT || 5000;
 
@@ -16,6 +18,7 @@ const videosRouter = require("./routes/api/videos");
 const activityApiRouter = require("./routes/api/activity");
 const searchRouter = require("./routes/api/search");
 const adminVideosRouter = require("./routes/api/admin/videos");
+const streamRouter = require("./routes/api/stream");
 
 app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/stats", statsRouter);
@@ -28,6 +31,7 @@ app.use("/api/videos", videosRouter);
 app.use("/api/activity", activityApiRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/admin/videos", adminVideosRouter);
+app.use("/api/stream", streamRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

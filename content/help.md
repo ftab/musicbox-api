@@ -27,7 +27,7 @@ To add a song, simply paste a YouTube, Bandcamp or SoundCloud URL.
 * [.prune <url> and .unprune <url>](#prune)
 * [.flag <url> and .unflag <url>](#flag)
 * [.link <primarynick> and .unlink <primarynick>](#link)
-* [.similar [artist]](#similar)
+* [.similar [query]](#similar)
 * [.band <artist>](#band)
 * [.lastfm-recent <username>](#lastfm-recent)
 * [.yn [string]](#yn)
