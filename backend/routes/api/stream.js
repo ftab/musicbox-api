@@ -9,7 +9,7 @@ router.get('/', async (req, res, next) => {
         res.setHeader('Connection', 'keep-alive');
         res.flushHeaders();
 
-        const keepAlive = setInterval(() => res.write(': ping\n\n'), 15000);
+        const keepAlive = setInterval(() => res.write('event: ping\n\n'), 15000);
         const sendCurrentMedia = data => res.write(`event: currentMedia\ndata: ${JSON.stringify(data)}\n\n`);
         const sendPlaylistMeta = data => res.write(`event: playlistMeta\ndata: ${JSON.stringify(data)}\n\n`);
 

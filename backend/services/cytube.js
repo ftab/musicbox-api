@@ -6,7 +6,9 @@ const emitter = new EventEmitter();
 
 emitter.setMaxListeners(config.emitterMaxListeners);
 
-let socket, currentMedia, playlistMeta, reconnect;
+let socket, reconnect;
+let currentMedia = null;
+let playlistMeta = null;
 
 async function connect() {
     if(process.env.NODE_ENV === 'test') return;
@@ -26,6 +28,7 @@ async function connect() {
         socket.on('disconnect', onDisconnect);
         socket.on('changeMedia', onChangeMedia);
         socket.on('setPlaylistMeta', onSetPlaylistMeta);
+        socket.on('delete', onDelete);
     } catch(err) {
         console.error('Failed to get cytu.be socketserver');
     }
@@ -47,15 +50,18 @@ function onDisconnect(reason) {
     }
 }
 
+function onChangeMedia(data) {
+    currentMedia = data;
+    emitter.emit('changeMedia', data);
+}
+
 function onSetPlaylistMeta(data) {
-    currentMedia = undefined;
     playlistMeta = data;
     emitter.emit('setPlaylistMeta', data);
 }
 
-function onChangeMedia(data) {
-    currentMedia = data;
-    emitter.emit('changeMedia', data);
+function onDelete(uid) {
+    currentMedia = null;
 }
 
 function getCurrentMedia() {
