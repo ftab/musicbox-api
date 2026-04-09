@@ -7,12 +7,12 @@
     --color-darker: #161616;
     --color-dark: #1e1e1e;
     --color-accent-light: #4ade80;
-    --color-accent-dark: #16a34a;
+    --color-accent-dark: #0D682F;
     --color-lightest: #f5f5f5;
     --color-lighter: #ededed;
     --color-light:   #d4d4d4;
-    --color-neutral-dark: #666666;
-    --color-neutral-light: #999999;
+    --color-neutral-dark: #808080;
+    --color-neutral-light: #545454;
 
     scrollbar-gutter: stable;
     color-scheme: dark;
@@ -58,7 +58,7 @@ body {
     font-family: 'DM-Mono', monospace;
     font-size: 14px;
     background: light-dark(var(--color-lighter), var(--color-darkest));
-    color: light-dark(var(--color-dark), var(--color-light));
+    color: light-dark(var(--color-dark), var(--color-lighter));
     line-height: 1.4;
     margin: 0;
     padding-bottom: 3rem;
@@ -96,7 +96,7 @@ p {
 
 h1 + p,
 h2 + p {
-    color: var(--color-neutral-dark);
+    color: light-dark(var(--color-neutral-light), var(--color-neutral-dark));
     margin: 0 0 1.5rem;
 }
 
@@ -110,7 +110,7 @@ ul.tag-list:has(+ h3) {
 }
 
 a {
-    color: light-dark(var(--color-dark), var(--color-light));
+    color: light-dark(var(--color-dark), var(--color-lighter));
     text-underline-offset: 5px;
     text-decoration-color: light-dark(var(--color-accent-dark), var(--color-accent-light));
 
@@ -213,7 +213,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-block: 1.5rem;
+    padding-block: 1.5rem 1.25rem;
 }
 
 header a {
@@ -228,7 +228,7 @@ header a {
 
     & svg {
         height: 2rem;
-        fill: light-dark(var(--color-dark), var(--color-light));
+        fill: light-dark(var(--color-dark), var(--color-lighter));
     }
 }
 
