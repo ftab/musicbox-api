@@ -1,5 +1,5 @@
 <template>
-    <Error v-if="error" />
+    <NotFound v-if="error" />
 
     <template v-else>
         <Layout v-if="!$route.meta.noLayout">
@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-    import Layout from './components/Layout.vue';
     import { error } from './state';
-    import Error from './views/Error.vue';
+    import Layout from './components/Layout.vue';
+    import NotFound from './views/NotFound.vue';
 </script>

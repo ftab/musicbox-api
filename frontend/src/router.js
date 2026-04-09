@@ -1,80 +1,70 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { error } from './state';
 import { setPageTitle } from './utils';
-import Home from './views/Home.vue';
-import User from './views/User.vue';
-import Song from './views/Song.vue';
-import Artist from './views/Artist.vue';
-import TopTracks from './views/TopTracks.vue';
-import Activity from './views/Activity.vue';
-import Search from './views/Search.vue';
-import PeePee from './views/PeePee.vue';
-import Help from './views/Help.vue';
-import ApiDocs from './views/ApiDocs.vue';
-import Error from './views/Error.vue';
+import NotFound from './views/NotFound.vue';
 
 const routes = [
     {
         path: '/',
         name: 'home',
-        component: Home,
+        component: () => import('./views/Home.vue'),
         meta: { title: 'Leaderboard' },
     },
     {
         path: '/user/:nickname',
         name: 'profile',
-        component: User,
+        component: () => import('./views/User.vue'),
     },
     {
         path: '/song/:id',
         name: 'song',
-        component: Song,
+        component: () => import('./views/Song.vue'),
     },
     {
         path: '/artist/:id',
         name: 'artist',
-        component: Artist,
+        component: () => import('./views/Artist.vue'),
     },
     {
         path: '/top-tracks',
         name: 'top-tracks',
-        component: TopTracks,
+        component: () => import('./views/TopTracks.vue'),
         meta: { title: 'Top Tracks' },
     },
     {
         path: '/activity',
         name: 'activity',
-        component: Activity,
+        component: () => import('./views/Activity.vue'),
         meta: { title: 'Last activity' },
     },
     {
         path: '/peepee',
         name: 'peepee',
-        component: PeePee,
+        component: () => import('./views/PeePee.vue'),
         meta: { title: 'PP Leaderboard' },
     },
     {
         path: '/help',
         name: 'help',
-        component: Help,
+        component: () => import('./views/Help.vue'),
         meta: { title: 'Help' },
     },
     {
         path: '/docs/api',
         name: 'api-docs',
-        component: ApiDocs,
+        component: () => import('./views/ApiDocs.vue'),
         meta: { title: 'API Docs', noLayout: true },
     },
     {
         path: '/search',
         name: 'search',
-        component: Search,
+        component: () => import('./views/Search.vue'),
         meta: { title: 'Search' },
     },
     {
         path: '/:pathMatch(.*)*',
         name: 'error',
-        component: Error,
+        component: NotFound,
         meta: { title: 'Uh oh', noLayout: true },
     }
 ];
