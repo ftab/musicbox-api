@@ -30,6 +30,7 @@
     html.api-docs,
     html.api-docs body {
         scroll-behavior: auto;
+        scroll-padding: 0;
     }
 
     html.api-docs body {
