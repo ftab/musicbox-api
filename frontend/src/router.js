@@ -66,15 +66,13 @@ const routes = [
         name: 'error',
         component: NotFound,
         meta: { title: 'Uh oh', noLayout: true },
-    }
+    },
 ];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
     scrollBehavior(to, from, savedPosition) {
-        if(to.hash) return;
-
         if(savedPosition) {
             return savedPosition;
         }
@@ -98,6 +96,19 @@ router.afterEach(to => {
 
     if(to.meta.title) {
         setPageTitle(to.meta.title);
+    }
+
+    if(to.hash) {
+        document.querySelectorAll('.target').forEach(el => el.classList.remove('target'));
+
+        requestAnimationFrame(() => {
+            const el = document.querySelector(to.hash);
+
+            if(el) {
+                el.classList.add('target');
+                el.scrollIntoView();
+            }
+        });
     }
 });
 

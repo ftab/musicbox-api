@@ -43,6 +43,7 @@
         position: relative;
     }
 
+    .target::before,
     h3:target::before {
         content: '→';
         position: absolute;
