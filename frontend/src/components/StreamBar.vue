@@ -12,19 +12,24 @@
 
 <script setup>
     import { onMounted, onUnmounted, ref } from 'vue';
+    import { useRouter } from 'vue-router';
     import { pluralize } from '../utils';
 
+    const router = useRouter();
     const currentMedia = ref(null);
     const playlistMeta = ref(null);
     const source = ref(null);
     const reconnect = ref(null);
 
     const connect = () => {
+        if(source.value) return;
+
         source.value = new EventSource('/api/stream');
 
-        source.value.onerror = e => {
-            source.value.close();
-            reconnect.value = setTimeout(() => connect(), 5000);
+        source.value.onerror = () => {
+            source.value?.close();
+            source.value = null;
+            reconnect.value = setTimeout(connect, 5000);
         };
 
         source.value.addEventListener('currentMedia', e => {
@@ -36,7 +41,10 @@
         });
     };
 
-    onMounted(() => connect());
+    onMounted(async () => {
+        await router.isReady();
+        connect();
+    });
 
     onUnmounted(() => {
         source.value?.close();
