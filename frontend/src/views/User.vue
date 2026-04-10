@@ -76,7 +76,7 @@
     const fetchVideos = async (page = (route.query.page || 1)) => {
         isLoading.value = true;
 
-        const videosResponse = await fetch(`/api/videos?userid=${encodeURIComponent(stats.value.userId)}&page=${encodeURIComponent(page)}&limit=50`);
+        const videosResponse = await fetch(`/api/videos?userid=${encodeURIComponent(stats.value.userId)}&page=${encodeURIComponent(page)}&limit=50&sortBy=lastPlayedTimestamp`);
         const videosJson = await videosResponse.json();
 
         videos.value = videosJson.data;
