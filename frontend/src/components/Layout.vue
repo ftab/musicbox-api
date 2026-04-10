@@ -50,7 +50,6 @@
 
         & svg {
             height: 2rem;
-            fill: light-dark(var(--color-dark), var(--color-lighter));
         }
     }
 
