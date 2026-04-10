@@ -258,6 +258,14 @@ paths:
           example: 1
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
+        - name: sortBy
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [uservideoId, lastPlayedTimestamp]
+            default: uservideoId
+          description: Sort order for results. `uservideoId` returns videos in insertion order (default); `lastPlayedTimestamp` returns most recently played first.
       responses:
         '200':
           description: Paginated video list
@@ -297,6 +305,12 @@ paths:
                     error:
                       - field: limit
                         message: 'Invalid input: expected number, received NaN'
+                invalidSortBy:
+                  summary: Invalid sortBy
+                  value:
+                    error:
+                      - field: sortBy
+                        message: "Invalid enum value. Expected 'uservideoId' | 'lastPlayedTimestamp', received 'foo'"
         '404':
           description: User not found
           content:
