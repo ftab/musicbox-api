@@ -106,9 +106,9 @@ If no nick is passed to the command, the bot will show statistics for yourself.
 
 ### `.ulist [nick]`
 
-The bot will reply with a [paste.ee](https://paste.ee) link, containing all songs a user has contributed.
+The bot will reply with a link to a user's profile page, where you can view their full collection of posted songs.
 
-If no nick is provided, it will generate a link with all your contributions.
+If no nick is provided, it will show a link to your own profile.
 
 ### `.prune <url>` and `.unprune <url>`
 
