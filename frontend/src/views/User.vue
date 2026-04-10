@@ -27,7 +27,10 @@
             </Tab>
         </Tabs>
 
-        <h3>Full collection <small class="dim">(Ordered by recent activity)</small></h3>
+        <header>
+            <h3>Full collection <small class="dim">(Ordered by recent activity)</small></h3>
+            <DownloadButton :filename="`ulist_${stats.nickname}`" :url="`/api/videos?userid=${stats.userId}&limit=20000`" />
+        </header>
 
         <section class="list">
             <div v-for="(video, index) in videos" :key="video.videoId" :data-flagged="video.isFlagged" :title="getTrackTitle(video)" class="list-row">
@@ -51,6 +54,7 @@
     import Tabs from '../components/Tabs.vue';
     import Tab from '../components/Tab.vue';
     import ProviderIcons from '../components/ProviderIcons.vue';
+    import DownloadButton from '../components/DownloadButton.vue';
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 

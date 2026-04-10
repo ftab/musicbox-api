@@ -40,6 +40,10 @@
         margin-bottom: 2.5rem;
     }
 
+    .tabs:has(+ header) {
+        margin-bottom: 1.5rem;
+    }
+
     .tab-buttons {
         display: flex;
         gap: .5rem;

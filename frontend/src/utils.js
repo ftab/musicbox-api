@@ -33,6 +33,13 @@ export function formatProviderUrl(item) {
     return '#';
 };
 
+export function getProvider(item) {
+    return item.youtubeId ? 'YouTube' :
+        item.soundcloudId ? 'SoundCloud' :
+        item.bandcampId ? 'Bandcamp' :
+        item.vimeoId ? 'Vimeo' : 'Unknown';
+}
+
 export function formatTimestamp(timestamp) {
     if( ! timestamp) return '—';
 
@@ -41,4 +48,18 @@ export function formatTimestamp(timestamp) {
         month: '2-digit',
         year: 'numeric',
     });
+};
+
+export function formatTimestampForFilename(timestamp = Date.now()) {
+    const date = new Date(timestamp);
+    const pad = n => String(n).padStart(2, '0');
+
+    return [
+        date.getFullYear(),
+        pad(date.getMonth() + 1),
+        pad(date.getDate()),
+        pad(date.getHours()),
+        pad(date.getMinutes()),
+        pad(date.getSeconds()),
+    ].join('-');
 };

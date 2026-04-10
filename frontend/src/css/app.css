@@ -90,6 +90,10 @@ h2[data-flagged="1"] {
     }
 }
 
+h3 {
+    margin-block: 1rem;
+}
+
 p {
     text-wrap: pretty;
 }
@@ -126,6 +130,11 @@ button {
     border-radius: 0;
     border: none;
     cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: .5;
 }
 
 a:focus,
@@ -213,33 +222,12 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-block: 1.5rem 1.25rem;
-}
-
-header a {
-    display: inline-flex;
-    align-items: center;
-    gap: 1rem;
-    text-decoration: none;
-
-    &:hover {
-        color: currentColor;
-    }
-
-    & svg {
-        height: 2rem;
-        fill: light-dark(var(--color-dark), var(--color-lighter));
-    }
 }
 
 @media(width < 375px) {
     .progress-area progress,
     .progress-area small {
         display: none;
-    }
-
-    header a h1 {
-        font-size: 1rem;
     }
 }
 
