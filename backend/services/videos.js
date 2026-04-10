@@ -2,9 +2,12 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../../config');
 
-async function getMultiple(userid, page = 1, limit = config.listPerPage){
+async function getMultiple(userid, page = 1, limit = config.listPerPage, sortBy = 'uservideoId'){
   limit = Number(limit);
   const offset = helper.getOffset(page, limit);
+  const orderClause = sortBy === 'lastPlayedTimestamp'
+    ? 'ORDER BY uv.lastPlayedTimestamp DESC'
+    : 'ORDER BY uv.uservideoId';
   // Resolve all userIds for this user including aliases, then fetch videos for all of them.
   const rows = await db.query(
     `SELECT uv.uservideoId, v.videoId, v.youtubeId, v.soundcloudId, NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl, v.vimeoId, v.bandcampId, v.isFlagged, v.tags, v.title, uv.playCount, uv.lastPlayedTimestamp
@@ -19,7 +22,7 @@ async function getMultiple(userid, page = 1, limit = config.listPerPage){
         (SELECT nickname FROM user WHERE userId = ?)
       )
     )
-    ORDER BY uv.lastPlayedTimestamp DESC LIMIT ?,?`,
+    ${orderClause} LIMIT ?,?`,
     [userid, userid, offset, limit]
   );
   const total = await db.query(

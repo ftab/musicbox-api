@@ -10,6 +10,10 @@ const useridQuerySchema = z.object({
     userid: z.coerce.number().int().min(1),
 });
 
+const videosSortQuerySchema = z.object({
+    sortBy: z.enum(['uservideoId', 'lastPlayedTimestamp']).default('uservideoId'),
+});
+
 const searchTermQuerySchema = z.object({
     searchTerm: z.string().min(1).max(255),
 });
@@ -29,6 +33,7 @@ const artistIdParamSchema = z.object({
 module.exports = {
     paginationQuerySchema,
     useridQuerySchema,
+    videosSortQuerySchema,
     searchTermQuerySchema,
     nicknameParamSchema,
     videoIdParamSchema,
