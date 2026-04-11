@@ -42,22 +42,3 @@
         }
     });
 </script>
-
-<style>
-    .header-buttons {
-        display: flex;
-        gap: .5rem;
-    }
-
-    .header-buttons button {
-        background-color: light-dark(var(--color-lightest), var(--color-dark));
-        border-radius: 100vh;
-        aspect-ratio: 1;
-        padding: .4rem;
-    }
-
-    .header-buttons button .icon {
-        width: 1.5rem;
-        margin: 0;
-    }
-</style>

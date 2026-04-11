@@ -38,6 +38,24 @@
         padding-block: 1.5rem 1.25rem;
     }
 
+    .header-buttons {
+        display: flex;
+        gap: .5rem;
+    }
+
+    .header-buttons button {
+        background-color: light-dark(var(--color-lightest), var(--color-dark));
+        border-radius: 100vh;
+        aspect-ratio: 1;
+        padding: .4rem;
+    }
+
+    .header-buttons button svg {
+        width: 1.5rem;
+        margin: 0;
+        fill: light-dark(var(--color-neutral-light), var(--color-neutral-dark));
+    }
+
     .site-logo {
         display: inline-flex;
         align-items: center;
