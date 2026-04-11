@@ -11,7 +11,7 @@
 <script setup>
     import { ref } from 'vue';
     import { useFetch } from '../composables/useFetch';
-    import { getTrackTitle, getProvider, formatProviderUrl, formatTimestampForFilename } from '../utils';
+    import { getTrackTitle, formatTimestampForFilename, formatUlistContent } from '../utils';
 
     const props = defineProps({
         filename: {
@@ -27,39 +27,12 @@
     const { data, loading, get } = useFetch({ immediate: false });
     const content = ref(null);
 
-    const formatContent = (data = []) => {
-        const groups = [
-            'YouTube',
-            'SoundCloud',
-            'Bandcamp',
-            'Vimeo',
-            'YouTube Flagged',
-            'SoundCloud Flagged',
-            'Bandcamp Flagged',
-            'Vimeo Flagged',
-            'Unknown',
-        ];
-
-        const grouped = Object.groupBy(data, item => {
-            const provider = getProvider(item);
-            return (item.isFlagged && provider !== 'Unknown') ? `${provider} Flagged` : provider;
-        });
-
-        return groups.map(group => {
-            const items = grouped[group] ?? [];
-            const body = items.length > 0
-                ? items.map(item => `${formatProviderUrl(item)}\t${getTrackTitle(item)}`).join('\n')
-                : '—';
-            return `[${group}]\n${body}`;
-        }).join('\n\n');
-    };
-
     const getContent = async () => {
         if(content.value) return;
 
         await get(props.url);
 
-        content.value = formatContent(data.value);
+        content.value = formatUlistContent(data.value);
     };
 
     const download = async () => {

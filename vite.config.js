@@ -49,7 +49,7 @@ export default defineConfig({
     test: {
         environment: 'jsdom',
         root: '.',
-        include: ['tests/vue/**/*.test.js'],
+        include: ['tests/vue/**/*.test.js', 'tests/utils/**/*.test.js'],
         setupFiles: ['tests/vue/setup.js'],
     },
     server: {

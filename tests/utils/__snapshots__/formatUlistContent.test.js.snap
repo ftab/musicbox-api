@@ -1,0 +1,30 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`formats content for ulist 1`] = `
+"[YouTube]
+https://youtu.be/zsLxtd2KR7c	Stavroz - Merci éclair
+
+[SoundCloud]
+https://soundcloud.com/annclue/trip-original-mix?utm_medium=api&utm_campaign=social_sharing&utm_source=id_4536	TRIP (Original Mix)
+
+[Bandcamp]
+https://tourdemanege.bandcamp.com/track/guib-moonwalk	GuiB - Moonwalk, by Tour De Manège
+
+[Vimeo]
+—
+
+[YouTube Flagged]
+—
+
+[SoundCloud Flagged]
+—
+
+[Bandcamp Flagged]
+—
+
+[Vimeo Flagged]
+—
+
+[Unknown]
+—"
+`;

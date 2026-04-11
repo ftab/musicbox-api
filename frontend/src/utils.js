@@ -63,3 +63,30 @@ export function formatTimestampForFilename(timestamp = Date.now()) {
         pad(date.getSeconds()),
     ].join('-');
 };
+
+export function formatUlistContent(data = []) {
+    const groups = [
+        'YouTube',
+        'SoundCloud',
+        'Bandcamp',
+        'Vimeo',
+        'YouTube Flagged',
+        'SoundCloud Flagged',
+        'Bandcamp Flagged',
+        'Vimeo Flagged',
+        'Unknown',
+    ];
+
+    const grouped = Object.groupBy(data, item => {
+        const provider = getProvider(item);
+        return (item.isFlagged && provider !== 'Unknown') ? `${provider} Flagged` : provider;
+    });
+
+    return groups.map(group => {
+        const items = grouped[group] ?? [];
+        const body = items.length > 0
+            ? items.map(item => `${formatProviderUrl(item)}\t${getTrackTitle(item)}`).join('\n')
+            : '—';
+        return `[${group}]\n${body}`;
+    }).join('\n\n');
+};
