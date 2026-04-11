@@ -1,14 +1,9 @@
 const express = require('express');
-const router = express.Router({ mergeParams: true });
+const router = express.Router();
 const stats = require('../../services/stats');
 
-router.get('/', async function(req, res, next) {
-  try {
+router.get('/', async (req, res) => {
     res.json(await stats.getTotalSongs());
-  } catch (err) {
-    console.error('Error while getting stats', err.message);
-    next(err);
-  }
 });
 
 module.exports = router;

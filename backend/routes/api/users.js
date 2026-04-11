@@ -8,44 +8,34 @@ const { validateQuery, validateParams } = require('../../middleware/validate');
 const { paginationQuerySchema, nicknameParamSchema } = require('../../schema');
 
 /* GET users */
-router.get('/', validateQuery(paginationQuerySchema), async function(req, res, next) {
-    try {
-        res.json(await users.getMultiple(req.query.page, req.query.limit));
-    } catch (err) {
-        console.error(`Error while getting users `, err.message);
-        next(err);
-    }
+router.get('/', validateQuery(paginationQuerySchema), async (req, res) => {
+    res.json(await users.getMultiple(req.validatedQuery.page, req.validatedQuery.limit));
 });
 
-router.get('/:nickname', validateParams(nicknameParamSchema), async function(req, res, next) {
-    try {
-        const nickname = req.params.nickname;
-        const user = await users.getByNickname(nickname);
+router.get('/:nickname', validateParams(nicknameParamSchema), async function(req, res) {
+    const nickname = req.validatedParams.nickname;
+    const user = await users.getByNickname(nickname);
 
-        if (user.data.length === 0) {
-            return res.status(404).json({
-                error: [
-                    { message: 'User not found' }
-                ],
-            });
-        }
-
-        const [stats, topArtists, topTags] = await Promise.all([
-            userStats.getStats(nickname),
-            userProfile.getTopArtists(nickname, 15),
-            userProfile.getTopTags(nickname, 15),
-        ]);
-
-        res.json({
-            user: user.data[0],
-            stats: stats.data[0],
-            topArtists,
-            topTags,
+    if(user.data.length === 0) {
+        return res.status(404).json({
+            error: [
+                { message: 'User not found' }
+            ],
         });
-    } catch(err) {
-        console.error('Error getting user profile', err.message);
-        next(err);
     }
+
+    const [stats, topArtists, topTags] = await Promise.all([
+        userStats.getStats(nickname),
+        userProfile.getTopArtists(nickname, 15),
+        userProfile.getTopTags(nickname, 15),
+    ]);
+
+    res.json({
+        user: user.data[0],
+        stats: stats.data[0],
+        topArtists,
+        topTags,
+    });
 });
 
 module.exports = router;

@@ -11,7 +11,7 @@ function validateQuery(schema) {
             });
         }
 
-        req.query = result.data;
+        req.validatedQuery = result.data;
         next();
     };
 }
@@ -29,7 +29,7 @@ function validateParams(schema) {
             });
         }
 
-        req.params = { ...req.params, ...result.data };
+        req.validatedParams = result.data;
         next();
     };
 }
