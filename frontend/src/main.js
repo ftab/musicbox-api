@@ -8,6 +8,10 @@ const app = createApp(App)
 
 app.config.errorHandler = err => {
     error.value = err;
+
+    if(import.meta.env.DEV) {
+        console.error(err);
+    }
 };
 
 app.use(router)
