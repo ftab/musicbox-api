@@ -5,10 +5,25 @@ const port = process.env.PORT || 5000;
 
 const transformFilename = name => {
     return name.split('.')[0].replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-}
+};
+
+const preloadCss = () => {
+    return {
+        name: 'preload-css',
+        transformIndexHtml(html) {
+            return html.replace(
+                /<link rel="stylesheet" crossorigin href="([^"]+\.css)">/g,
+                `<link rel="preload" as="style" crossorigin href="$1"><link rel="stylesheet" crossorigin href="$1">`
+            );
+        },
+    };
+};
 
 export default defineConfig({
-    plugins: [vue()],
+    plugins: [
+        vue(),
+        preloadCss(),
+    ],
     root: 'frontend',
     build: {
         outDir: '../dist',
