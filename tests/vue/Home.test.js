@@ -3,13 +3,13 @@ import { beforeEach, it, expect } from 'vitest';
 import { stats } from './mocks/stats';
 import { leaderboard } from './mocks/leaderboard';
 import Home from '../../frontend/src/views/Home.vue';
+import { mockFetch } from './setup';
 
 let wrapper, html;
 
 beforeEach(async () => {
-    fetch
-        .mockResolvedValueOnce({ json: () => Promise.resolve(stats) })
-        .mockResolvedValueOnce({ json: () => Promise.resolve(leaderboard) });
+    mockFetch(stats);
+    mockFetch(leaderboard);
 
     wrapper = mount(Home);
 

@@ -26,6 +26,13 @@ beforeEach(async () => {
     fetch.mockReset();
 });
 
+export function mockFetch(data) {
+    fetch.mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve(data)
+    });
+};
+
 export function setRoute(route) {
     mockRoute = {
         ...mockRoute,

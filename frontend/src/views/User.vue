@@ -1,22 +1,22 @@
 <template>
-    <Spinner v-if="isLoading" />
+    <Spinner v-if="userLoading || videosLoading" />
 
     <template v-else>
-        <h2 v-text="stats.nickname"></h2>
-        <p>{{ stats.uniqueVideos }} unique songs · {{ stats.totalPlays }} total relinks · sharing since {{ formatTimestamp(stats.firstShared) }}</p>
+        <h2 v-text="user.stats.nickname"></h2>
+        <p>{{ user.stats.uniqueVideos }} unique songs · {{ user.stats.totalPlays }} total relinks · sharing since {{ formatTimestamp(user.stats.firstShared) }}</p>
 
-        <Tabs v-if="tags.length || artists.length">
-            <Tab v-if="tags.length" label="Top Genres">
+        <Tabs v-if="user.topTags.length || user.topArtists.length">
+            <Tab v-if="user.topTags.length" label="Top Genres">
                 <ul class="tag-list">
-                    <li v-for="(tag, index) in tags" :key="tag">
+                    <li v-for="(tag, index) in user.topTags" :key="tag">
                         {{ tag.name }} <span>({{ tag.count }})</span>
                     </li>
                 </ul>
             </Tab>
 
-            <Tab v-if="artists.length" label="Top Artists">
+            <Tab v-if="user.topArtists.length" label="Top Artists">
                 <section class="list">
-                    <div v-for="(artist, index) in artists" :key="artist.artistId" :title="artist.name" class="list-row flush">
+                    <div v-for="(artist, index) in user.topArtists" :key="artist.artistId" :title="artist.name" class="list-row flush">
                         <span class="accent">{{ index + 1 }}.</span>
                         <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }" class="ellipsis">
                             <span>{{ artist.name }}</span>
@@ -28,8 +28,8 @@
         </Tabs>
 
         <header>
-            <h3>Full collection <small class="dim">(Ordered by recent activity)</small></h3>
-            <DownloadButton :filename="`ulist_${stats.nickname}`" :url="`/api/videos?userid=${stats.userId}&limit=20000`" />
+            <h3>Full collection</h3>
+            <DownloadButton :filename="`ulist_${user.stats.nickname}`" :url="`/api/videos?userid=${user.stats.userId}&limit=20000`" />
         </header>
 
         <section class="list">
@@ -43,13 +43,14 @@
             </div>
         </section>
 
-        <Pagination v-if="meta && meta.total[0].numRows > meta.perPage" :meta="meta" @pageChange="fetchVideos" />
+        <Pagination :meta="meta" @pageChange="getVideos" />
     </template>
 </template>
 
 <script setup>
     import { onMounted, ref } from 'vue';
     import { useRoute } from 'vue-router';
+    import { useFetch } from '../composables/useFetch';
     import { setPageTitle, formatTimestamp, getTrackTitle, pluralize } from '../utils';
     import Tabs from '../components/Tabs.vue';
     import Tab from '../components/Tab.vue';
@@ -58,39 +59,21 @@
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const isLoading = ref(true);
     const route = useRoute();
-    const stats = ref({});
-    const tags = ref([]);
-    const artists = ref([]);
-    const videos = ref([]);
-    const meta = ref(null);
+    const { data: user, loading: userLoading, get: getUser } = useFetch();
+    const { data: videos, meta, loading: videosLoading, get } = useFetch();
 
-    const fetchUser = async () => {
-        const userResponse = await fetch(`/api/users/${encodeURIComponent(route.params.nickname)}`);
-        const userJson = await userResponse.json();
-
-        stats.value = userJson.stats;
-        tags.value = userJson.topTags;
-        artists.value = userJson.topArtists;
-
-        setPageTitle(stats.value.nickname);
-    };
-
-    const fetchVideos = async (page = (route.query.page || 1)) => {
-        isLoading.value = true;
-
-        const videosResponse = await fetch(`/api/videos?userid=${encodeURIComponent(stats.value.userId)}&page=${encodeURIComponent(page)}&limit=50&sortBy=lastPlayedTimestamp`);
-        const videosJson = await videosResponse.json();
-
-        videos.value = videosJson.data;
-        meta.value = videosJson.meta;
-
-        isLoading.value = false;
+    const getVideos = async (page = (route.query.page || 1)) => {
+        await get(`/api/videos?userid=${encodeURIComponent(user.value.stats.userId)}&page=${encodeURIComponent(page)}&limit=50&sortBy=lastPlayedTimestamp`);
     };
 
     onMounted(async () => {
-        await fetchUser();
-        await fetchVideos();
+        await getUser(`/api/users/${encodeURIComponent(route.params.nickname)}`);
+
+        if( ! user.value) return;
+
+        setPageTitle(user.value.stats.nickname);
+
+        await getVideos();
     });
 </script>

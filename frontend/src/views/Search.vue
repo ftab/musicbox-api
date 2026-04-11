@@ -2,7 +2,7 @@
     <h2>Search</h2>
     <SearchForm />
 
-    <Spinner v-if="isLoading" />
+    <Spinner v-if="loading" />
 
     <template v-else>
         <h3 v-if="searchTerm">Found {{ pluralize(searchResults.length, 'song') }} matching "{{ searchTerm }}"</h3>
@@ -22,28 +22,22 @@
 <script setup>
     import { onMounted, ref } from 'vue';
     import { useRoute, onBeforeRouteUpdate } from 'vue-router';
+    import { useFetch } from '../composables/useFetch';
     import { setPageTitle, pluralize, getTrackTitle, formatProviderUrl } from '../utils';
     import SearchForm from '../components/SearchForm.vue';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const isLoading = ref(false);
     const route = useRoute();
     const searchTerm = ref(null);
-    const searchResults = ref([]);
+    const { data: searchResults, loading, get } = useFetch({ immediate: false });
 
     const search = async (term = route.query.searchTerm) => {
         if( ! term) return;
 
-        isLoading.value = true;
+        await get(`/api/search/videos?searchTerm=${encodeURIComponent(term)}`);
 
-        const searchResponse = await fetch(`/api/search/videos?searchTerm=${encodeURIComponent(term)}`);
-        const searchJson = await searchResponse.json();
-
-        searchResults.value = searchJson.data;
         searchTerm.value = term;
-
-        isLoading.value = false;
     };
 
     onMounted(search);

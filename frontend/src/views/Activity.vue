@@ -1,5 +1,5 @@
 <template>
-    <Spinner v-if="isLoading" />
+    <Spinner v-if="loading" />
 
     <template v-else>
         <h2>Last activity</h2>
@@ -16,34 +16,25 @@
             </div>
         </section>
 
-        <Pagination v-if="meta && meta.total[0].numRows > meta.perPage" :meta="meta" @pageChange="fetchActivity" />
+        <Pagination :meta="meta" @pageChange="getActivity" />
     </template>
 </template>
 
 <script setup>
     import { onMounted, ref } from 'vue';
     import { useRoute } from 'vue-router';
+    import { useFetch } from '../composables/useFetch';
     import { formatTimestamp, formatProviderUrl, getTrackTitle } from '../utils';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const isLoading = ref(true);
     const route = useRoute();
-    const activity = ref([]);
-    const meta = ref(null);
+    const { data: activity, meta, loading, get } = useFetch();
 
-    const fetchActivity = async (page = (route.query.page || 1)) => {
-        isLoading.value = true;
-
-        const activityResponse = await fetch(`/api/activity?page=${encodeURIComponent(page)}&limit=50`);
-        const activityJson = await activityResponse.json();
-
-        activity.value = activityJson.data;
-        meta.value = activityJson.meta;
-
-        isLoading.value = false;
+    const getActivity = async (page = (route.query.page || 1)) => {
+        await get(`/api/activity?page=${encodeURIComponent(page)}&limit=50`);
     }
 
-    onMounted(fetchActivity);
+    onMounted(getActivity);
 </script>

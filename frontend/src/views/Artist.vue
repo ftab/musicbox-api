@@ -1,15 +1,15 @@
 <template>
-    <Spinner v-if="isLoading" />
+    <Spinner v-if="loading" />
 
     <template v-else>
-        <h2>{{ artist.name }}</h2>
-        <p v-if="meta">{{ pluralize(meta.total[0].numRows, 'track') }} in library</p>
+        <h2>{{ data.artist.name }}</h2>
+        <p v-if="data.tracks.meta">{{ pluralize(data.tracks.meta.total[0].numRows, 'track') }} in library</p>
 
-        <template v-if="topSharers.length">
+        <template v-if="data.topSharers.length">
             <h3>Top Sharers</h3>
 
             <section class="list">
-                <div v-for="(sharer, index) in topSharers" :key="sharer.nickname" class="list-row">
+                <div v-for="(sharer, index) in data.topSharers" :key="sharer.nickname" class="list-row">
                     <span class="accent">{{ index + 1 }}.</span>
                     <RouterLink :to="{ name: 'profile', params: { nickname: sharer.nickname } }" :title="sharer.nickname" class="ellipsis">
                         {{ sharer.nickname }}
@@ -19,11 +19,11 @@
             </section>
         </template>
 
-        <template v-if="tracks.length">
+        <template v-if="data.tracks.data.length">
             <h3>Tracks</h3>
 
             <section class="list">
-                <div v-for="(track, index) in tracks" :key="index" class="list-row">
+                <div v-for="(track, index) in data.tracks.data" :key="index" class="list-row">
                     <span class="accent">{{ track.role }}</span>
                     <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" :title="getTrackTitle(track)" class="ellipsis">
                         <ProviderIcons :track="track" />
@@ -34,40 +34,29 @@
             </section>
         </template>
 
-        <Pagination v-if="meta && meta.total[0].numRows > meta.perPage" :meta="meta" @pageChange="fetchArtist" />
+        <Pagination :meta="data.tracks.meta" @pageChange="getArtist" />
     </template>
 </template>
 
 <script setup>
     import { onMounted, ref } from 'vue';
     import { useRoute } from 'vue-router';
+    import { useFetch } from '../composables/useFetch';
     import { setPageTitle, pluralize, getTrackTitle } from '../utils';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const isLoading = ref(true);
     const route = useRoute();
-    const artist = ref(null);
-    const tracks = ref([]);
-    const topSharers = ref([]);
-    const meta = ref(null);
+    const { data, loading, get } = useFetch();
 
-    const fetchArtist = async (page = (route.query.page || 1)) => {
-        isLoading.value = true;
+    const getArtist = async (page = (route.query.page || 1)) => {
+        await get(`/api/artist/${encodeURIComponent(route.params.id)}?page=${encodeURIComponent(page)}&limit=50`);
 
-        const artistResponse = await fetch(`/api/artist/${encodeURIComponent(route.params.id)}?page=${encodeURIComponent(page)}&limit=50`);
-        const artistJson = await artistResponse.json();
+        if( ! data.value) return;
 
-        artist.value = artistJson.artist;
-        tracks.value = artistJson.tracks.data;
-        meta.value = artistJson.tracks.meta;
-        topSharers.value = artistJson.topSharers;
-
-        isLoading.value = false;
-
-        setPageTitle(artist.value.name);
+        setPageTitle(data.value.artist.name);
     };
 
-    onMounted(fetchArtist);
+    onMounted(getArtist);
 </script>

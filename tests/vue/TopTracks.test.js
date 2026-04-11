@@ -3,11 +3,12 @@ import { beforeEach, it, expect } from 'vitest';
 import VueAwesomePaginate from 'vue-awesome-paginate'
 import TopTracks from '../../frontend/src/views/TopTracks.vue';
 import { videos } from './mocks/videos';
+import { mockFetch } from './setup';
 
 let wrapper, html;
 
 beforeEach(async () => {
-    fetch.mockResolvedValueOnce({ json: () => Promise.resolve(videos) });
+    mockFetch(videos);
 
     wrapper = mount(TopTracks, {
         global: { plugins: [VueAwesomePaginate] },

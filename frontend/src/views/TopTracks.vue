@@ -1,5 +1,5 @@
 <template>
-    <Spinner v-if="isLoading" />
+    <Spinner v-if="loading" />
 
     <template v-else>
         <h2>Top Tracks</h2>
@@ -16,39 +16,30 @@
             </div>
         </section>
 
-        <Pagination v-if="meta && meta.total[0].numRows > meta.perPage" :meta="meta" @pageChange="fetchTopTracks" />
+        <Pagination :meta="meta" @pageChange="getTopTracks" />
     </template>
 </template>
 
 <script setup>
     import { onMounted, ref } from 'vue';
     import { useRoute } from 'vue-router';
+    import { useFetch } from '../composables/useFetch';
     import { formatProviderUrl, getTrackTitle, pluralize } from '../utils';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const isLoading = ref(false);
     const route = useRoute();
-    const topTracks = ref([]);
-    const meta = ref(null);
+    const { data: topTracks, meta, loading, get } = useFetch();
 
     const calculateRank = (index, meta) => {
         const pageNum = parseInt(meta.page, 10) || 1;
         return (pageNum - 1) * meta.perPage + index + 1;
     };
 
-    const fetchTopTracks = async (page = (route.query.page || 1)) => {
-        isLoading.value = true;
-
-        const topTracksResponse = await fetch(`/api/tracks/top?page=${encodeURIComponent(page)}&limit=50`);
-        const topTracksJson = await topTracksResponse.json();
-
-        topTracks.value = topTracksJson.data;
-        meta.value = topTracksJson.meta;
-
-        isLoading.value = false;
+    const getTopTracks = async (page = (route.query.page || 1)) => {
+        await get(`/api/tracks/top?page=${encodeURIComponent(page)}&limit=50`);
     };
 
-    onMounted(fetchTopTracks);
+    onMounted(getTopTracks);
 </script>

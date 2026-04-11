@@ -3,11 +3,12 @@ import { beforeEach, it, expect } from 'vitest';
 import VueAwesomePaginate from 'vue-awesome-paginate'
 import Artist from '../../frontend/src/views/Artist.vue';
 import { artist } from './mocks/artist';
+import { mockFetch } from './setup';
 
 let wrapper, html;
 
 beforeEach(async () => {
-    fetch.mockResolvedValueOnce({ json: () => Promise.resolve(artist) });
+    mockFetch(artist);
 
     wrapper = mount(Artist, {
         global: { plugins: [VueAwesomePaginate] },
