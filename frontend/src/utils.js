@@ -33,6 +33,11 @@ export function formatProviderUrl(item) {
     return '#';
 };
 
+export function calculateRank(index, meta) {
+    const pageNum = parseInt(meta.page, 10) || 1;
+    return (pageNum - 1) * meta.perPage + index + 1;
+};
+
 export function getProvider(item) {
     return item.youtubeId ? 'YouTube' :
         item.soundcloudId ? 'SoundCloud' :

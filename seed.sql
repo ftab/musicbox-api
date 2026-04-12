@@ -12,7 +12,8 @@ INSERT INTO user_video (userId, videoId, lastPlayedTimestamp, playCount, hideFro
   (2, 1, NOW(), 3, 0);
 
 INSERT INTO artist (artistId, name) VALUES
-  (1, 'Test Artist');
+  (1, 'Test Artist 1');
+  (2, 'Test Artist 2');
 
 INSERT INTO video_artist (videoId, artistId, role) VALUES
   (1, 1, 'primary'),

@@ -1,10 +1,12 @@
 const request = require('supertest');
 const assert = require('assert')
 const app = require('../../backend/server');
+const db = require('../../backend/services/db');
 
 describe('GET /api/artist/:artistId', () => {
     it('responds with 200 and a data object', async () => {
-        const res = await request(app).get('/api/artist/1');
+        const [first] = await db.query('SELECT artistId FROM artist LIMIT 1');
+        const res = await request(app).get(`/api/artist/${first.artistId}`);
         assert.equal(res.status, 200);
         assert.equal(res.type, 'application/json');
         assert.ok('artist' in res.body);

@@ -16,6 +16,7 @@
             </button>
             <RouterLink :to="{ name: 'home' }" active-class="active" class="site-nav-link" title="Leaderboard">Leaderboard</RouterLink>
             <RouterLink :to="{ name: 'top-tracks' }" active-class="active" class="site-nav-link" title="Top Tracks">Top Tracks</RouterLink>
+            <RouterLink :to="{ name: 'artists' }" active-class="active" class="site-nav-link" title="Artists">Artists</RouterLink>
             <RouterLink :to="{ name: 'activity' }" active-class="active" class="site-nav-link" title="Activity">Activity</RouterLink>
             <RouterLink :to="{ name: 'peepee' }" active-class="active" class="site-nav-link" title="PP Leaderboard">🍆</RouterLink>
             <RouterLink :to="{ name: 'search' }" active-class="active" class="site-nav-link" title="Search">Search</RouterLink>
@@ -100,7 +101,7 @@
         transform: translateX(0);
     }
 
-    @media(width >= 567px) {
+    @media(width >= 660px) {
         .site-nav-close,
         .site-nav-toggle {
             display: none;

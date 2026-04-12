@@ -378,6 +378,25 @@ paths:
                                 totalPlays:
                                   type: integer
                                   example: 196
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+              examples:
+                invalidPage:
+                  summary: Invalid page
+                  value:
+                    error:
+                      - field: page
+                        message: 'Invalid input: expected number, received NaN'
+                invalidLimit:
+                  summary: Invalid limit
+                  value:
+                    error:
+                      - field: limit
+                        message: 'Invalid input: expected number, received NaN'
 
   /song/{videoId}:
     get:
@@ -465,6 +484,55 @@ paths:
               example:
                 error:
                   - message: Song not found
+
+  /artist:
+    get:
+      tags: [Artists]
+      summary: All artists
+      description: Returns paginated list of artists
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: Artists response
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginatedResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            artistId:
+                              type: integer
+                              example: 1
+                            name:
+                              type: string
+                              example: Armin van Buuren
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/400'
+              examples:
+                invalidPage:
+                  summary: Invalid page
+                  value:
+                    error:
+                      - field: page
+                        message: 'Invalid input: expected number, received NaN'
+                invalidLimit:
+                  summary: Invalid limit
+                  value:
+                    error:
+                      - field: limit
+                        message: 'Invalid input: expected number, received NaN'
 
   /artist/{artistId}:
     get:

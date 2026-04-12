@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
+const artists = require('../../services/artists');
 const artistDetails = require('../../services/artistDetails');
 const { validateQuery, validateParams } = require('../../middleware/validate');
 const { artistIdParamSchema, paginationQuerySchema } = require('../../schema');
+
+router.get('/', validateQuery(paginationQuerySchema), async(req, res) => {
+    return res.json(await artists.get(req.validatedQuery.page, req.validatedQuery.limit));
+});
 
 router.get('/:artistId', validateParams(artistIdParamSchema), validateQuery(paginationQuerySchema), async (req, res) => {
     const artistId = req.validatedParams.artistId;

@@ -24,18 +24,13 @@
     import { onMounted, ref } from 'vue';
     import { useRoute } from 'vue-router';
     import { useFetch } from '../composables/useFetch';
-    import { formatProviderUrl, getTrackTitle, pluralize } from '../utils';
+    import { formatProviderUrl, getTrackTitle, pluralize, calculateRank } from '../utils';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
     const route = useRoute();
     const { data: topTracks, meta, loading, get } = useFetch();
-
-    const calculateRank = (index, meta) => {
-        const pageNum = parseInt(meta.page, 10) || 1;
-        return (pageNum - 1) * meta.perPage + index + 1;
-    };
 
     const getTopTracks = async (page = (route.query.page || 1)) => {
         await get(`/api/tracks/top?page=${encodeURIComponent(page)}&limit=50`);
