@@ -4,7 +4,7 @@ const artistDetails = require('../../services/artistDetails');
 const { validateQuery, validateParams } = require('../../middleware/validate');
 const { artistIdParamSchema, paginationQuerySchema } = require('../../schema');
 
-router.get('/:artistId', validateParams(artistIdParamSchema), validateQuery(paginationQuerySchema), async (req, res, next) => {
+router.get('/:artistId', validateParams(artistIdParamSchema), validateQuery(paginationQuerySchema), async (req, res) => {
     const artistId = req.validatedParams.artistId;
     const artist = await artistDetails.getById(artistId);
 

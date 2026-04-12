@@ -37,7 +37,7 @@ paths:
     get:
       tags: [Stats]
       summary: Global statistics
-      description: Returns total song count
+      description: Returns aggregated counts of songs by platform, artists and users
       responses:
         '200':
           description: Stats response
@@ -46,9 +46,30 @@ paths:
               schema:
                 type: object
                 properties:
-                  totalSongs:
+                  total_songs:
                     type: integer
-                    example: 72605
+                    example: 72606
+                  youtube_songs:
+                    type: integer
+                    example: 71545
+                  soundcloud_songs:
+                    type: integer
+                    example: 395
+                  bandcamp_songs:
+                    type: integer
+                    example: 643
+                  vimeo_songs:
+                    type: integer
+                    example: 23
+                  flagged_songs:
+                    type: integer
+                    example: 1175
+                  total_artists:
+                    type: integer
+                    example: 24843
+                  total_users:
+                    type: integer
+                    example: 657
 
   /leaderboard:
     get:

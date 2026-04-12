@@ -4,7 +4,7 @@ const activity = require('../../services/activity');
 const { validateQuery } = require('../../middleware/validate');
 const { paginationQuerySchema } = require('../../schema');
 
-router.get('/', validateQuery(paginationQuerySchema), async (req, res, next) => {
+router.get('/', validateQuery(paginationQuerySchema), async (req, res) => {
     res.json(await activity.getRecent(req.validatedQuery.page, req.validatedQuery.limit));
 });
 

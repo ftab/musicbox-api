@@ -1,7 +1,7 @@
 import { mount, flushPromises } from '@vue/test-utils';
 import { beforeEach, it, expect } from 'vitest';
-import { stats } from './mocks/stats';
-import { leaderboard } from './mocks/leaderboard';
+import { stats } from '../mocks/stats';
+import { leaderboard } from '../mocks/leaderboard';
 import Home from '../../frontend/src/views/Home.vue';
 import { mockFetch } from './setup';
 
@@ -20,7 +20,7 @@ beforeEach(async () => {
 
 it('shows total songs collected', async () => {
     expect(html).toContain('Top 50 Contributors');
-    expect(html).toContain(`${stats.totalSongs} unique songs collected`);
+    expect(html).toContain(`${stats.total_users} users collected ${stats.total_songs} unique songs by ${stats.total_artists} artists`);
 });
 
 it('shows users', async () => {

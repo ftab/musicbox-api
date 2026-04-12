@@ -1,7 +1,7 @@
 import { mount, flushPromises } from '@vue/test-utils';
 import { beforeEach, it, expect } from 'vitest';
 import Song from '../../frontend/src/views/Song.vue';
-import { song } from './mocks/song';
+import { song } from '../mocks/song';
 import { mockFetch } from './setup';
 
 let wrapper, html;

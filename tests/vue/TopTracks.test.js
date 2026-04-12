@@ -2,7 +2,7 @@ import { mount, flushPromises } from '@vue/test-utils';
 import { beforeEach, it, expect } from 'vitest';
 import VueAwesomePaginate from 'vue-awesome-paginate'
 import TopTracks from '../../frontend/src/views/TopTracks.vue';
-import { topTracks } from './mocks/topTracks';
+import { topTracks } from '../mocks/topTracks';
 import { mockFetch } from './setup';
 
 let wrapper, html;

@@ -2,7 +2,7 @@ import { mount, flushPromises } from '@vue/test-utils';
 import { beforeEach, it, expect } from 'vitest';
 import VueAwesomePaginate from 'vue-awesome-paginate';
 import Activity from '../../frontend/src/views/Activity.vue';
-import { activity } from './mocks/activity';
+import { activity } from '../mocks/activity';
 import { mockFetch } from './setup';
 
 let wrapper, html;

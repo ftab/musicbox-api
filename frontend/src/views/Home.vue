@@ -3,7 +3,7 @@
 
     <template v-else>
         <h2>Top 50 Contributors</h2>
-        <p>{{ stats.totalSongs }} unique songs collected</p>
+        <p>{{ stats.total_users }} users collected {{ stats.total_songs }} unique songs by {{ stats.total_artists }} artists</p>
 
         <section key="list" class="list leaderboard">
             <div v-for="(user, index) in leaderboard" :key="index" :title="user.nickname" class="list-row">
@@ -33,7 +33,7 @@
     const { data: leaderboard, loading: leaderboardLoading, get: getLeaderboard } = useFetch();
 
     const progressWidth = user => (user.video_count / leaderboard.value[0].video_count) * 100;
-    const userPercentage = user => ((user.video_count / stats.value.totalSongs) * 100).toFixed(1);
+    const userPercentage = user => ((user.video_count / stats.value.total_songs) * 100).toFixed(1);
 
     onMounted(async () => {
         await Promise.all([
