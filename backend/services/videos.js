@@ -6,37 +6,47 @@ async function getMultiple(userid, page = 1, limit = config.listPerPage, sortBy 
   limit = Number(limit);
   const offset = helper.getOffset(page, limit);
   const orderClause = sortBy === 'lastPlayedTimestamp'
-    ? 'ORDER BY uv.lastPlayedTimestamp DESC'
-    : 'ORDER BY uv.uservideoId';
+    ? 'ORDER BY lastPlayedTimestamp DESC'
+    : 'ORDER BY uservideoId';
   // Resolve all userIds for this user including aliases, then fetch videos for all of them.
+  // Ensure no duplicate videos from aliases
   const rows = await db.query(
-    `SELECT uv.uservideoId, v.videoId, v.youtubeId, v.soundcloudId, NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl, v.vimeoId, v.bandcampId, v.isFlagged, v.tags, v.title, uv.playCount, uv.lastPlayedTimestamp
-    FROM video v INNER JOIN user_video uv USING (videoId)
-    WHERE uv.hideFromList = 0 AND uv.userId IN (
-      SELECT u.userId FROM user u
-      WHERE COALESCE(
-        (SELECT primaryNick FROM aliases WHERE aliasNick = u.nickname LIMIT 1),
-        u.nickname
-      ) = COALESCE(
-        (SELECT primaryNick FROM aliases WHERE aliasNick = (SELECT nickname FROM user WHERE userId = ?) LIMIT 1),
-        (SELECT nickname FROM user WHERE userId = ?)
-      )
-    )
+    `SELECT v.videoId, v.youtubeId, v.soundcloudId, NULLIF(v.soundcloudUrl, 'NOT_FOUND') AS soundcloudUrl, v.vimeoId, v.bandcampId, v.isFlagged, v.tags, v.title,
+    agg.playCount, agg.lastPlayedTimestamp, agg.uservideoId FROM video v
+    INNER JOIN (
+        SELECT uv.videoId, MAX(uv.uservideoId) AS uservideoId, SUM(uv.playCount) AS playCount, MAX(uv.lastPlayedTimestamp) AS lastPlayedTimestamp
+        FROM user_video uv
+        INNER JOIN (
+            SELECT DISTINCT u.userId FROM user u
+            WHERE COALESCE(
+                (SELECT primaryNick FROM aliases WHERE aliasNick = u.nickname LIMIT 1),
+                u.nickname
+            ) = COALESCE(
+                (SELECT primaryNick FROM aliases WHERE aliasNick = (SELECT nickname FROM user WHERE userId = ?) LIMIT 1),
+                (SELECT nickname FROM user WHERE userId = ?)
+            )
+        ) fu ON uv.userId = fu.userId
+        WHERE uv.hideFromList = 0
+        GROUP BY uv.videoId
+    ) agg ON v.videoId = agg.videoId
     ${orderClause} LIMIT ?,?`,
     [userid, userid, offset, limit]
   );
   const total = await db.query(
-    `SELECT COUNT(*) AS numRows FROM user_video
-    WHERE hideFromList = 0 AND userId IN (
-      SELECT u.userId FROM user u
-      WHERE COALESCE(
-        (SELECT primaryNick FROM aliases WHERE aliasNick = u.nickname LIMIT 1),
-        u.nickname
-      ) = COALESCE(
-        (SELECT primaryNick FROM aliases WHERE aliasNick = (SELECT nickname FROM user WHERE userId = ?) LIMIT 1),
-        (SELECT nickname FROM user WHERE userId = ?)
-      )
-    )`,
+    `SELECT COUNT(DISTINCT uv.videoId) AS numRows
+    FROM user_video uv
+    INNER JOIN (
+        SELECT DISTINCT u.userId
+        FROM user u
+        WHERE COALESCE(
+            (SELECT primaryNick FROM aliases WHERE aliasNick = u.nickname LIMIT 1),
+            u.nickname
+        ) = COALESCE(
+            (SELECT primaryNick FROM aliases WHERE aliasNick = (SELECT nickname FROM user WHERE userId = ?) LIMIT 1),
+            (SELECT nickname FROM user WHERE userId = ?)
+        )
+    ) fu ON uv.userId = fu.userId
+    WHERE uv.hideFromList = 0`,
     [userid, userid]
   );
   const data = helper.emptyOrRows(rows);
