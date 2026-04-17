@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-    import { onMounted, ref } from 'vue';
+    import { onMounted } from 'vue';
     import { pluralize } from '../utils';
     import { useFetch } from '../composables/useFetch';
     import Spinner from '../components/Spinner.vue';

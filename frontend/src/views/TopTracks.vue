@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-    import { onMounted, ref } from 'vue';
+    import { onMounted } from 'vue';
     import { useRoute } from 'vue-router';
     import { useFetch } from '../composables/useFetch';
     import { formatProviderUrl, getTrackTitle, pluralize, calculateRank } from '../utils';

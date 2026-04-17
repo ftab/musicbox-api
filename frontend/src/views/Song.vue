@@ -64,7 +64,7 @@
 </template>
 
 <script setup>
-    import { onMounted, ref } from 'vue';
+    import { onMounted } from 'vue';
     import { useRoute, onBeforeRouteUpdate } from 'vue-router';
     import { useFetch } from '../composables/useFetch';
     import { setPageTitle, pluralize, getTrackTitle, formatProviderUrl, formatTimestamp } from '../utils';
