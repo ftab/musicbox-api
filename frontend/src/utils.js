@@ -79,12 +79,11 @@ export function formatUlistContent(data = []) {
         'SoundCloud Flagged',
         'Bandcamp Flagged',
         'Vimeo Flagged',
-        'Unknown',
     ];
 
     const grouped = Object.groupBy(data, item => {
         const provider = getProvider(item);
-        return (item.isFlagged && provider !== 'Unknown') ? `${provider} Flagged` : provider;
+        return item.isFlagged ? `${provider} Flagged` : provider;
     });
 
     return groups.map(group => {

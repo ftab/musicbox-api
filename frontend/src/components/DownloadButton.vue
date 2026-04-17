@@ -9,44 +9,17 @@
 </template>
 
 <script setup>
-    import { ref } from 'vue';
-    import { useFetch } from '../composables/useFetch';
-    import { getTrackTitle, formatTimestampForFilename, formatUlistContent } from '../utils';
-
-    const props = defineProps({
-        filename: {
-            type: String,
-            required: true
-        },
-        url: {
-            type: String,
-            required: true,
+    defineProps({
+        loading: {
+            type: Boolean,
+            default: false,
         },
     });
 
-    const { data, loading, get } = useFetch({ immediate: false });
-    const content = ref(null);
-
-    const getContent = async () => {
-        if(content.value) return;
-
-        await get(props.url);
-
-        content.value = formatUlistContent(data.value);
-    };
+    const emit = defineEmits(['download']);
 
     const download = async () => {
-        await getContent();
-
-        const blob = new Blob([content.value], { type: 'text/plain;charset=utf-8' });
-        const href = URL.createObjectURL(blob);
-
-        Object.assign(document.createElement('a'), {
-            href,
-            download: `${props.filename}_${formatTimestampForFilename()}.txt`,
-        }).click();
-
-        requestAnimationFrame(() => URL.revokeObjectURL(href));
+        emit('download', true);
     };
 </script>
 

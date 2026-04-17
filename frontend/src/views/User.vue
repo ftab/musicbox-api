@@ -29,7 +29,7 @@
 
         <header>
             <h3>Full collection</h3>
-            <DownloadButton :filename="`ulist_${user.stats.nickname}`" :url="`/api/videos?userid=${user.stats.userId}&limit=20000`" />
+            <DownloadButton :loading="downloading" @download="getUlist" />
         </header>
 
         <section class="list">
@@ -51,7 +51,8 @@
     import { onMounted, ref } from 'vue';
     import { useRoute } from 'vue-router';
     import { useFetch } from '../composables/useFetch';
-    import { setPageTitle, formatTimestamp, getTrackTitle, pluralize } from '../utils';
+    import { useDownload } from '../composables/useDownload';
+    import { setPageTitle, formatTimestamp, getTrackTitle, pluralize, formatUlistContent, formatTimestampForFilename } from '../utils';
     import Tabs from '../components/Tabs.vue';
     import Tab from '../components/Tab.vue';
     import ProviderIcons from '../components/ProviderIcons.vue';
@@ -60,8 +61,24 @@
     import Spinner from '../components/Spinner.vue';
 
     const route = useRoute();
+    const download = useDownload();
     const { data: user, loading: userLoading, get: getUser } = useFetch();
-    const { data: videos, meta, loading: videosLoading, get } = useFetch();
+    const { data: videos, meta, loading: videosLoading, get: getUserVideos } = useFetch();
+    const { data, loading: downloading, get: getUserDownload } = useFetch({ immediate: false });
+
+    const getUlist = async () => {
+        if( ! data.value) {
+            await getUserDownload('/api/videos', { query: {
+                limit: user.value.stats.uniqueVideos,
+                userid: user.value.stats.userId,
+            } });
+        }
+
+        const filename = `ulist_${user.value.stats.nickname}_${formatTimestampForFilename()}.txt`;
+        const content = formatUlistContent(data.value);
+
+        download(content, filename);
+    };
 
     const getVideos = async (page = (route.query.page || 1)) => {
         await getUserVideos('/api/videos', { query: {
