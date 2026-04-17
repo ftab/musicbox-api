@@ -75,7 +75,7 @@
     const { data, loading, get } = useFetch();
 
     const getSong = async (id = route.params.id) => {
-        await get(`/api/song/${encodeURIComponent(id)}`);
+        await get('/api/song/:id', { params: { id } });
 
         if( ! data.value) return;
 

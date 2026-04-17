@@ -33,8 +33,8 @@
     const { data: activity, meta, loading, get } = useFetch();
 
     const getActivity = async (page = (route.query.page || 1)) => {
-        await get(`/api/activity?page=${encodeURIComponent(page)}&limit=50`);
-    }
+        await get('/api/activity', { query: { page, limit: 50 } });
+    };
 
     onMounted(getActivity);
 </script>

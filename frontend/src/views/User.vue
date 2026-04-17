@@ -64,11 +64,18 @@
     const { data: videos, meta, loading: videosLoading, get } = useFetch();
 
     const getVideos = async (page = (route.query.page || 1)) => {
-        await get(`/api/videos?userid=${encodeURIComponent(user.value.stats.userId)}&page=${encodeURIComponent(page)}&limit=50&sortBy=lastPlayedTimestamp`);
+        await getUserVideos('/api/videos', { query: {
+            page,
+            limit: 50,
+            sortBy: 'lastPlayedTimestamp',
+            userid: user.value.stats.userId,
+        } });
     };
 
     onMounted(async () => {
-        await getUser(`/api/users/${encodeURIComponent(route.params.nickname)}`);
+        await getUser('/api/users/:nickname', { params: {
+            nickname: route.params.nickname,
+        } });
 
         if( ! user.value) return;
 

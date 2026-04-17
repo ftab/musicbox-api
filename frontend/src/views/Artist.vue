@@ -51,7 +51,10 @@
     const { data, loading, get } = useFetch();
 
     const getArtist = async (page = (route.query.page || 1)) => {
-        await get(`/api/artist/${encodeURIComponent(route.params.id)}?page=${encodeURIComponent(page)}&limit=50`);
+        await get('/api/artist/:id', {
+            params: { id: route.params.id },
+            query: { page, limit: 50 },
+        });
 
         if( ! data.value) return;
 

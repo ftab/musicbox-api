@@ -38,7 +38,7 @@
     onMounted(async () => {
         await Promise.all([
             getStats('/api/stats'),
-            getLeaderboard('/api/leaderboard?limit=50'),
+            getLeaderboard('/api/leaderboard', { query: { limit: 50 } }),
         ]);
     });
 </script>

@@ -27,6 +27,6 @@
     const { data: leaderboard, loading, get } = useFetch();
 
     onMounted(async () => {
-        await get('/api/leaderboard/peepee?limit=50');
+        await get('/api/leaderboard/peepee', { query: { limit: 50 } });
     });
 </script>

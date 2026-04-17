@@ -35,7 +35,7 @@
     const search = async (term = route.query.searchTerm) => {
         if( ! term) return;
 
-        await get(`/api/search/videos?searchTerm=${encodeURIComponent(term)}`);
+        await get('/api/search/videos', { query: { searchTerm: term } });
 
         searchTerm.value = term;
     };

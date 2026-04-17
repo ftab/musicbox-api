@@ -33,7 +33,7 @@
     const { data: topTracks, meta, loading, get } = useFetch();
 
     const getTopTracks = async (page = (route.query.page || 1)) => {
-        await get(`/api/tracks/top?page=${encodeURIComponent(page)}&limit=50`);
+        await get('/api/tracks/top', { query: { page, limit: 50 } });
     };
 
     onMounted(getTopTracks);
