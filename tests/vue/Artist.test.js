@@ -3,11 +3,12 @@ import { beforeEach, it, expect } from 'vitest';
 import VueAwesomePaginate from 'vue-awesome-paginate'
 import Artist from '../../frontend/src/views/Artist.vue';
 import { artist } from '../mocks/artist';
-import { mockFetch } from './setup';
+import { setRoute, mockFetch } from './setup';
 
 let wrapper, html;
 
 beforeEach(async () => {
+    setRoute({ params: { id: '1' } });
     mockFetch(artist);
 
     wrapper = mount(Artist, {

@@ -3,11 +3,12 @@ import { beforeEach, it, expect } from 'vitest';
 import VueAwesomePaginate from 'vue-awesome-paginate'
 import User from '../../frontend/src/views/User.vue';
 import { user, videos } from '../mocks/user';
-import { mockFetch } from './setup';
+import { setRoute, mockFetch } from './setup';
 
 let wrapper, html;
 
 beforeEach(async () => {
+    setRoute({ params: { nickname: 'Cuckoo' } });
     mockFetch(user);
     mockFetch(videos);
 
