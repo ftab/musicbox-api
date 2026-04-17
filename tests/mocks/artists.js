@@ -2,30 +2,20 @@ export const artists = {
     data: [
         {
             artistId: 84135,
-            name: "Illusive Tuna"
+            name: "Alphataurus",
+            video_count: 1,
         },
         {
             artistId: 90934,
-            name: "Ils"
+            name: "Abba",
+            video_count: 10,
         },
-        {
-            artistId: 83433,
-            name: "Ilya Soloviev"
-        },
-        {
-            artistId: 95868,
-            name: "Imaani"
-        },
-        {
-            artistId: 75171,
-            name: "Imagine"
-        }
     ],
     meta: {
         page: 1,
         total: [
             {
-                numRows: 5
+                numRows: 2
             }
         ],
         perPage: 10000

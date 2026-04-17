@@ -18,6 +18,10 @@ const searchTermQuerySchema = z.object({
     searchTerm: z.string().min(1).max(255),
 });
 
+const letterFilterQuerySchema = z.object({
+    filter: z.enum('ABCDEFGHIJKLMNOPQRSTUVWXYZ_'.split('')).optional(),
+});
+
 const nicknameParamSchema = z.object({
     nickname: z.string().min(1).max(30),
 });
@@ -35,7 +39,8 @@ module.exports = {
     useridQuerySchema,
     videosSortQuerySchema,
     searchTermQuerySchema,
+    letterFilterQuerySchema,
     nicknameParamSchema,
     videoIdParamSchema,
     artistIdParamSchema,
-}
+};

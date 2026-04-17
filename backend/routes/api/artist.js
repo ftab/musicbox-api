@@ -3,10 +3,10 @@ const router = express.Router();
 const artists = require('../../services/artists');
 const artistDetails = require('../../services/artistDetails');
 const { validateQuery, validateParams } = require('../../middleware/validate');
-const { artistIdParamSchema, paginationQuerySchema } = require('../../schema');
+const { artistIdParamSchema, paginationQuerySchema, letterFilterQuerySchema } = require('../../schema');
 
-router.get('/', validateQuery(paginationQuerySchema), async(req, res) => {
-    return res.json(await artists.get(req.validatedQuery.page, req.validatedQuery.limit));
+router.get('/', validateQuery(paginationQuerySchema.merge(letterFilterQuerySchema)), async(req, res) => {
+    return res.json(await artists.get(req.validatedQuery.page, req.validatedQuery.limit, req.validatedQuery.filter));
 });
 
 router.get('/:artistId', validateParams(artistIdParamSchema), validateQuery(paginationQuerySchema), async (req, res) => {

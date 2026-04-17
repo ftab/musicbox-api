@@ -3,11 +3,12 @@ import { beforeEach, it, expect } from 'vitest';
 import VueAwesomePaginate from 'vue-awesome-paginate'
 import Artists from '../../frontend/src/views/Artists.vue';
 import { artists } from '../mocks/artists';
-import { mockFetch } from './setup';
+import { mockFetch, setRoute } from './setup';
 
 let wrapper, html;
 
 beforeEach(async () => {
+    setRoute({ query: { filter: 'A' }});
     mockFetch(artists);
 
     wrapper = mount(Artists, {
@@ -21,9 +22,9 @@ beforeEach(async () => {
 
 it('shows artists', async () => {
     expect(html).toContain('Artists');
-    expect(html).toContain(`${artists.meta.total[0].numRows} artists in library`);
 
     artists.data.forEach(artist => {
         expect(html).toContain(artist.name);
+        expect(html).toContain(artist.video_count);
     });
 });
