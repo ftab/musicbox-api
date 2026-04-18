@@ -56,7 +56,7 @@
         gap: .5rem;
         justify-content: center;
         list-style: none;
-        /* padding: 0; */
+        padding: 0;
     }
 
     .paginate-buttons {
