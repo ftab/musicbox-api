@@ -39,20 +39,29 @@
 </template>
 
 <script setup>
-    import { onMounted, ref } from 'vue';
-    import { useRoute } from 'vue-router';
+    import { watch } from 'vue';
     import { useFetch } from '../composables/useFetch';
     import { setPageTitle, pluralize, getTrackTitle } from '../utils';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const route = useRoute();
+    const props = defineProps({
+        id: {
+            type: String,
+            required: true,
+        },
+        page: {
+            type: Number,
+            required: true,
+        },
+    });
+
     const { data, loading, get } = useFetch();
 
-    const getArtist = async (page = (route.query.page || 1)) => {
+    const getArtist = async (page = props.page) => {
         await get('/api/artist/:id', {
-            params: { id: route.params.id },
+            params: { id: props.id },
             query: { page, limit: 50 },
         });
 
@@ -61,5 +70,5 @@
         setPageTitle(data.value.artist.name);
     };
 
-    onMounted(getArtist);
+    watch(() => props.id, () => getArtist(), { immediate: true });
 </script>

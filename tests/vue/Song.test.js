@@ -2,15 +2,16 @@ import { mount, flushPromises } from '@vue/test-utils';
 import { beforeEach, it, expect } from 'vitest';
 import Song from '../../frontend/src/views/Song.vue';
 import { song } from '../mocks/song';
-import { setRoute, mockFetch } from './setup';
+import { mockFetch } from './setup';
 
 let wrapper, html;
 
 beforeEach(async () => {
-    setRoute({ params: { id: '1' } });
     mockFetch(song);
 
-    wrapper = mount(Song);
+    wrapper = mount(Song, {
+        props: { id: '1' },
+    });
 
     await flushPromises();
 

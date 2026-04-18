@@ -11,7 +11,8 @@ beforeEach(async () => {
     mockFetch(activity);
 
     wrapper = mount(Activity, {
-        global: { plugins: [VueAwesomePaginate] }
+        global: { plugins: [VueAwesomePaginate] },
+        props: { page: 1 },
     });
 
     await flushPromises();

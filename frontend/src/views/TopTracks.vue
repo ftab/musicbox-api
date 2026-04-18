@@ -6,7 +6,7 @@
         <p>Most added songs across all users</p>
 
         <section class="list">
-            <div v-for="(track, index) in topTracks" :key="index" :data-flagged="track.isFlagged" class="list-row">
+            <div v-for="(track, index) in data" :key="index" :data-flagged="track.isFlagged" class="list-row">
                 <span class="accent">{{ calculateRank(index, meta) }}.</span>
                 <a :href="formatProviderUrl(track)" :title="getTrackTitle(track)" target="_blank" class="ellipsis">
                     <ProviderIcons :track="track" />
@@ -22,17 +22,22 @@
 
 <script setup>
     import { onMounted } from 'vue';
-    import { useRoute } from 'vue-router';
     import { useFetch } from '../composables/useFetch';
     import { formatProviderUrl, getTrackTitle, pluralize, calculateRank } from '../utils';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const route = useRoute();
-    const { data: topTracks, meta, loading, get } = useFetch();
+    const props = defineProps({
+        page: {
+            type: Number,
+            required: true,
+        },
+    });
 
-    const getTopTracks = async (page = (route.query.page || 1)) => {
+    const { data, meta, loading, get } = useFetch();
+
+    const getTopTracks = async (page = props.page) => {
         await get('/api/tracks/top', { query: { page, limit: 50 } });
     };
 

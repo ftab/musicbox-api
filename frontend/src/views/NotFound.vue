@@ -6,14 +6,8 @@
 
 <script setup>
     import { onMounted, onUnmounted } from 'vue';
-    import { setPageTitle } from '../utils';
 
-    onMounted(() => {
-        document.documentElement.classList.add('error');
-
-        setPageTitle('Uh oh');
-    });
-
+    onMounted(() => document.documentElement.classList.add('error'));
     onUnmounted(() => document.documentElement.classList.remove('error'));
 </script>
 

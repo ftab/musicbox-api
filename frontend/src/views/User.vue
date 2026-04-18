@@ -29,7 +29,7 @@
 
         <header>
             <h3>Full collection</h3>
-            <DownloadButton :loading="downloading" @download="getUlist" />
+            <DownloadButton :loading="downloading" @download="downloadUlist" />
         </header>
 
         <section class="list">
@@ -48,8 +48,7 @@
 </template>
 
 <script setup>
-    import { onMounted, ref } from 'vue';
-    import { useRoute } from 'vue-router';
+    import { onMounted } from 'vue';
     import { useFetch } from '../composables/useFetch';
     import { useDownload } from '../composables/useDownload';
     import { setPageTitle, formatTimestamp, getTrackTitle, pluralize, formatUlistContent, formatTimestampForFilename } from '../utils';
@@ -60,13 +59,23 @@
     import Pagination from '../components/Pagination.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const route = useRoute();
+    const props = defineProps({
+        nickname: {
+            type: String,
+            required: true,
+        },
+        page: {
+            type: Number,
+            required: true,
+        }
+    });
+
     const download = useDownload();
     const { data: user, loading: userLoading, get: getUser } = useFetch();
     const { data: videos, meta, loading: videosLoading, get: getUserVideos } = useFetch();
     const { data, loading: downloading, get: getUserDownload } = useFetch({ immediate: false });
 
-    const getUlist = async () => {
+    const downloadUlist = async () => {
         if( ! data.value) {
             await getUserDownload('/api/videos', { query: {
                 limit: user.value.stats.uniqueVideos,
@@ -80,7 +89,7 @@
         download(content, filename);
     };
 
-    const getVideos = async (page = (route.query.page || 1)) => {
+    const getVideos = async (page = props.page) => {
         await getUserVideos('/api/videos', { query: {
             page,
             limit: 50,
@@ -90,9 +99,7 @@
     };
 
     onMounted(async () => {
-        await getUser('/api/users/:nickname', { params: {
-            nickname: route.params.nickname,
-        } });
+        await getUser('/api/users/:nickname', { params: { nickname: props.nickname } });
 
         if( ! user.value) return;
 

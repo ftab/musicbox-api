@@ -14,11 +14,16 @@ const routes = [
         path: '/user/:nickname',
         name: 'profile',
         component: () => import('./views/User.vue'),
+        props: route => ({
+            nickname: route.params.nickname,
+            page: parseInt(route.query.page, 10) || 1,
+        }),
     },
     {
         path: '/song/:id',
         name: 'song',
         component: () => import('./views/Song.vue'),
+        props: true,
     },
     {
         path: '/artists/:letter',
@@ -44,17 +49,27 @@ const routes = [
         path: '/artist/:id',
         name: 'artist',
         component: () => import('./views/Artist.vue'),
+        props: route => ({
+            id: route.params.id,
+            page: parseInt(route.query.page, 10) || 1,
+        }),
     },
     {
         path: '/top-tracks',
         name: 'top-tracks',
         component: () => import('./views/TopTracks.vue'),
+        props: route => ({
+            page: parseInt(route.query.page, 10) || 1,
+        }),
         meta: { title: 'Top Tracks' },
     },
     {
         path: '/activity',
         name: 'activity',
         component: () => import('./views/Activity.vue'),
+        props: route => ({
+            page: parseInt(route.query.page, 10) || 1,
+        }),
         meta: { title: 'Last activity' },
     },
     {
@@ -79,6 +94,9 @@ const routes = [
         path: '/search',
         name: 'search',
         component: () => import('./views/Search.vue'),
+        props: route => ({
+            searchTerm: route.query.searchTerm,
+        }),
         meta: { title: 'Search' },
     },
     {
@@ -93,21 +111,15 @@ const router = createRouter({
     history: createWebHistory(),
     routes,
     scrollBehavior(to, from, savedPosition) {
-        if(savedPosition) {
-            return savedPosition;
-        }
-
-        return { top: 0 };
+        return savedPosition || { top: 0 };
     },
 });
 
 router.beforeEach(to => {
-    if(to.query.page !== undefined) {
-        const page = parseInt(to.query.page, 10);
+    const page = to.query.page;
 
-        if(isNaN(page) || page < 2) {
-            return { ...to, query: { ...to.query, page: undefined } };
-        }
+    if(page !== undefined && (isNaN(page) || page < 2)) {
+        return { ...to, query: { ...to.query, page: undefined } };
     }
 });
 

@@ -64,25 +64,28 @@
 </template>
 
 <script setup>
-    import { onMounted } from 'vue';
-    import { useRoute, onBeforeRouteUpdate } from 'vue-router';
+    import { watch } from 'vue';
     import { useFetch } from '../composables/useFetch';
     import { setPageTitle, pluralize, getTrackTitle, formatProviderUrl, formatTimestamp } from '../utils';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Spinner from '../components/Spinner.vue';
 
-    const route = useRoute();
+    const props = defineProps({
+        id: {
+            type: String,
+            required: true,
+        },
+    });
+
     const { data, loading, get } = useFetch();
 
-    const getSong = async (id = route.params.id) => {
-        await get('/api/song/:id', { params: { id } });
+    const getSong = async () => {
+        await get('/api/song/:id', { params: { id: props.id } });
 
         if( ! data.value) return;
 
         setPageTitle(getTrackTitle(data.value.song));
     };
 
-    onMounted(getSong);
-
-    onBeforeRouteUpdate(to => getSong(to.params.id));
+    watch(() => props.id, () => getSong(), { immediate: true });
 </script>

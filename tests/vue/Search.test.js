@@ -8,14 +8,11 @@ import { mockFetch } from './setup';
 let wrapper, html;
 
 beforeEach(async () => {
-    setRoute({
-        path: 'search',
-        query: { searchTerm: search.data[0].title },
-    });
-
     mockFetch(search);
 
-    wrapper = mount(Search);
+    wrapper = mount(Search, {
+        props: { searchTerm: search.data[0].title },
+    });
 
     await flushPromises();
 
@@ -24,6 +21,7 @@ beforeEach(async () => {
 
 it('shows search results', async () => {
     expect(html).toContain('Search');
+    expect(html).toContain(`Found 1 song matching "${search.data[0].title}"`);
     search.data.forEach(song => {
         expect(html).toContain(song.title);
     });

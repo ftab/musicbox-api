@@ -16,7 +16,7 @@
                 <div class="progress-area">
                     <span class="dim">{{ pluralize(user.video_count, 'song') }}</span>
                     <progress max="100" :value="progressWidth(user)">{{ userPercentage(user) }}</progress>
-                    <small class="dim">{{ userPercentage(user).padStart(4, 0) }}%</small>
+                    <small class="dim">{{ userPercentage(user) }}%</small>
                 </div>
             </div>
         </section>
@@ -33,7 +33,7 @@
     const { data: leaderboard, loading: leaderboardLoading, get: getLeaderboard } = useFetch();
 
     const progressWidth = user => (user.video_count / leaderboard.value[0].video_count) * 100;
-    const userPercentage = user => ((user.video_count / stats.value.total_songs) * 100).toFixed(1);
+    const userPercentage = user => ((user.video_count / stats.value.total_songs) * 100).toFixed(1).padStart(4, 0);
 
     onMounted(async () => {
         await Promise.all([

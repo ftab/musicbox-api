@@ -12,6 +12,7 @@ beforeEach(async () => {
 
     wrapper = mount(TopTracks, {
         global: { plugins: [VueAwesomePaginate] },
+        props: { page: 1 },
     });
 
     await flushPromises();

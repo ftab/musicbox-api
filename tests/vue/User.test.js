@@ -3,17 +3,17 @@ import { beforeEach, it, expect } from 'vitest';
 import VueAwesomePaginate from 'vue-awesome-paginate'
 import User from '../../frontend/src/views/User.vue';
 import { user, videos } from '../mocks/user';
-import { setRoute, mockFetch } from './setup';
+import { mockFetch } from './setup';
 
 let wrapper, html;
 
 beforeEach(async () => {
-    setRoute({ params: { nickname: 'Cuckoo' } });
     mockFetch(user);
     mockFetch(videos);
 
     wrapper = mount(User, {
         global: { plugins: [VueAwesomePaginate] },
+        props: { nickname: 'Cuckoo', page: 1 },
     });
 
     await flushPromises();
