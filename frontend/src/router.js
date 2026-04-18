@@ -21,9 +21,24 @@ const routes = [
         component: () => import('./views/Song.vue'),
     },
     {
-        path: '/artist',
+        path: '/artists/:letter',
         name: 'artists',
         component: () => import('./views/Artists.vue'),
+        props: route => ({
+            letter: route.params.letter.toUpperCase(),
+            page: parseInt(route.query.page, 10) || 1,
+        }),
+        beforeEnter(to, from) {
+            const letter = to.params.letter;
+
+            if(letter !== letter.toUpperCase()) {
+                return {
+                    name: 'artists',
+                    query: { ...to.query },
+                    params: { letter: letter.toUpperCase() },
+                };
+            }
+        },
     },
     {
         path: '/artist/:id',
