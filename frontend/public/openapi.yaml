@@ -491,6 +491,14 @@ paths:
       summary: All artists
       description: Returns paginated list of artists
       parameters:
+        - name: filter
+          in: query
+          required: false
+          description: Filter by first letter (A-Z) or numbers and special characters (_)
+          schema:
+            type: String
+            pattern: '^[A-Z_]$'
+          example: A
         - $ref: '#/components/parameters/page'
         - $ref: '#/components/parameters/limit'
       responses:
@@ -510,10 +518,13 @@ paths:
                           properties:
                             artistId:
                               type: integer
-                              example: 1
+                              example: 69706
                             name:
                               type: string
                               example: Armin van Buuren
+                            video_count:
+                              type: integer
+                              example: 136
         '400':
           description: Invalid input
           content:
@@ -521,6 +532,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/400'
               examples:
+                invalidFilter:
+                  summary: Invalid filter
+                  value:
+                    error:
+                      - field: filter
+                        message: 'Invalid option: expected one of "A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"|"_"'
                 invalidPage:
                   summary: Invalid page
                   value:
