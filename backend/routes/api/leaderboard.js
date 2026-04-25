@@ -10,8 +10,8 @@ router.get('/', validateQuery(paginationQuerySchema), async (req, res) => {
     res.json(await leaderboard.get(req.validatedQuery.page, req.validatedQuery.limit));
 });
 
-router.get('/peepee', async (req, res, next) => {
-    res.json(await peepee.getRankings());
+router.get('/peepee', validateQuery(paginationQuerySchema), async (req, res, next) => {
+    res.json(await peepee.getRankings(req.validatedQuery.page, req.validatedQuery.limit));
 });
 
 module.exports = router;
