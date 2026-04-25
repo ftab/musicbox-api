@@ -9,11 +9,13 @@
 
         <section class="list">
             <div v-for="(result, index) in data" :key="index" :data-flagged="result.isFlagged" class="list-row">
-                <span class="accent">{{ index + 1 }}.</span>
-                <a :href="formatProviderUrl(result)" :title="getTrackTitle(result)" target="_blank" class="ellipsis">
-                    <ProviderIcons :track="result" />
-                    <span v-text="getTrackTitle(result)"></span>
-                </a>
+                <div class="accent">{{ index + 1 }}.</div>
+                <div class="ellipsis">
+                    <a :href="formatProviderUrl(result)" :title="getTrackTitle(result)" target="_blank">
+                        <ProviderIcons :track="result" />
+                        <span v-text="getTrackTitle(result)"></span>
+                    </a>
+                </div>
             </div>
         </section>
     </template>

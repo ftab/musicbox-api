@@ -33,13 +33,15 @@
         </header>
 
         <section class="list">
-            <div v-for="(video, index) in videos" :key="video.videoId" :data-flagged="video.isFlagged" :title="getTrackTitle(video)" class="list-row">
-                <span class="accent">{{ formatTimestamp(video.lastPlayedTimestamp) }}</span>
-                <RouterLink :to="{ name: 'song', params: { id: video.videoId }}" class="ellipsis">
-                    <ProviderIcons :track="video" />
-                    <span v-text="getTrackTitle(video)"></span>
-                </RouterLink>
-                <span class="dim">{{ pluralize(video.playCount, 'relink') }}</span>
+            <div v-for="(video, index) in videos" :key="video.videoId" :data-flagged="video.isFlagged" class="list-row">
+                <div class="accent">{{ formatTimestamp(video.lastPlayedTimestamp) }}</div>
+                <div class="ellipsis">
+                    <RouterLink :to="{ name: 'song', params: { id: video.videoId } }" :title="getTrackTitle(video)">
+                        <ProviderIcons :track="video" />
+                        <span v-text="getTrackTitle(video)"></span>
+                    </RouterLink>
+                </div>
+                <div class="dim">{{ pluralize(video.playCount, 'relink') }}</div>
             </div>
         </section>
 

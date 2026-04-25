@@ -10,11 +10,13 @@
 
             <section class="list">
                 <div v-for="(sharer, index) in data.topSharers" :key="sharer.nickname" class="list-row">
-                    <span class="accent">{{ index + 1 }}.</span>
-                    <RouterLink :to="{ name: 'profile', params: { nickname: sharer.nickname } }" :title="sharer.nickname" class="ellipsis">
-                        {{ sharer.nickname }}
-                    </RouterLink>
-                    <span class="dim">{{ pluralize(sharer.trackCount, 'track') }}</span>
+                    <div class="accent">{{ index + 1 }}.</div>
+                    <div class="ellipsis">
+                        <RouterLink :to="{ name: 'profile', params: { nickname: sharer.nickname } }" :title="sharer.nickname">
+                            {{ sharer.nickname }}
+                        </RouterLink>
+                    </div>
+                    <div class="dim">{{ pluralize(sharer.trackCount, 'track') }}</div>
                 </div>
             </section>
         </template>
@@ -24,12 +26,14 @@
 
             <section class="list">
                 <div v-for="(track, index) in data.tracks.data" :key="index" class="list-row">
-                    <span class="accent">{{ track.role }}</span>
-                    <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" :title="getTrackTitle(track)" class="ellipsis">
-                        <ProviderIcons :track="track" />
-                        <span>{{ getTrackTitle(track) }}</span>
-                    </RouterLink>
-                    <span class="dim">{{ pluralize(track.totalPlays, 'relink')}}</span>
+                    <div class="accent">{{ track.role }}</div>
+                    <div class="ellipsis">
+                        <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" :title="getTrackTitle(track)">
+                            <ProviderIcons :track="track" />
+                            <span>{{ getTrackTitle(track) }}</span>
+                        </RouterLink>
+                    </div>
+                    <div class="dim">{{ pluralize(track.totalPlays, 'relink')}}</div>
                 </div>
             </section>
         </template>

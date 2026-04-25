@@ -6,14 +6,14 @@
         <p>Ranked by PP score (total relinks)</p>
 
         <section class="list">
-            <div v-for="(user, index) in data" :key="index" :title="user.nickname" class="list-row">
-                <span class="accent">{{ index + 1 }}.</span>
-                <span class="nickname ellipsis">
-                    <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }">
+            <div v-for="(user, index) in data" :key="index" class="list-row">
+                <div class="accent">{{ index + 1 }}.</div>
+                <span class="ellipsis">
+                    <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname">
                         {{ user.nickname }}
                     </RouterLink>
                 </span>
-                <span class="dim">{{ user.pp_score }} PP</span>
+                <div class="dim">{{ user.pp_score }} PP</div>
             </div>
         </section>
     </template>

@@ -35,14 +35,16 @@
 
             <section class="list">
                 <div v-for="(user, index) in data.sharedBy" :key="user.nickname" class="list-row">
-                    <span class="accent">{{ index + 1 }}.</span>
-                    <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname" class="nickname ellipsis">
-                        {{ user.nickname }}
-                    </RouterLink>
-                    <span class="dim">
+                    <div class="accent">{{ index + 1 }}.</div>
+                    <div class="ellipsis">
+                        <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname">
+                            {{ user.nickname }}
+                        </RouterLink>
+                    </div>
+                    <div class="dim">
                         {{ pluralize(user.playCount, 'relink') }}
                         {{ formatTimestamp(user.lastPlayedTimestamp) }}
-                    </span>
+                    </div>
                 </div>
             </section>
         </template>
@@ -52,7 +54,7 @@
 
             <section class="list">
                 <div v-for="(track, index) in data.moreTracks" :key="track.videoId" class="list-row">
-                    <span v-if="track.artistName" class="ellipsis accent">{{ track.artistName }}</span>
+                    <span v-if="track.artistName" class="accent">{{ track.artistName }}</span>
                     <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" :title="getTrackTitle(track)" class="ellipsis">
                         <ProviderIcons :track="track" />
                         <span>{{ getTrackTitle(track) }}</span>

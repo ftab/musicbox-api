@@ -11,11 +11,13 @@
     <template v-else>
         <section class="list">
             <div v-for="(artist, index) in data" :key="index" class="list-row">
-                <span class="accent">{{ calculateRank(index, meta) }}.</span>
-                <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }" :title="artist.name" class="ellipsis">
-                    <span>{{ artist.name }}</span>
-                </RouterLink>
-                <span class="dim">{{ pluralize(artist.video_count, 'track') }}</span>
+                <div class="accent">{{ calculateRank(index, meta) }}.</div>
+                <div class="ellipsis">
+                    <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }" :title="artist.name">
+                        {{ artist.name }}
+                    </RouterLink>
+                </div>
+                <div class="dim">{{ pluralize(artist.video_count, 'track') }}</div>
             </div>
         </section>
 

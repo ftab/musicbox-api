@@ -7,12 +7,14 @@
 
         <section class="list">
             <div v-for="(item, index) in data" :key="index" :data-flagged="item.isFlagged" :title="getTrackTitle(item)" class="list-row">
-                <span class="accent">{{ item.nickname }}</span>
-                <a :href="formatProviderUrl(item)" :title="getTrackTitle(item)" target="_blank" class="ellipsis">
-                    <ProviderIcons :track="item" />
-                    <span v-text="getTrackTitle(item)"></span>
-                </a>
-                <span class="dim">{{ formatTimestamp(item.lastPlayedTimestamp) }}</span>
+                <div class="accent ellipsis">{{ item.nickname }}</div>
+                <div class="ellipsis">
+                    <a :href="formatProviderUrl(item)" :title="getTrackTitle(item)" target="_blank">
+                        <ProviderIcons :track="item" />
+                        <span v-text="getTrackTitle(item)"></span>
+                    </a>
+                </div>
+                <div class="dim">{{ formatTimestamp(item.lastPlayedTimestamp) }}</div>
             </div>
         </section>
 

@@ -7,12 +7,14 @@
 
         <section class="list">
             <div v-for="(track, index) in data" :key="index" :data-flagged="track.isFlagged" class="list-row">
-                <span class="accent">{{ calculateRank(index, meta) }}.</span>
-                <a :href="formatProviderUrl(track)" :title="getTrackTitle(track)" target="_blank" class="ellipsis">
-                    <ProviderIcons :track="track" />
-                    <span v-text="getTrackTitle(track)"></span>
-                </a>
-                <span class="dim">{{ pluralize(track.totalPlays, 'relink') }}</span>
+                <div class="accent">{{ calculateRank(index, meta) }}.</div>
+                <div class="ellipsis">
+                    <a :href="formatProviderUrl(track)" :title="getTrackTitle(track)" target="_blank">
+                        <ProviderIcons :track="track" />
+                        <span v-text="getTrackTitle(track)"></span>
+                    </a>
+                </div>
+                <div class="dim">{{ pluralize(track.totalPlays, 'relink') }}</div>
             </div>
         </section>
 

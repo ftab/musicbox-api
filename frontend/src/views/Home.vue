@@ -5,14 +5,14 @@
         <h2>Top 50 Contributors</h2>
         <p>{{ stats.total_users }} users collected {{ stats.total_songs }} unique songs by {{ stats.total_artists }} artists</p>
 
-        <section key="list" class="list leaderboard">
-            <div v-for="(user, index) in leaderboard" :key="index" :title="user.nickname" class="list-row">
-                <span class="accent">{{ index + 1 }}.</span>
-                <span class="nickname ellipsis">
-                    <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }">
+        <section key="list" class="list">
+            <div v-for="(user, index) in leaderboard" :key="index" class="list-row">
+                <div class="accent">{{ index + 1 }}.</div>
+                <div class="ellipsis">
+                    <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname">
                         {{ user.nickname }}
                     </RouterLink>
-                </span>
+                </div>
                 <div class="progress-area">
                     <span class="dim">{{ pluralize(user.video_count, 'song') }}</span>
                     <progress max="100" :value="progressWidth(user)">{{ userPercentage(user) }}</progress>

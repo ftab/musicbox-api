@@ -314,6 +314,11 @@ ul.tag-list li {
 .accent {
     color: light-dark(var(--color-accent-dark), var(--color-accent-light));
     text-align: right;
+    white-space: nowrap;
+}
+
+.accent.ellipsis {
+    max-width: 15ch;
 }
 
 .icon {
@@ -326,6 +331,7 @@ ul.tag-list li {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
 }
 
 .uppercase {
