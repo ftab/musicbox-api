@@ -695,6 +695,7 @@ paths:
           description: URL-encoded search string
           schema:
             type: string
+            minLength: 2
       responses:
         '200':
           description: List of search results

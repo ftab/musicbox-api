@@ -10,9 +10,9 @@ async function videos(searchTerm = null) {
         INNER JOIN user_video uv USING (videoId)
         INNER JOIN user u USING (userId)
         LEFT JOIN aliases al ON u.nickname = al.aliasNick
-        WHERE MATCH(title) AGAINST(? IN NATURAL LANGUAGE MODE)
+        WHERE MATCH(v.title) AGAINST(? IN BOOLEAN MODE)
         GROUP BY v.videoId
-        ORDER BY MAX(uv.lastPlayedTimestamp) DESC`,
+        ORDER BY v.title ASC`,
         [`"${searchTerm}"`]
     );
     const data = helper.emptyOrRows(rows);

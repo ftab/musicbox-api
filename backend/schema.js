@@ -15,7 +15,7 @@ const videosSortQuerySchema = z.object({
 });
 
 const searchTermQuerySchema = z.object({
-    searchTerm: z.string().min(1).max(255),
+    searchTerm: z.string().min(2).max(255),
 });
 
 const letterFilterQuerySchema = z.object({
