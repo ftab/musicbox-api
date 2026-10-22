@@ -10,7 +10,7 @@
     onMounted(() => {
         const script = document.createElement('script');
 
-        script.src = 'https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js';
+        script.src = 'https://cdn.jsdelivr.net/npm/redoc@2.5.1/bundles/redoc.standalone.js';
 
         script.onload = () => {
             Redoc.init('/openapi.yaml', {
