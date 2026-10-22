@@ -51,6 +51,7 @@ export default defineConfig({
         root: '.',
         include: ['tests/vue/**/*.test.js', 'tests/utils/**/*.test.js'],
         setupFiles: ['tests/vue/setup.js'],
+        pool: 'vmThreads',
     },
     server: {
         proxy: {
