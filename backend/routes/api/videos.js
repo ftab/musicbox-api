@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const videos = require('../../services/videos');
-const users = require('../../services/users');
-const { validateQuery } = require('../../middleware/validate');
-const { paginationQuerySchema, useridQuerySchema, videosSortQuerySchema } = require('../../schema');
+import express from 'express';
+import videos from '../../services/videos.js';
+import users from '../../services/users.js';
+import { validateQuery } from '../../middleware/validate.js';
+import { paginationQuerySchema, useridQuerySchema, videosSortQuerySchema } from '../../schema.js';
 
-/* GET videos */
+const router = express.Router();
+
 router.get(
     '/',
     validateQuery(
@@ -29,4 +29,4 @@ router.get(
     }
 );
 
-module.exports = router;
+export default router;

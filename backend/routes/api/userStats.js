@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import userStats from '../../services/userStats.js';
+import { validateParams } from '../../middleware/validate.js';
+import { nicknameParamSchema } from '../../schema.js';
+
 const router = express.Router({ mergeParams: true });
-const userStats = require('../../services/userStats');
-const { validateParams } = require('../../middleware/validate');
-const { nicknameParamSchema } = require('../../schema');
 
 router.get('/', validateParams(nicknameParamSchema), async (req, res) => {
     const result = await userStats.getStats(req.validatedParams.nickname);
@@ -18,4 +19,4 @@ router.get('/', validateParams(nicknameParamSchema), async (req, res) => {
     res.json(result);
 });
 
-module.exports = router;
+export default router;

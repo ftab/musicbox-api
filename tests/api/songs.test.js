@@ -1,6 +1,6 @@
-const request = require('supertest');
-const assert = require('assert')
-const app = require('../../backend/server');
+import request from 'supertest';
+import assert from 'assert';
+import app from '../../backend/server.js';
 
 describe('GET /api/song/:videoId', () => {
     it('responds with 200 and data object', async () => {

@@ -1,4 +1,4 @@
-function validateQuery(schema) {
+export function validateQuery(schema) {
     return (req, res, next) => {
         const result = schema.safeParse(req.query);
 
@@ -16,7 +16,7 @@ function validateQuery(schema) {
     };
 }
 
-function validateParams(schema) {
+export function validateParams(schema) {
     return (req, res, next) => {
         const result = schema.safeParse(req.params);
 
@@ -33,8 +33,3 @@ function validateParams(schema) {
         next();
     };
 }
-
-module.exports = {
-    validateQuery,
-    validateParams,
-};

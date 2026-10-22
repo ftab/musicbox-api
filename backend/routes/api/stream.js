@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import cytube from '../../services/cytube.js';
+
 const router = express.Router();
-const cytube = require('../../services/cytube');
 
 router.get('/', async (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
@@ -25,4 +26,4 @@ router.get('/', async (req, res) => {
     });
 });
 
-module.exports = router;
+export default router;

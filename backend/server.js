@@ -1,24 +1,24 @@
-const express = require("express");
-const path = require('path');
+import express from 'express';
+import path from 'path';
+import cytube from './services/cytube.js';
+import leaderboardRouter from './routes/api/leaderboard.js';
+import statsRouter from './routes/api/stats.js';
+import tracksRouter from './routes/api/tracks.js';
+import userStatsRouter from './routes/api/userStats.js';
+import usersRouter from './routes/api/users.js';
+import songRouter from './routes/api/song.js';
+import artistRouter from './routes/api/artist.js';
+import videosRouter from './routes/api/videos.js';
+import activityApiRouter from './routes/api/activity.js';
+import searchRouter from './routes/api/search.js';
+import adminVideosRouter from './routes/api/admin/videos.js';
+import streamRouter from './routes/api/stream.js';
+
 const app = express();
-const cytube = require('./services/cytube');
+const port = process.env.PORT || 5000;
+const __dirname = import.meta.dirname;
 
 cytube.connect();
-
-const port = process.env.PORT || 5000;
-
-const leaderboardRouter = require("./routes/api/leaderboard");
-const statsRouter = require("./routes/api/stats");
-const tracksRouter = require("./routes/api/tracks");
-const userStatsRouter = require("./routes/api/userStats");
-const usersRouter = require("./routes/api/users");
-const songRouter = require("./routes/api/song");
-const artistRouter = require("./routes/api/artist");
-const videosRouter = require("./routes/api/videos");
-const activityApiRouter = require("./routes/api/activity");
-const searchRouter = require("./routes/api/search");
-const adminVideosRouter = require("./routes/api/admin/videos");
-const streamRouter = require("./routes/api/stream");
 
 app.use("/api/leaderboard", leaderboardRouter);
 app.use("/api/stats", statsRouter);
@@ -57,4 +57,4 @@ if(process.env.NODE_ENV !== 'test') {
     app.listen(port, () => console.log("Listening on", port));
 }
 
-module.exports = app;
+export default app;

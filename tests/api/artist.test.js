@@ -1,7 +1,7 @@
-const request = require('supertest');
-const assert = require('assert')
-const app = require('../../backend/server');
-const db = require('../../backend/services/db');
+import request from 'supertest';
+import assert from 'assert';
+import db from '../../backend/services/db.js';
+import app from '../../backend/server.js';
 
 describe('GET /api/artist/:artistId', () => {
     it('responds with 200 and a data object', async () => {

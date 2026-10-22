@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const leaderboard = require('../../services/leaderboard');
-const peepee = require('../../services/peepee');
-const { validateQuery } = require('../../middleware/validate');
-const { paginationQuerySchema } = require('../../schema');
+import express from 'express';
+import leaderboard from '../../services/leaderboard.js';
+import peepee from '../../services/peepee.js';
+import { validateQuery } from '../../middleware/validate.js';
+import { paginationQuerySchema } from '../../schema.js';
 
-/* GET leaderboard */
+const router = express.Router();
+
 router.get('/', validateQuery(paginationQuerySchema), async (req, res) => {
     res.json(await leaderboard.get(req.validatedQuery.page, req.validatedQuery.limit));
 });
@@ -14,4 +14,4 @@ router.get('/peepee', validateQuery(paginationQuerySchema), async (req, res, nex
     res.json(await peepee.getRankings(req.validatedQuery.page, req.validatedQuery.limit));
 });
 
-module.exports = router;
+export default router;

@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import songDetails from '../../services/songDetails.js';
+import { validateParams } from '../../middleware/validate.js';
+import { videoIdParamSchema } from '../../schema.js';
+
 const router = express.Router();
-const songDetails = require('../../services/songDetails');
-const { validateParams } = require('../../middleware/validate');
-const { videoIdParamSchema } = require('../../schema');
 
 router.get('/:videoId', validateParams(videoIdParamSchema), async (req, res) => {
     const videoId = req.validatedParams.videoId;
@@ -36,4 +37,4 @@ router.get('/:videoId', validateParams(videoIdParamSchema), async (req, res) => 
     });
 });
 
-module.exports = router;
+export default router;

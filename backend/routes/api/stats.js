@@ -1,9 +1,10 @@
-const express = require('express');
+import express from 'express';
+import stats from '../../services/stats.js';
+
 const router = express.Router();
-const stats = require('../../services/stats');
 
 router.get('/', async (req, res) => {
     res.json(await stats.get());
 });
 
-module.exports = router;
+export default router;

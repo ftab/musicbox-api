@@ -1,5 +1,5 @@
-const db = require('./db');
-const helper = require('../helper');
+import db from './db.js';
+import helper from '../helper.js';
 
 async function getStats(nickname) {
   const rows = await db.query(
@@ -28,4 +28,6 @@ async function getStats(nickname) {
   return { data: helper.emptyOrRows(rows) };
 }
 
-module.exports = { getStats };
+export default {
+    getStats,
+};

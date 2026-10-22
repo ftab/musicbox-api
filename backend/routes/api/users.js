@@ -1,13 +1,13 @@
-const express = require('express');
-const router = express.Router();
-const users = require('../../services/users');
-const userStats = require('../../services/userStats');
-const userProfile = require('../../services/userProfile');
-const videos = require('../../services/videos');
-const { validateQuery, validateParams } = require('../../middleware/validate');
-const { paginationQuerySchema, nicknameParamSchema } = require('../../schema');
+import express from 'express';
+import users from '../../services/users.js';
+import userStats from '../../services/userStats.js';
+import userProfile from '../../services/userProfile.js';
+import videos from '../../services/videos.js';
+import { validateQuery, validateParams } from '../../middleware/validate.js';
+import { paginationQuerySchema, nicknameParamSchema } from '../../schema.js';
 
-/* GET users */
+const router = express.Router();
+
 router.get('/', validateQuery(paginationQuerySchema), async (req, res) => {
     res.json(await users.getMultiple(req.validatedQuery.page, req.validatedQuery.limit));
 });
@@ -38,4 +38,4 @@ router.get('/:nickname', validateParams(nicknameParamSchema), async function(req
     });
 });
 
-module.exports = router;
+export default router;

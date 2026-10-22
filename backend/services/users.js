@@ -1,6 +1,6 @@
-const db = require('./db');
-const helper = require('../helper');
-const config = require('../../config');
+import db from './db.js';
+import helper from '../helper.js';
+import config from '../../config.js';
 
 async function getMultiple(page = 1, limit = config.listPerPage) {
   const offset = helper.getOffset(page, limit);
@@ -53,8 +53,8 @@ async function getByNickname(nickname){
   }
 }
 
-module.exports = {
-  getMultiple,
-  getOne,
-  getByNickname
-}
+export default {
+    getMultiple,
+    getOne,
+    getByNickname,
+};

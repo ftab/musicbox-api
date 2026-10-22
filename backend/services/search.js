@@ -1,5 +1,5 @@
-const db = require('./db');
-const helper = require('../helper');
+import db from './db.js';
+import helper from '../helper.js';
 
 async function videos(searchTerm = null) {
     const rows = await db.query(
@@ -19,4 +19,6 @@ async function videos(searchTerm = null) {
     return { data };
 };
 
-module.exports = { videos };
+export default {
+    videos,
+};

@@ -2,6 +2,7 @@
   "name": "musicbox-api",
   "version": "0.0.0",
   "private": "true",
+  "type": "module",
   "main": "backend/server.js",
   "scripts": {
     "dev:server": "node --watch backend/server.js",

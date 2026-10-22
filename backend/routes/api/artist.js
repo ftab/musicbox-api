@@ -1,9 +1,10 @@
-const express = require('express');
+import express from 'express';
+import artists from '../../services/artists.js';
+import artistDetails from '../../services/artistDetails.js';
+import { validateQuery, validateParams } from '../../middleware/validate.js';
+import { artistIdParamSchema, paginationQuerySchema, letterFilterQuerySchema } from '../../schema.js';
+
 const router = express.Router();
-const artists = require('../../services/artists');
-const artistDetails = require('../../services/artistDetails');
-const { validateQuery, validateParams } = require('../../middleware/validate');
-const { artistIdParamSchema, paginationQuerySchema, letterFilterQuerySchema } = require('../../schema');
 
 router.get('/', validateQuery(paginationQuerySchema.merge(letterFilterQuerySchema)), async(req, res) => {
     return res.json(await artists.get(req.validatedQuery.page, req.validatedQuery.limit, req.validatedQuery.filter));
@@ -31,4 +32,4 @@ router.get('/:artistId', validateParams(artistIdParamSchema), validateQuery(pagi
     });
 });
 
-module.exports = router;
+export default router;

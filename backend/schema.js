@@ -1,46 +1,35 @@
-const { z } = require('zod');
-const config = require('../config');
+import { z } from 'zod';
+import config from '../config.js';
 
-const paginationQuerySchema = z.object({
+export const paginationQuerySchema = z.object({
     page: z.coerce.number().int().min(1).default(1),
     limit: z.coerce.number().int().min(1).default(config.listPerPage),
 });
 
-const useridQuerySchema = z.object({
+export const useridQuerySchema = z.object({
     userid: z.coerce.number().int().min(1),
 });
 
-const videosSortQuerySchema = z.object({
+export const videosSortQuerySchema = z.object({
     sortBy: z.enum(['uservideoId', 'lastPlayedTimestamp']).default('uservideoId'),
 });
 
-const searchTermQuerySchema = z.object({
+export const searchTermQuerySchema = z.object({
     searchTerm: z.string().min(2).max(255),
 });
 
-const letterFilterQuerySchema = z.object({
+export const letterFilterQuerySchema = z.object({
     filter: z.enum('ABCDEFGHIJKLMNOPQRSTUVWXYZ_'.split('')).optional(),
 });
 
-const nicknameParamSchema = z.object({
+export const nicknameParamSchema = z.object({
     nickname: z.string().min(1).max(30),
 });
 
-const videoIdParamSchema = z.object({
+export const videoIdParamSchema = z.object({
     videoId: z.coerce.number().int().min(1),
 });
 
-const artistIdParamSchema = z.object({
+export const artistIdParamSchema = z.object({
     artistId: z.coerce.number().int().min(1),
 });
-
-module.exports = {
-    paginationQuerySchema,
-    useridQuerySchema,
-    videosSortQuerySchema,
-    searchTermQuerySchema,
-    letterFilterQuerySchema,
-    nicknameParamSchema,
-    videoIdParamSchema,
-    artistIdParamSchema,
-};

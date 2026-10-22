@@ -1,5 +1,5 @@
-const db = require('./db');
-const helper = require('../helper');
+import db from './db.js';
+import helper from '../helper.js';
 
 async function getById(artistId) {
   const rows = await db.query(
@@ -55,4 +55,8 @@ async function getTopSharers(artistId, limit = 10) {
   return helper.emptyOrRows(rows);
 }
 
-module.exports = { getById, getTracks, getTopSharers };
+export default {
+    getById,
+    getTracks,
+    getTopSharers,
+};

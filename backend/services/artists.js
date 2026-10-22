@@ -1,6 +1,6 @@
-const db = require('./db');
-const helper = require('../helper');
-const config = require('../../config');
+import db from './db.js';
+import helper from '../helper.js';
+import config from '../../config.js';
 
 async function get(page = 1, limit = config.listPerPage, filter = null) {
     let rows, total;
@@ -50,4 +50,6 @@ async function get(page = 1, limit = config.listPerPage, filter = null) {
     return { data, meta };
 }
 
-module.exports = { get };
+export default {
+    get,
+};

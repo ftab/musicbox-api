@@ -1,7 +1,8 @@
-const { io } = require('socket.io-client');
-const config = require('../../config');
+import { io } from 'socket.io-client';
+import config from '../../config.js';
+import { EventEmitter } from 'events';
+
 const cytubeUrl = `${config.cytube.server}/r/${config.cytube.channel}`;
-const EventEmitter = require('events');
 const emitter = new EventEmitter();
 
 emitter.setMaxListeners(config.emitterMaxListeners);
@@ -72,7 +73,7 @@ function getPlaylistMeta() {
     return playlistMeta;
 }
 
-module.exports = {
+export default {
     connect,
     emitter,
     getCurrentMedia,

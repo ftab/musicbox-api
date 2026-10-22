@@ -1,7 +1,7 @@
-const request = require('supertest');
-const assert = require('assert')
-const app = require('../../backend/server');
-const { stats } = require('../mocks/stats');
+import request from 'supertest';
+import assert from 'assert';
+import { stats } from '../mocks/stats.js';
+import app from '../../backend/server.js';
 
 describe('GET /api/stats', () => {
     it('responds with 200 and data object', async () => {

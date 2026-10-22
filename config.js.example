@@ -1,4 +1,4 @@
-const config = {
+export default {
   db: {
     host: "127.0.0.1",
     user: "root",
@@ -13,5 +13,3 @@ const config = {
   listPerPage: 10000,
   emitterMaxListeners: 100,
 };
-
-module.exports = config;

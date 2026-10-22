@@ -1,6 +1,6 @@
-const db = require('./db');
-const helper = require('../helper');
-const config = require('../../config');
+import db from './db.js';
+import helper from '../helper.js';
+import config from '../../config.js';
 
 async function getTop(page = 1, limit = config.listPerPage) {
   const offset = helper.getOffset(page, limit);
@@ -25,4 +25,6 @@ async function getTop(page = 1, limit = config.listPerPage) {
   return { data, meta };
 }
 
-module.exports = { getTop };
+export default {
+    getTop,
+};

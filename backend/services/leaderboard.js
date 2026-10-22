@@ -1,6 +1,6 @@
-const db = require('./db');
-const helper = require('../helper');
-const config = require('../../config');
+import db from './db.js';
+import helper from '../helper.js';
+import config from '../../config.js';
 
 const sql = `SELECT COALESCE(a.primaryNick, u.nickname) AS nickname,
   COUNT(DISTINCT uv.videoId) AS video_count
@@ -31,6 +31,6 @@ async function get(page = 1, limit = config.listPerPage){
   }
 }
 
-module.exports = {
-  get,
+export default {
+    get,
 }

@@ -1,4 +1,4 @@
-const db = require('./db');
+import db from './db.js';
 
 async function get() {
     const result = await db.query(`
@@ -16,4 +16,6 @@ async function get() {
     return result[0];
 }
 
-module.exports = { get };
+export default {
+    get,
+};
