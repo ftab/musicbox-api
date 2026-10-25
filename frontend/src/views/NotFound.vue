@@ -1,5 +1,5 @@
 <template>
-    <h2>Uh oh!</h2>
+    <h1>Uh oh!</h1>
     <p>Looks like this track got lost in the queue...</p>
     <RouterLink :to="{ name: 'home' }">Take me back home</RouterLink>
 </template>
@@ -10,13 +10,3 @@
     onMounted(() => document.documentElement.classList.add('error'));
     onUnmounted(() => document.documentElement.classList.remove('error'));
 </script>
-
-<style>
-    html.error body {
-        display: grid;
-        place-content: center;
-        text-align: center;
-        background: light-dark(var(--color-lighter), var(--color-darkest));
-        min-height: 100svh;
-    }
-</style>

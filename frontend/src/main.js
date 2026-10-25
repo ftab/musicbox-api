@@ -1,3 +1,5 @@
+import './assets/css/main.css'
+
 import { createApp } from 'vue';
 import router from './router';
 import { error } from './state';

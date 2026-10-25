@@ -17,7 +17,7 @@
         heading({ tokens, depth }) {
             const text = this.parser.parseInline(tokens);
 
-            if (depth !== 3) {
+            if (depth !== 2) {
                 return `<h${depth}>${text}</h${depth}>`;
             }
 
@@ -37,26 +37,3 @@
 
     const renderedContent = marked(content);
 </script>
-
-<style>
-    h3 {
-        position: relative;
-    }
-
-    .target::before,
-    h3:target::before {
-        content: '→';
-        position: absolute;
-        font-size: 2.5rem;
-        top: -1.25rem;
-        left: -4rem;
-        color: light-dark(var(--color-accent-dark), var(--color-accent-light));
-        animation: pointingAtCommand 3s ease-in-out infinite;
-    }
-
-    @keyframes pointingAtCommand {
-        50% {
-            left: -3rem;
-        }
-    }
-</style>

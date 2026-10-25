@@ -1,0 +1,16 @@
+.scrolltop {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 4;
+    animation: appear linear both;
+    animation-timeline: scroll();
+    animation-range: 50vh 50vh;
+}
+
+.scrolltop svg {
+    height: 3rem;
+    fill: var(--color-accent);
+}

@@ -1,0 +1,31 @@
+.help-content {
+    h1 + p {
+        color: var(--color-text-soft);
+        margin-bottom: 1.5rem;
+    }
+
+    h2:has(+ ul) {
+        margin-bottom: 1.5rem;
+    }
+
+    ul:has(+ h2),
+    p:has(+ h2) {
+        margin-bottom: 2.5rem;
+    }
+
+    h2.target {
+        position: relative;
+    }
+
+    h2.target::before {
+        content: '→';
+        position: absolute;
+        top: -.3rem;
+        left: -4rem;
+        font-size: 2.5rem;
+        text-box-edge: ex alphabetic;
+        text-box-trim: trim-both;
+        color: var(--color-accent);
+        animation: pointing 3s ease-in-out infinite;
+    }
+}

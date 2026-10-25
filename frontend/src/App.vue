@@ -2,11 +2,11 @@
     <NotFound v-if="error" />
 
     <template v-else>
-        <Layout v-if="!$route.meta.noLayout">
+        <RouterView v-if="$route.meta.noLayout" />
+
+        <Layout v-else>
             <RouterView />
         </Layout>
-
-        <RouterView v-else />
     </template>
 </template>
 

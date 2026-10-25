@@ -1,4 +1,4 @@
-## How it works
+# How it works
 
 All bot commands are executed from the IRC channel.
 
@@ -37,19 +37,19 @@ To add a song, simply paste a YouTube, Bandcamp or SoundCloud URL.
 * [.drink](#drink)
 * [.bots](#bots)
 
-### `.commands|.help|!help`
+## `.commands|.help|!help`
 
 Show the link to this page.
 
-### `.yt|.you|.youtube <query>`
+## `.yt|.you|.youtube <query>`
 
 Query YouTube for a song and automatically add it to the playlist on Cytube.
 
-### `.soundcloud <query>`
+## `.soundcloud <query>`
 
 Query SoundCloud for a song and automatically add it to the playlist on Cytube.
 
-### `.random`
+## `.random`
 
 Add a random song from the bot's database to the playlist on Cytube.
 
@@ -59,7 +59,7 @@ This command has a few complicated variants:
 - `.random-!<nick>` will add a random song **except** from a specific user.
 - `.random^<int>-<nick>` will add multiple random songs from a specific user.
 
-### `.filter on|off`
+## `.filter on|off`
 
 Since the stream automatically adds new songs to the playlist when nothing gets posted by users, you can set a filter to include or exclude specific user submissions.
 
@@ -70,98 +70,98 @@ Before you can turn the filter on, specify at least:
 
 Remember to turn the filter off after listening.
 
-### `.np`
+## `.np`
 
 Show which song is currently playing on Cytube.
 
-### `.source`
+## `.source`
 
 Show which user added the currently playing song.
 
-### `.skip|.next`
+## `.skip|.next`
 
 Skip the currently playing song on Cytube.
 
-### `.search <query>`
+## `.search <query>`
 
 Search for songs in the bot's database.
 
 The bot will reply with a link to the [search page](/search) containing your search results.
 
-### `.stats`
+## `.stats`
 
 Show the overall statistics about songs in the bot's database.
 
-### `.leaderboard`
+## `.leaderboard`
 
 The bot will reply with a [paste.ee](https://paste.ee) link, containing the current leaderboard.
 
 We also have a [graphical leaderboard](/) of the top 50 contributors.
 
-### `.ustat [nick]`
+## `.ustat [nick]`
 
 Show statistics about songs a user has posted.
 
 If no nick is passed to the command, the bot will show statistics for yourself.
 
-### `.ulist [nick]`
+## `.ulist [nick]`
 
 The bot will reply with a link to a user's profile page, where you can view their full collection of posted songs.
 
 If no nick is provided, it will show a link to your own profile.
 
-### `.prune <url>` and `.unprune <url>`
+## `.prune <url>` and `.unprune <url>`
 
 You can control which songs should appear on your ulist.
 
 Pruning your ulist will not affect the songs in the database.
 
-### `.flag <url>` and `.unflag <url>`
+## `.flag <url>` and `.unflag <url>`
 
 Flag or unflag URLs in the bot's database.
 
 **These commands are only available to Admins!**
 
-### `.link <nick>` and `.unlink <nick>`
+## `.link <nick>` and `.unlink <nick>`
 
 If you are using alternative nicks on IRC, you can link each of them to your primary nick.
 
-### `.similar [query]`
+## `.similar [query]`
 
 The bot will reply with a [paste.ee](https://paste.ee) link, containing similar tracks based on your query.
 
 If no query is provided, it will use the currently playing song from the stream.
 
-### `.band <artist>`
+## `.band <artist>`
 
 The bot will query the last.fm API to show information about an artist.
 
-### `.lastfm-recent <username>`
+## `.lastfm-recent <username>`
 
 The bot will show the latest scrobbled song of a last.fm user.
 
-### `.yn [string]`
+## `.yn [string]`
 
 Flip a coin, the bot will answer with YES or NO.
 
-### `.8ball [string]`
+## `.8ball [string]`
 
 Ask the magic 8 ball a question.
 
-### `.choose <string>`
+## `.choose <string>`
 
 The bot will pick a choice for you if you have trouble to decide on something.
 
 Just pass a list of things you are uncertain about, separated by any non-word character like commas maybe. (Spaces will not work).
 
-### `.img <url>`
+## `.img <url>`
 
 The bot will asciify an image from an URL for you.
 
-### `.drink`
+## `.drink`
 
 Start a drinking game.
 
-### `.bots`
+## `.bots`
 
 List the bots in the channel.

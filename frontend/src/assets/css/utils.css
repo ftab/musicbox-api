@@ -1,0 +1,22 @@
+.text-soft {
+    color: var(--color-text-soft);
+}
+
+.text-accent {
+    color: var(--color-accent);
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.text-end {
+    text-align: right;
+}
+
+.text-uppercase {
+    text-transform: uppercase;
+}

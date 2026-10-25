@@ -2,21 +2,21 @@
     <Spinner v-if="statsLoading || leaderboardLoading" />
 
     <template v-else>
-        <h2>Top 50 Contributors</h2>
-        <p>{{ stats.total_users }} users collected {{ stats.total_songs }} unique songs by {{ stats.total_artists }} artists</p>
+        <header class="page-header">
+            <h1>Top 50 Contributors</h1>
+            <p>{{ stats.total_users }} users collected {{ stats.total_songs }} unique songs by {{ stats.total_artists }} artists</p>
+        </header>
 
-        <section key="list" class="list">
+        <section class="list">
             <div v-for="(user, index) in leaderboard" :key="index" class="list-row">
-                <div class="accent">{{ index + 1 }}.</div>
-                <div class="ellipsis">
-                    <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname">
-                        {{ user.nickname }}
-                    </RouterLink>
-                </div>
+                <div class="text-accent text-end">{{ index + 1 }}.</div>
+                <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname" class="text-ellipsis">
+                    {{ user.nickname }}
+                </RouterLink>
                 <div class="progress-area">
-                    <span class="dim">{{ pluralize(user.video_count, 'song') }}</span>
+                    <span class="text-soft">{{ pluralize(user.video_count, 'song') }}</span>
                     <progress max="100" :value="progressWidth(user)">{{ userPercentage(user) }}</progress>
-                    <small class="dim">{{ userPercentage(user) }}%</small>
+                    <small class="text-soft">{{ userPercentage(user) }}%</small>
                 </div>
             </div>
         </section>
@@ -36,7 +36,7 @@
     const userPercentage = user => ((user.video_count / stats.value.total_songs) * 100).toFixed(1).padStart(4, 0);
 
     onMounted(async () => {
-        await Promise.all([
+        await Promise.allSettled([
             getStats('/api/stats'),
             getLeaderboard('/api/leaderboard', { query: { limit: 50 } }),
         ]);

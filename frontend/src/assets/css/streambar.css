@@ -1,0 +1,38 @@
+body:has(.streambar) {
+    padding-bottom: 3rem;
+}
+
+body:has(.streambar) .scrolltop {
+    bottom: 3rem;
+}
+
+.streambar {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    column-gap: .5rem;
+    font-size: .7rem;
+    text-wrap: nowrap;
+    background-color: var(--color-background);
+    width: 100%;
+    padding: .3rem .5rem;
+    border-top: 1px solid var(--color-background-soft);
+    z-index: 3;
+}
+
+.stream-active-indicator {
+    display: inline-block;
+    width: .5rem;
+    height: .5rem;
+    background: var(--color-accent);
+    border-radius: 100vw;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.streambar-queue-info {
+    display: flex;
+    align-items: center;
+    column-gap: .5rem;
+    margin-left: auto;
+}

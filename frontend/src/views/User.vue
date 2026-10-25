@@ -2,34 +2,13 @@
     <Spinner v-if="userLoading || videosLoading" />
 
     <template v-else>
-        <h2 v-text="user.stats.nickname"></h2>
-        <p>{{ user.stats.uniqueVideos }} unique songs · {{ user.stats.totalPlays }} total relinks · sharing since {{ formatTimestamp(user.stats.firstShared) }}</p>
-
-        <Tabs v-if="user.topTags.length || user.topArtists.length">
-            <Tab v-if="user.topTags.length" label="Top Genres">
-                <ul class="tag-list">
-                    <li v-for="(tag, index) in user.topTags" :key="tag">
-                        {{ tag.name }} <span>({{ tag.count }})</span>
-                    </li>
-                </ul>
-            </Tab>
-
-            <Tab v-if="user.topArtists.length" label="Top Artists">
-                <section class="list">
-                    <div v-for="(artist, index) in user.topArtists" :key="artist.artistId" :title="artist.name" class="list-row flush">
-                        <span class="accent">{{ index + 1 }}.</span>
-                        <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }" class="ellipsis">
-                            <span>{{ artist.name }}</span>
-                        </RouterLink>
-                        <span class="dim">{{ pluralize(artist.trackCount, 'track') }}</span>
-                    </div>
-                </section>
-            </Tab>
-        </Tabs>
-
-        <header>
-            <h3>Full collection</h3>
-            <DownloadButton :loading="downloading" @download="downloadUlist" />
+        <header class="page-header">
+            <h1 v-text="user.stats.nickname"></h1>
+            <p>
+                {{ user.stats.uniqueVideos }} unique songs ·
+                {{ user.stats.totalPlays }} total relinks · sharing since
+                {{ formatTimestamp(user.stats.firstShared) }}
+            </p>
         </header>
 
         <section class="list">

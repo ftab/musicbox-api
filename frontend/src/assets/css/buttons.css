@@ -1,0 +1,10 @@
+.button-accent {
+    background-color: var(--color-accent);
+    color: var(--color-text-reverse);
+    text-decoration: none;
+    padding: .1rem .5rem;
+}
+
+.button-accent:hover {
+    color: var(--color-text-reverse);
+}

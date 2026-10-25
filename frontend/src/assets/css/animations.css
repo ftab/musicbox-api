@@ -1,0 +1,27 @@
+@keyframes rotate {
+    100% {
+        rotate: 360deg;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: .1;
+    }
+}
+
+@keyframes pointing {
+    50% {
+        left: -3rem;
+    }
+}
+
+@keyframes appear {
+    100% {
+        opacity: 1;
+        visibility: visible;
+    }
+}

@@ -1,0 +1,205 @@
+:root {
+    --color-darkest: #0d0d0d;
+    --color-darker: #161616;
+    --color-dark: #1e1e1e;
+    --color-lightest: #f5f5f5;
+    --color-lighter: #ededed;
+    --color-light: #d4d4d4;
+    --color-neutral-light: #808080;
+    --color-neutral-dark: #545454;
+    --color-accent-light: #4ade80;
+    --color-accent-dark: #009a33;
+
+    --color-background: light-dark(var(--color-lighter), var(--color-darkest));
+    --color-background-soft: light-dark(var(--color-lightest), var(--color-dark));
+    --color-background-dim: light-dark(var(--color-lightest), var(--color-darker));
+
+    --color-text: light-dark(var(--color-dark), var(--color-lighter));
+    --color-text-soft: light-dark(var(--color-neutral-dark), var(--color-neutral-light));
+    --color-text-dim: light-dark(var(--color-light), var(--color-dark));
+    --color-text-reverse: light-dark(var(--color-lighter), var(--color-darkest));
+
+    --color-accent: light-dark(var(--color-accent-dark), var(--color-accent-light));
+}
+
+@font-face {
+    font-family: 'Syne';
+    src:
+        url('../fonts/Syne-VariableFont_wght.woff2') format('woff2'),
+        url('../fonts/Syne-VariableFont_wght.woff') format('woff');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'DM-Mono';
+    src:
+        url('../fonts/DMMono-Regular.woff2') format('woff2'),
+        url('../fonts/DMMono-Regular.woff') format('woff');
+    font-display: swap;
+}
+
+[data-color-scheme="dark"] {
+    color-scheme: dark;
+}
+
+[data-color-scheme="light"] {
+    color-scheme: light;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-text-soft);
+    outline-offset: 5px;
+}
+
+::selection {
+    background: var(--color-accent);
+    color: var(--color-text-reverse);
+}
+
+html,
+body {
+    min-height: 100svh;
+    scroll-behavior: smooth;
+    scroll-padding-top: 1rem;
+}
+
+body {
+    font-family: 'DM-Mono', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    accent-color: var(--color-accent);
+    margin: 0;
+    padding-bottom: 1rem;
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
+}
+
+svg {
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+h1,
+h2 {
+    font-weight: 800;
+    line-height: 1;
+    margin-block: .5rem;
+    word-wrap: break-word;
+    text-wrap: balance;
+    text-box-edge: cap alphabetic;
+    text-box-trim: trim-both;
+}
+
+h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+}
+
+h2 {
+    font-size: 1rem;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+strong {
+    font-weight: 800;
+    color: var(--color-accent);
+}
+
+a {
+    color: var(--color-text);
+    text-underline-offset: 5px;
+    text-decoration-color: var(--color-accent);
+    transition: color .3s ease-in-out;
+}
+
+a:hover {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+button {
+    display: flex;
+    align-items: center;
+    column-gap: .25rem;
+    font-family: inherit;
+    line-height: 1;
+    text-box-edge: cap alphabetic;
+    text-box-trim: trim-both;
+    background: none;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+}
+
+button svg {
+    height: 1rem;
+}
+
+button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+ul,
+ol {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    list-style-position: inside;
+    padding: 0;
+    margin-bottom: 2rem;
+}
+
+ul {
+    list-style-type: square;
+}
+
+li::marker {
+    color: var(--color-accent);
+}
+
+code {
+    background-color: var(--color-background-soft);
+    color: var(--color-accent);
+    padding: .05rem .2rem;
+}
+
+progress {
+    appearance: none;
+    background: var(--color-background-soft);
+    height: 5px;
+    border: none;
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+    background: var(--color-background-soft);
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+    background: var(--color-accent);
+    border-radius: 10px;
+}
+
+progress::-moz-progress-bar {
+    background: var(--color-accent);
+}

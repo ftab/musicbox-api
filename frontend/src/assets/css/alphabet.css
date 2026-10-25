@@ -1,0 +1,27 @@
+.alphabet-filter {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .3rem;
+    margin-block: 1.25rem 1.5rem;
+}
+
+.letter {
+    display: inline-block;
+    background-color: var(--color-background-soft);
+    text-decoration: none;
+    padding: .15rem .5rem;
+    aspect-ratio: 1;
+}
+
+.letter.router-link-active,
+.letter.router-link-active:hover {
+    background-color: var(--color-accent);
+    color: var(--color-text-reverse);
+}
+
+@media(width < 831px) {
+    .alphabet-filter {
+        justify-content: start;
+    }
+}

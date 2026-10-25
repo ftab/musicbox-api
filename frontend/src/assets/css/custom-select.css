@@ -1,0 +1,34 @@
+.custom-select-trigger {
+    font-weight: 800;
+    anchor-name: --custom-select-trigger;
+}
+
+.custom-select-list {
+    position-anchor: --custom-select-trigger;
+    position: absolute;
+    inset: auto;
+    top: anchor(bottom);
+    left: anchor(left);
+    background-color: var(--color-background-dim);
+    margin-top: .5rem;
+    padding: 0;
+    border: none;
+}
+
+.custom-select-option {
+    padding: .5rem 1rem;
+}
+
+.custom-select-option:hover {
+    background-color: var(--color-background-soft);
+}
+
+.custom-select-option:focus-visible {
+    outline: none;
+    background-color: var(--color-background-soft);
+}
+
+.custom-select-list:popover-open {
+    display: flex;
+    flex-direction: column;
+}

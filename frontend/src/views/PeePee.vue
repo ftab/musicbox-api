@@ -2,18 +2,18 @@
     <Spinner v-if="loading" />
 
     <template v-else>
-        <h2>PP Leaderboard</h2>
-        <p>Ranked by PP score (total relinks)</p>
+        <header class="page-header">
+            <h1>PP Leaderboard</h1>
+            <p>Ranked by PP score (total relinks)</p>
+        </header>
 
         <section class="list">
             <div v-for="(user, index) in data" :key="index" class="list-row">
-                <div class="accent">{{ index + 1 }}.</div>
-                <span class="ellipsis">
-                    <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname">
-                        {{ user.nickname }}
-                    </RouterLink>
-                </span>
-                <div class="dim">{{ user.pp_score }} PP</div>
+                <div class="text-accent text-end">{{ index + 1 }}.</div>
+                <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname" class="text-ellipsis">
+                    {{ user.nickname }}
+                </RouterLink>
+                <div class="text-soft text-end">{{ user.pp_score }} PP</div>
             </div>
         </section>
     </template>

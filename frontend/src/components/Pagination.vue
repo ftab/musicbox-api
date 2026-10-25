@@ -48,35 +48,3 @@
         }
     });
 </script>
-
-<style>
-    .pagination-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: .5rem;
-        justify-content: center;
-        list-style: none;
-        padding: 0;
-    }
-
-    .paginate-buttons {
-        color: var(--color-neutral-dark);
-        background: transparent;
-        padding: .5rem .7rem;
-        border-radius: 0;
-    }
-
-    .active-page {
-        background: light-dark(var(--color-accent-dark), var(--color-accent-light));
-        color: light-dark(var(--color-lightest), var(--color-darkest));
-    }
-
-    .paginate-buttons:not(.active-page):hover {
-        color: light-dark(var(--color-accent-dark), var(--color-accent-light));
-    }
-
-    .back-button,
-    .next-button {
-        color: light-dark(var(--color-accent-dark), var(--color-accent-light));
-    }
-</style>

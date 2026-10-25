@@ -1,0 +1,73 @@
+.list {
+    display: grid;
+    grid-template-columns: min-content 1fr auto;
+    column-gap: 1rem;
+    row-gap: .5rem;
+}
+
+.list:has(+ .section-header) {
+    margin-bottom: 2rem;
+}
+
+.list-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+    background-color: var(--color-background-dim);
+    padding: .75rem 1rem;
+    transition: box-shadow .3s ease-in-out;
+}
+
+.list-row:hover,
+.list-row a:focus-visible::after {
+    box-shadow: -3px 0 0 var(--color-accent);
+}
+
+.list-row.is-flagged::before {
+    content: '🏴‍☠';
+    position: absolute;
+    font-size: 1.1rem;
+    top: -7px;
+    left: -5px;
+    border-radius: 100%;
+    z-index: 1;
+}
+
+.list-row a {
+    text-decoration: none;
+}
+
+.list-row a:hover {
+    color: currentColor;
+}
+
+.list-row a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+
+.list-row svg {
+    width: 1rem;
+    margin-right: 1rem;
+    fill: var(--color-text-soft);
+}
+
+.list-row .progress-area {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: .5rem;
+}
+
+.list-row .progress-area progress {
+    max-width: 50px;
+}
+
+@media(width < 425px) {
+    .list-row .progress-area progress,
+    .list-row .progress-area small {
+        display: none;
+    }
+}

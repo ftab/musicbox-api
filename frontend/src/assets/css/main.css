@@ -1,0 +1,46 @@
+@import "./normalize.css";
+@import "./base.css";
+@import "./animations.css";
+@import "./alphabet.css";
+@import "./spinner.css";
+@import "./header.css";
+@import "./nav.css";
+@import "./heatmap.css";
+@import "./tags.css";
+@import "./custom-select.css";
+@import "./list.css";
+@import "./pagination.css";
+@import "./search.css";
+@import "./buttons.css";
+@import "./scrolltop.css";
+@import "./streambar.css";
+@import "./api-docs.css";
+@import "./error.css";
+@import "./utils.css";
+@import "./help.css";
+
+.wrap {
+    padding-inline: 1rem;
+}
+
+@media(width > calc(786px + 2rem)) {
+    .wrap {
+        width: 786px;
+        margin: auto;
+        padding-inline: 0;
+    }
+}
+
+h1.is-flagged {
+    position: relative;
+}
+
+h1.is-flagged::before {
+    content: '🏴‍☠';
+    position: absolute;
+    font-size: 1.1rem;
+    top: -10px;
+    left: -15px;
+    border-radius: 100%;
+    z-index: 1;
+}

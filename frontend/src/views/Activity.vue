@@ -2,19 +2,21 @@
     <Spinner v-if="loading" />
 
     <template v-else>
-        <h2>Last activity</h2>
-        <p>Recently added songs</p>
+        <header class="page-header">
+            <h1>Activity</h1>
+            <p>Recently added songs</p>
+        </header>
 
         <section class="list">
-            <div v-for="(item, index) in data" :key="index" :data-flagged="item.isFlagged" :title="getTrackTitle(item)" class="list-row">
-                <div class="accent ellipsis">{{ item.nickname }}</div>
-                <div class="ellipsis">
+            <div v-for="(item, index) in data" :key="index" :title="getTrackTitle(item)" :class="{ 'list-row': true, 'is-flagged': item.isFlagged }">
+                <div class="text-accent text-ellipsis">{{ item.nickname }}</div>
+                <div class="text-ellipsis">
                     <a :href="formatProviderUrl(item)" :title="getTrackTitle(item)" target="_blank">
                         <ProviderIcons :track="item" />
                         <span v-text="getTrackTitle(item)"></span>
                     </a>
                 </div>
-                <div class="dim">{{ formatTimestamp(item.lastPlayedTimestamp) }}</div>
+                <div class="text-soft">{{ formatTimestamp(item.lastPlayedTimestamp) }}</div>
             </div>
         </section>
 

@@ -1,0 +1,68 @@
+.site-header {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    padding-block: 1.5rem;
+}
+
+.site-logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.site-logo:hover {
+    color: currentColor;
+}
+
+.site-logo svg {
+    height: 2rem;
+}
+
+@media(width < 375px) {
+    .site-logo {
+        font-size: 1rem;
+    }
+
+    .site-logo svg {
+        width: 1.5rem;
+    }
+}
+
+.site-header-buttons {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.site-header-buttons button {
+    background: var(--color-background-soft);
+    color: var(--color-text-soft);
+    border-radius: 100vw;
+    padding: .4rem;
+}
+
+.site-header-buttons svg {
+    height: 1.5rem;
+}
+
+.page-header p {
+    color: var(--color-text-soft);
+    margin-bottom: 1.5rem;
+}
+
+.page-header svg {
+    height: 1rem;
+    margin-right: .5rem;
+    fill: var(--color-text-soft);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}

@@ -1,21 +1,24 @@
 <template>
-    <h2>Search</h2>
+    <header class="page-header">
+        <h1>Search</h1>
+    </header>
+
     <SearchForm />
 
     <Spinner v-if="loading" />
 
     <template v-else>
-        <h3 v-if="data">Found {{ pluralize(data.length, 'song') }} matching "{{ searchTerm }}"</h3>
+        <header class="section-header">
+            <h2 v-if="data">Found {{ pluralize(data.length, 'song') }} matching "{{ searchTerm }}"</h2>
+        </header>
 
         <section class="list">
-            <div v-for="(result, index) in data" :key="index" :data-flagged="result.isFlagged" class="list-row">
-                <div class="accent">{{ index + 1 }}.</div>
-                <div class="ellipsis">
-                    <a :href="formatProviderUrl(result)" :title="getTrackTitle(result)" target="_blank">
-                        <ProviderIcons :track="result" />
-                        <span v-text="getTrackTitle(result)"></span>
-                    </a>
-                </div>
+            <div v-for="(result, index) in data" :key="index" :class="{ 'list-row': true, 'is-flagged': result.isFlagged }">
+                <div class="text-accent text-end">{{ index + 1 }}.</div>
+                <a :href="formatProviderUrl(result)" :title="getTrackTitle(result)" target="_blank" rel="noopener" class="text-ellipsis">
+                    <ProviderIcons :track="result" />
+                    <span v-text="getTrackTitle(result)"></span>
+                </a>
             </div>
         </section>
     </template>

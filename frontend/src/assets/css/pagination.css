@@ -1,0 +1,28 @@
+.pagination-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: .5rem;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+}
+
+.paginate-buttons {
+    color: var(--color-text-soft);
+    background: transparent;
+    padding: .5rem .7rem;
+    border-radius: 0;
+    transition: color .3s ease-in-out;
+}
+
+.active-page {
+    background-color: var(--color-accent);
+    color: var(--color-text-reverse);
+}
+
+.back-button,
+.next-button,
+.paginate-buttons:not(.active-page):hover {
+    color: var(--color-accent);
+}

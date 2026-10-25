@@ -1,5 +1,8 @@
 <template>
-    <h2>Artists</h2>
+    <header class="page-header">
+        <h1>Artists</h1>
+    </header>
+
     <div class="alphabet-filter">
         <RouterLink v-for="letter in letters.split('')" :to="{ name: 'artists', params: { letter } }" :key="letter" :title="letter === '_' ? '#': letter" class="letter">
             {{ letter === '_' ? '#' : letter }}
@@ -11,13 +14,11 @@
     <template v-else>
         <section class="list">
             <div v-for="(artist, index) in data" :key="index" class="list-row">
-                <div class="accent">{{ calculateRank(index, meta) }}.</div>
-                <div class="ellipsis">
-                    <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }" :title="artist.name">
-                        {{ artist.name }}
-                    </RouterLink>
-                </div>
-                <div class="dim">{{ pluralize(artist.video_count, 'track') }}</div>
+                <div class="text-accent text-end">{{ calculateRank(index, meta) }}.</div>
+                <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }" :title="artist.name" class="text-ellipsis">
+                    {{ artist.name }}
+                </RouterLink>
+                <div class="text-soft text-end">{{ pluralize(artist.video_count, 'track') }}</div>
             </div>
         </section>
 
@@ -56,33 +57,3 @@
 
     watch(() => props.letter, () => getArtists(), { immediate: true });
 </script>
-
-<style>
-    .alphabet-filter {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: .3rem;
-        margin-block: 1.25rem 1.5rem;
-    }
-
-    .letter {
-        display: inline-block;
-        background-color: light-dark(var(--color-lightest), var(--color-dark));
-        text-decoration: none;
-        padding: .15rem .5rem;
-        aspect-ratio: 1;
-    }
-
-    .letter.router-link-active,
-    .letter.router-link-active:hover {
-        background-color: light-dark(var(--color-accent-dark), var(--color-accent-light));
-        color: light-dark(var(--color-lightest), var(--color-darkest));
-    }
-
-    @media(width < 831px) {
-        .alphabet-filter {
-            justify-content: start;
-        }
-    }
-</style>

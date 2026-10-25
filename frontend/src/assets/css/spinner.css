@@ -1,0 +1,16 @@
+.spinner-container {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+}
+
+.spinner {
+    display: inline-block;
+    animation: rotate 1s linear infinite;
+}
+
+.spinner svg {
+    width: 75px;
+    fill: var(--color-text-dim);
+}

@@ -2,19 +2,21 @@
     <Spinner v-if="loading" />
 
     <template v-else>
-        <h2>Top Tracks</h2>
-        <p>Most added songs across all users</p>
+        <header class="page-header">
+            <h1>Top Tracks</h1>
+            <p>Most added songs across all users</p>
+        </header>
 
         <section class="list">
-            <div v-for="(track, index) in data" :key="index" :data-flagged="track.isFlagged" class="list-row">
-                <div class="accent">{{ calculateRank(index, meta) }}.</div>
-                <div class="ellipsis">
+            <div v-for="(track, index) in data" :key="index" :class="{ 'list-row': true, 'is-flagged': track.isFlagged }">
+                <div class="text-accent text-end">{{ calculateRank(index, meta) }}.</div>
+                <div class="text-ellipsis">
                     <a :href="formatProviderUrl(track)" :title="getTrackTitle(track)" target="_blank">
                         <ProviderIcons :track="track" />
                         <span v-text="getTrackTitle(track)"></span>
                     </a>
                 </div>
-                <div class="dim">{{ pluralize(track.totalPlays, 'relink') }}</div>
+                <div class="text-soft">{{ pluralize(track.totalPlays, 'relink') }}</div>
             </div>
         </section>
 

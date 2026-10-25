@@ -1,0 +1,22 @@
+.heatmap {
+    display: block;
+    width: 100%;
+    margin-inline: auto;
+    margin-bottom: 2rem;
+}
+
+.heatmap .level-0 {
+    fill: var(--color-background-dim);
+}
+
+.heatmap .level-1 {
+    fill: oklch(from var(--color-accent) l c h / 20%);
+}
+
+.heatmap .level-2 {
+    fill: oklch(from var(--color-accent) l c h / 50%);
+}
+
+.heatmap .level-3 {
+    fill: var(--color-accent);
+}

@@ -2,16 +2,26 @@
     <Spinner v-if="loading" />
 
     <template v-else>
-        <h2 :data-flagged="data.song.isFlagged">{{ getTrackTitle(data.song) }}</h2>
-        <p>
-            <a :href="formatProviderUrl(data.song)" target="_blank">
-                <ProviderIcons :track="data.song" :labels="true" />
-            </a>
-            <span v-if="data.song.youtubeChannelName" class="dim"> · {{ data.song.youtubeChannelName }}</span>
-        </p>
+        <header class="page-header">
+            <h1 :class="{ 'is-flagged':data.song.isFlagged }">{{ getTrackTitle(data.song) }}</h1>
+            <p>
+                <a :href="formatProviderUrl(data.song)" target="_blank" rel="noopener">
+                    <ProviderIcons :track="data.song" :labels="true" />
+                </a>
+                <span v-if="data.song.youtubeChannelName" class="text-soft"> · {{ data.song.youtubeChannelName }}</span>
+            </p>
+        </header>
+
+        <template v-if="data.song.tags">
+            <ul class="tags">
+                <li v-for="(tag, index) in data.song.tags.split(', ')" :key="tag">{{ tag }}</li>
+            </ul>
+        </template>
 
         <template v-if="data.artists.length">
-            <h3>Artists</h3>
+            <header class="section-header">
+                <h2>Artists</h2>
+            </header>
 
             <ul>
                 <li v-for="(artist, index) in data.artists" :key="artist.artistId">
@@ -22,26 +32,19 @@
             </ul>
         </template>
 
-        <template v-if="data.song.tags">
-            <h3>Tags</h3>
-
-            <ul class="tag-list">
-                <li v-for="(tag, index) in data.song.tags.split(', ')" :key="tag" v-text="tag"></li>
-            </ul>
-        </template>
 
         <template v-if="data.sharedBy.length">
-            <h3>Shared by</h3>
+            <header class="section-header">
+                <h2>Shared by</h2>
+            </header>
 
             <section class="list">
                 <div v-for="(user, index) in data.sharedBy" :key="user.nickname" class="list-row">
-                    <div class="accent">{{ index + 1 }}.</div>
-                    <div class="ellipsis">
-                        <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname">
-                            {{ user.nickname }}
-                        </RouterLink>
-                    </div>
-                    <div class="dim">
+                    <div class="text-accent">{{ index + 1 }}.</div>
+                    <RouterLink :to="{ name: 'profile', params: { nickname: user.nickname } }" :title="user.nickname" class="text-ellipsis">
+                        {{ user.nickname }}
+                    </RouterLink>
+                    <div class="text-soft">
                         {{ pluralize(user.playCount, 'relink') }}
                         {{ formatTimestamp(user.lastPlayedTimestamp) }}
                     </div>
@@ -50,12 +53,14 @@
         </template>
 
         <template v-if="data.moreTracks.length">
-            <h3>More from this artist</h3>
+            <header class="section-header">
+                <h2>More from this artist</h2>
+            </header>
 
             <section class="list">
                 <div v-for="(track, index) in data.moreTracks" :key="track.videoId" class="list-row">
-                    <span v-if="track.artistName" class="accent">{{ track.artistName }}</span>
-                    <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" :title="getTrackTitle(track)" class="ellipsis">
+                    <span v-if="track.artistName" class="text-accent">{{ track.artistName }}</span>
+                    <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" :title="getTrackTitle(track)" class="text-ellipsis">
                         <ProviderIcons :track="track" />
                         <span>{{ getTrackTitle(track) }}</span>
                     </RouterLink>

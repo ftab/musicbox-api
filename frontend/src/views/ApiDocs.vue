@@ -25,19 +25,3 @@
 
     onUnmounted(() => document.documentElement.classList.remove('api-docs'));
 </script>
-
-<style>
-    html.api-docs,
-    html.api-docs body {
-        scroll-behavior: auto;
-        scroll-padding: 0;
-    }
-
-    html.api-docs body {
-        background: white;
-    }
-
-    html.api-docs body .wrap {
-        width: 100vw;
-    }
-</style>

@@ -1,0 +1,7 @@
+html.error body {
+    display: grid;
+    place-content: center;
+    text-align: center;
+    background: var(--color-background);
+    min-height: 100svh;
+}

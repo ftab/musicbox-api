@@ -2,38 +2,40 @@
     <Spinner v-if="loading" />
 
     <template v-else>
-        <h2>{{ data.artist.name }}</h2>
-        <p v-if="data.tracks.meta">{{ pluralize(data.tracks.meta.total[0].numRows, 'track') }} in library</p>
+        <header class="page-header">
+            <h1>{{ data.artist.name }}</h1>
+            <p v-if="data.tracks.meta">{{ pluralize(data.tracks.meta.total[0].numRows, 'track') }} in library</p>
+        </header>
 
         <template v-if="data.topSharers.length">
-            <h3>Top Sharers</h3>
+            <header class="section-header">
+                <h2>Top Sharers</h2>
+            </header>
 
             <section class="list">
                 <div v-for="(sharer, index) in data.topSharers" :key="sharer.nickname" class="list-row">
-                    <div class="accent">{{ index + 1 }}.</div>
-                    <div class="ellipsis">
-                        <RouterLink :to="{ name: 'profile', params: { nickname: sharer.nickname } }" :title="sharer.nickname">
-                            {{ sharer.nickname }}
-                        </RouterLink>
-                    </div>
-                    <div class="dim">{{ pluralize(sharer.trackCount, 'track') }}</div>
+                    <div class="text-accent text-end">{{ index + 1 }}.</div>
+                    <RouterLink :to="{ name: 'profile', params: { nickname: sharer.nickname } }" :title="sharer.nickname" class="text-ellipsis">
+                        {{ sharer.nickname }}
+                    </RouterLink>
+                    <div class="text-soft text-end">{{ pluralize(sharer.trackCount, 'track') }}</div>
                 </div>
             </section>
         </template>
 
         <template v-if="data.tracks.data.length">
-            <h3>Tracks</h3>
+            <header class="section-header">
+                <h2>Tracks</h2>
+            </header>
 
             <section class="list">
                 <div v-for="(track, index) in data.tracks.data" :key="index" class="list-row">
-                    <div class="accent">{{ track.role }}</div>
-                    <div class="ellipsis">
-                        <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" :title="getTrackTitle(track)">
-                            <ProviderIcons :track="track" />
-                            <span>{{ getTrackTitle(track) }}</span>
-                        </RouterLink>
-                    </div>
-                    <div class="dim">{{ pluralize(track.totalPlays, 'relink')}}</div>
+                    <div class="text-accent text-end">{{ track.role }}</div>
+                    <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" :title="getTrackTitle(track)" class="text-ellipsis">
+                        <ProviderIcons :track="track" />
+                        <span>{{ getTrackTitle(track) }}</span>
+                    </RouterLink>
+                    <div class="text-soft text-end">{{ pluralize(track.totalPlays, 'relink')}}</div>
                 </div>
             </section>
         </template>
