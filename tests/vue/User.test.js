@@ -31,31 +31,28 @@ it('shows a users profile', async () => {
 
     expect(html).toContain(user.stats.nickname);
     expect(html).toContain(`${user.stats.uniqueVideos} unique songs · ${user.stats.totalPlays} total relinks · sharing since ${firstShareDate}`);
-    expect(html).toContain('Top Genres');
     expect(html).toContain('Top Artists');
 });
 
-it('can tab between top genres and top artists', async () => {
+it('shows top tags', async () => {
     user.topTags.forEach(tag => {
         expect(html).toContain(tag.name);
         expect(html).toContain(`(${tag.count})`);
     });
+});
 
+it('can show top artists', async () => {
     user.topArtists.forEach(artist => {
         expect(html).not.toContain(artist.name);
         expect(html).not.toContain(`${artist.trackCount} tracks`);
     });
 
     await wrapper
-        .find('button.tab-button:not(.active)')
+        .findAll('button.custom-select-option')
+        .find(button => button.text() === 'Top Artists')
         .trigger('click');
 
     html = wrapper.html();
-
-    user.topTags.forEach(tag => {
-        expect(html).not.toContain(tag.name);
-        expect(html).not.toContain(`(${tag.count})`);
-    });
 
     user.topArtists.forEach(artist => {
         expect(html).toContain(artist.name);

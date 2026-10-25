@@ -3,6 +3,7 @@ import users from '../../services/users.js';
 import userStats from '../../services/userStats.js';
 import userProfile from '../../services/userProfile.js';
 import videos from '../../services/videos.js';
+import heatmap from '../../services/heatmap.js';
 import { validateQuery, validateParams } from '../../middleware/validate.js';
 import { paginationQuerySchema, nicknameParamSchema } from '../../schema.js';
 
@@ -24,10 +25,11 @@ router.get('/:nickname', validateParams(nicknameParamSchema), async function(req
         });
     }
 
-    const [stats, topArtists, topTags] = await Promise.all([
+    const [stats, topArtists, topTags, contribHeatmap] = await Promise.all([
         userStats.getStats(nickname),
         userProfile.getTopArtists(nickname, 15),
         userProfile.getTopTags(nickname, 15),
+        heatmap.get(user.data[0].userId),
     ]);
 
     res.json({
@@ -35,6 +37,7 @@ router.get('/:nickname', validateParams(nicknameParamSchema), async function(req
         stats: stats.data[0],
         topArtists,
         topTags,
+        heatmap: contribHeatmap,
     });
 });
 

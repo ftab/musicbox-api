@@ -11,30 +11,51 @@
             </p>
         </header>
 
-        <section class="list">
-            <div v-for="(video, index) in videos" :key="video.videoId" :data-flagged="video.isFlagged" class="list-row">
-                <div class="accent">{{ formatTimestamp(video.lastPlayedTimestamp) }}</div>
-                <div class="ellipsis">
-                    <RouterLink :to="{ name: 'song', params: { id: video.videoId } }" :title="getTrackTitle(video)">
-                        <ProviderIcons :track="video" />
-                        <span v-text="getTrackTitle(video)"></span>
-                    </RouterLink>
-                </div>
-                <div class="dim">{{ pluralize(video.playCount, 'relink') }}</div>
+        <Heatmap :data="user.heatmap" />
+
+        <template v-if="user.topTags.length">
+            <ul class="tags">
+                <li v-for="tag in user.topTags" :key="tag">{{ tag.name }} ({{ tag.count }})</li>
+            </ul>
+        </template>
+
+        <header class="section-header">
+            <CustomSelect v-model="listType" :options="listTypes" />
+            <DownloadButton v-if="listType === 'collection'" :loading="downloading" @download="downloadUlist" />
+        </header>
+
+        <section v-if="listType === 'collection'" class="list">
+            <div v-for="(video, index) in videos" :key="video.videoId" :class="{ 'list-row': true, 'is-flagged': video.isFlagged }">
+                <div class="text-accent">{{ formatTimestamp(video.lastPlayedTimestamp) }}</div>
+                <RouterLink :to="{ name: 'song', params: { id: video.videoId } }" :title="getTrackTitle(video)" class="text-ellipsis">
+                    <ProviderIcons :track="video" />
+                    <span v-text="getTrackTitle(video)"></span>
+                </RouterLink>
+                <div class="text-soft text-end">{{ pluralize(video.playCount, 'relink') }}</div>
             </div>
         </section>
 
-        <Pagination :meta="meta" @pageChange="getVideos" />
+        <Pagination v-if="listType === 'collection'" :meta="meta" @pageChange="getVideos" />
+
+        <section v-if="listType === 'artists'" class="list">
+            <div v-for="(artist, index) in user.topArtists" :key="artist.artistId" :title="artist.name" class="list-row flush">
+                <span class="text-accent text-end">{{ index + 1 }}.</span>
+                <RouterLink :to="{ name: 'artist', params: { id: artist.artistId } }" class="text-ellipsis">
+                    <span>{{ artist.name }}</span>
+                </RouterLink>
+                <span class="text-soft text-edn">{{ pluralize(artist.trackCount, 'track') }}</span>
+            </div>
+        </section>
     </template>
 </template>
 
 <script setup>
-    import { onMounted } from 'vue';
+    import { ref, onMounted } from 'vue';
     import { useFetch } from '../composables/useFetch';
     import { useDownload } from '../composables/useDownload';
     import { setPageTitle, formatTimestamp, getTrackTitle, pluralize, formatUlistContent, formatTimestampForFilename } from '../utils';
-    import Tabs from '../components/Tabs.vue';
-    import Tab from '../components/Tab.vue';
+    import Heatmap from '../components/Heatmap.vue';
+    import CustomSelect from '../components/CustomSelect.vue';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import DownloadButton from '../components/DownloadButton.vue';
     import Pagination from '../components/Pagination.vue';
@@ -50,6 +71,12 @@
             required: true,
         }
     });
+
+    const listType = ref(null);
+    const listTypes = [
+        { value: 'collection', label: 'Full Collection'},
+        { value: 'artists', label: 'Top Artists'},
+    ];
 
     const download = useDownload();
     const { data: user, loading: userLoading, get: getUser } = useFetch();
@@ -80,6 +107,8 @@
     };
 
     onMounted(async () => {
+        listType.value = listTypes[0].value;
+
         await getUser('/api/users/:nickname', { params: { nickname: props.nickname } });
 
         if( ! user.value) return;

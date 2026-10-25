@@ -33,6 +33,7 @@ export const user = {
             count: 366
         },
     ],
+    heatmap: [],
 };
 
 export const videos = {
