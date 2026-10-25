@@ -26,11 +26,10 @@
     import '../css/normalize.css';
     import '../css/app.css';
     import StreamBar from './StreamBar.vue';
-    import DiskIcon from './DiskIcon.vue';
     import ColorSchemeToggle from './ColorSchemeToggle.vue';
     import Navigation from './Navigation.vue';
     import ScrollTop from './ScrollTop.vue';
-    import SearchForm from './SearchForm.vue';
+    import DiskIcon from './icons/DiskIcon.vue';
 </script>
 
 <style>

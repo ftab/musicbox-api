@@ -1,12 +1,12 @@
 <template>
-    <a @click.prevent="scrollTop" class="scroll-top" href="#top" aria-label="Scroll top">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-            <path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM377 271c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-87-87-87 87c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9L239 167c9.4-9.4 24.6-9.4 33.9 0L377 271z"/>
-        </svg>
+    <a @click.prevent="scrollTop" class="scrolltop" href="#top" aria-label="Scroll to top">
+        <ChevronCircleUp />
     </a>
 </template>
 
 <script setup>
+    import ChevronCircleUp from './icons/ChevronCircleUp.vue';
+
     const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 </script>
 

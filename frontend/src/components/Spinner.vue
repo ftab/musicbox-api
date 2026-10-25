@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-    import DiskIcon from './DiskIcon.vue';
+    import DiskIcon from './icons/DiskIcon.vue';
 </script>
 
 <style>
