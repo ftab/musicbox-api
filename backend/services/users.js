@@ -36,21 +36,22 @@ async function getOne(userid){
 }
 
 async function getByNickname(nickname){
-  const rows = await db.query(
-    `SELECT u.userId, COALESCE(a.primaryNick, u.nickname) AS nickname
-    FROM user u
-    LEFT JOIN aliases a ON u.nickname = a.aliasNick
-    WHERE u.nickname = ?
-       OR a.aliasNick = ?
-       OR a.primaryNick = ?
-    LIMIT 1`,
-    [nickname, nickname, nickname]
-  );
-  const data = helper.emptyOrRows(rows);
+    const rows = await db.query(
+        `SELECT u.userId, COALESCE(a.primaryNick, u.nickname) AS nickname
+        FROM user u
+        LEFT JOIN aliases a ON u.nickname = a.aliasNick
+        WHERE COALESCE(a.primaryNick, u.nickname) = COALESCE(
+            (SELECT primaryNick FROM aliases WHERE aliasNick = ? LIMIT 1), ?
+        )
+        ORDER BY (a.aliasNick IS NULL) DESC
+        LIMIT 1`,
+        [nickname, nickname]
+    );
+    const data = helper.emptyOrRows(rows);
 
-  return {
-    data
-  }
+    return {
+        data
+    }
 }
 
 export default {
