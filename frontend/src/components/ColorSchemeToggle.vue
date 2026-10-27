@@ -1,16 +1,19 @@
 <template>
-    <button @click="toggleColorScheme" aria-label="Toggle color scheme">
+    <button @click="toggleColorScheme" :title="title" aria-label="Toggle color scheme">
         <SunIcon v-if="colorScheme === 'dark'" />
         <MoonIcon v-if="colorScheme === 'light'" />
     </button>
 </template>
 
 <script setup>
-    import { onMounted, ref } from 'vue';
+    import { computed, onMounted, ref } from 'vue';
     import SunIcon from './icons/SunIcon.vue';
     import MoonIcon from './icons/MoonIcon.vue';
 
     const colorScheme = ref(null);
+
+    const title = computed(() =>
+        colorScheme.value === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
 
     const setColorScheme = scheme => {
         colorScheme.value = scheme;

@@ -10,12 +10,10 @@
         <section class="list">
             <div v-for="(track, index) in data" :key="index" :class="{ 'list-row': true, 'is-flagged': track.isFlagged }">
                 <div class="text-accent text-end">{{ calculateRank(index, meta) }}.</div>
-                <div class="text-ellipsis">
-                    <a :href="formatProviderUrl(track)" :title="getTrackTitle(track)" target="_blank">
-                        <ProviderIcons :track="track" />
-                        <span v-text="getTrackTitle(track)"></span>
-                    </a>
-                </div>
+                <a :href="formatProviderUrl(track)" :title="getTrackTitle(track)" target="_blank" rel="noopener" class="text-ellipsis">
+                    <ProviderIcons :track="track" />
+                    <span v-text="getTrackTitle(track)"></span>
+                </a>
                 <div class="text-soft">{{ pluralize(track.totalPlays, 'relink') }}</div>
             </div>
         </section>

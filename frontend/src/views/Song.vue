@@ -59,7 +59,7 @@
 
             <section class="list">
                 <div v-for="(track, index) in data.moreTracks" :key="track.videoId" class="list-row">
-                    <span v-if="track.artistName" class="text-accent">{{ track.artistName }}</span>
+                    <span v-if="track.artistName" class="text-accent text-ellipsis">{{ track.artistName }}</span>
                     <RouterLink :to="{ name: 'song', params: { id: track.videoId } }" :title="getTrackTitle(track)" class="text-ellipsis">
                         <ProviderIcons :track="track" />
                         <span>{{ getTrackTitle(track) }}</span>

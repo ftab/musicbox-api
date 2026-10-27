@@ -10,12 +10,10 @@
         <section class="list">
             <div v-for="(item, index) in data" :key="index" :title="getTrackTitle(item)" :class="{ 'list-row': true, 'is-flagged': item.isFlagged }">
                 <div class="text-accent text-ellipsis">{{ item.nickname }}</div>
-                <div class="text-ellipsis">
-                    <a :href="formatProviderUrl(item)" :title="getTrackTitle(item)" target="_blank">
-                        <ProviderIcons :track="item" />
-                        <span v-text="getTrackTitle(item)"></span>
-                    </a>
-                </div>
+                <a :href="formatProviderUrl(item)" :title="getTrackTitle(item)" target="_blank" rel="noopener" class="text-ellipsis">
+                    <ProviderIcons :track="item" />
+                    <span v-text="getTrackTitle(item)"></span>
+                </a>
                 <div class="text-soft">{{ formatTimestamp(item.lastPlayedTimestamp) }}</div>
             </div>
         </section>

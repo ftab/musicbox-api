@@ -7,7 +7,7 @@
         <span class="text-ellipsis">{{ currentMedia.title }} ({{ currentMedia.duration }})</span>
         <div class="streambar-queue-info">
             <span v-if="playlistMeta?.count > 0" class="text-soft">{{ pluralize(playlistMeta.count, 'song') }} queued</span>
-            <a href="https://cytu.be/r/MusicBox" class="button-accent" target="_blank">Tune in!</a>
+            <a href="https://cytu.be/r/MusicBox" class="button-accent" target="_blank" rel="noopener">Tune in!</a>
         </div>
     </div>
 </template>
