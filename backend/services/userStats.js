@@ -12,8 +12,7 @@ async function getStats(nickname) {
      FROM user u
      LEFT JOIN aliases a ON u.nickname = a.aliasNick
      INNER JOIN user_video uv ON u.userId = uv.userId
-     WHERE uv.hideFromList = 0
-       AND COALESCE(a.primaryNick, u.nickname) = (
+     WHERE COALESCE(a.primaryNick, u.nickname) = (
          SELECT COALESCE(a2.primaryNick, u2.nickname)
          FROM user u2
          LEFT JOIN aliases a2 ON u2.nickname = a2.aliasNick
