@@ -36,3 +36,9 @@ body:has(.streambar) .scrolltop {
     column-gap: .5rem;
     margin-left: auto;
 }
+
+@media(width < 660px) {
+    .streambar-queue-info {
+        display: none;
+    }
+}
