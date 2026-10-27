@@ -1,6 +1,6 @@
 <template>
     <div class="wrap">
-        <header class="site-header">
+        <header id="top" class="site-header">
             <RouterLink :to="{ name: 'home' }" class="site-logo">
                 <DiskIcon />
                 MusicBox
