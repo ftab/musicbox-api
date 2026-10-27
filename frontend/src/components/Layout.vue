@@ -8,6 +8,9 @@
 
             <div class="site-header-buttons">
                 <ColorSchemeToggle />
+                <a href="https://github.com/ftab/musicbox-api" target="_blank" rel="noopener" title="MusicBox API on GitHub">
+                    <GitHubIcon />
+                </a>
             </div>
         </header>
 
@@ -28,4 +31,5 @@
     import Navigation from './Navigation.vue';
     import ScrollTop from './ScrollTop.vue';
     import DiskIcon from './icons/DiskIcon.vue';
+    import GitHubIcon from './icons/GitHubIcon.vue';
 </script>
