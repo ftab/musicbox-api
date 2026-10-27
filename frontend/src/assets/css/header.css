@@ -23,13 +23,10 @@
     height: 2rem;
 }
 
-@media(width < 375px) {
-    .site-logo {
-        font-size: 1rem;
-    }
-
-    .site-logo svg {
-        width: 1.5rem;
+@media(width < 427px) {
+    .site-header {
+        flex-direction: column;
+        row-gap: 1.5rem;
     }
 }
 

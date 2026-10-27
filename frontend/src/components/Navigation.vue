@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-    import { useTemplateRef, watch } from 'vue';
+    import { useTemplateRef, watch, onMounted, onBeforeUnmount } from 'vue';
     import { useRoute } from 'vue-router';
     import BarsIcon from './icons/BarsIcon.vue';
     import XMarkIcon from './icons/XMarkIcon.vue';
@@ -29,9 +29,27 @@
     const nav = useTemplateRef('nav');
     const route = useRoute();
 
-    watch(() => route.fullPath, () => {
+    const desktopQuery = window.matchMedia('(width > 660px)');
+
+    const close = () => {
         if(nav.value?.matches(':popover-open')) {
-            nav.value.hidePopover();
+            nav.value?.hidePopover()
         }
-    });
+    };
+
+    const onBreakpointChange = e => {
+        if( ! nav.value) return;
+
+        if(e.matches) close();
+
+        nav.value.style.transition = 'none';
+        nav.value.offsetWidth;
+        nav.value.style.transition = '';
+    };
+
+    watch(() => route.fullPath, () => close());
+
+    onMounted(() => desktopQuery.addEventListener('change', onBreakpointChange));
+
+    onBeforeUnmount(() => desktopQuery.removeEventListener('change', onBreakpointChange));
 </script>
