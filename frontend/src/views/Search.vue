@@ -15,10 +15,10 @@
         <section class="list">
             <div v-for="(result, index) in data" :key="index" :class="{ 'list-row': true, 'is-flagged': result.isFlagged }">
                 <div class="text-accent text-end">{{ index + 1 }}.</div>
-                <a :href="formatProviderUrl(result)" :title="getTrackTitle(result)" target="_blank" rel="noopener" class="text-ellipsis">
+                <RouterLink :to="{ name: 'song', params: { id: result.videoId } }" :title="getTrackTitle(result)" class="text-ellipsis">
                     <ProviderIcons :track="result" />
                     <span v-text="getTrackTitle(result)"></span>
-                </a>
+                </RouterLink>
             </div>
         </section>
     </template>
@@ -27,7 +27,7 @@
 <script setup>
     import { watch } from 'vue';
     import { useFetch } from '../composables/useFetch';
-    import { setPageTitle, pluralize, getTrackTitle, formatProviderUrl } from '../utils';
+    import { setPageTitle, pluralize, getTrackTitle } from '../utils';
     import SearchForm from '../components/SearchForm.vue';
     import ProviderIcons from '../components/ProviderIcons.vue';
     import Spinner from '../components/Spinner.vue';
