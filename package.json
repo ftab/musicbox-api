@@ -29,6 +29,7 @@
     "vue-router": "^5.1.0"
   },
   "dependencies": {
+    "dayjs": "^1.11.23",
     "express": "^5.2.1",
     "js-cookie": "^3.0.8",
     "marked": "^18.0.0",

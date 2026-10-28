@@ -109,7 +109,10 @@
     onMounted(async () => {
         listType.value = listTypes[0].value;
 
-        await getUser('/api/users/:nickname', { params: { nickname: props.nickname } });
+        await getUser('/api/users/:nickname', {
+            params: { nickname: props.nickname },
+            query: { tz: Intl.DateTimeFormat().resolvedOptions().timeZone }
+        });
 
         if( ! user.value) return;
 

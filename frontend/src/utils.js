@@ -1,3 +1,14 @@
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
+
+const dateFormat = new Intl.DateTimeFormat(navigator.language, {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+});
+
 export function setPageTitle(title = null, prefix = 'MusicBox IRC') {
     document.title = title ? `${title} - ${prefix}` : prefix;
 };
@@ -48,25 +59,21 @@ export function getProvider(item) {
 export function formatTimestamp(timestamp) {
     if( ! timestamp) return '—';
 
-    return new Date(timestamp).toLocaleDateString(navigator.language, {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-    });
+    const date = dayjs.utc(timestamp).local();
+
+    return timestamp && date.isValid() ? dateFormat.format(date.toDate()) : '–';
 };
 
-export function formatTimestampForFilename(timestamp = Date.now()) {
-    const date = new Date(timestamp);
-    const pad = n => String(n).padStart(2, '0');
+export function formatDay(day) {
+    if( ! day) return '—';
 
-    return [
-        date.getFullYear(),
-        pad(date.getMonth() + 1),
-        pad(date.getDate()),
-        pad(date.getHours()),
-        pad(date.getMinutes()),
-        pad(date.getSeconds()),
-    ].join('-');
+    const date = dayjs.utc(day);
+
+    return date.isValid() ? dateFormat.format(date.toDate()) : '—';
+}
+
+export function formatTimestampForFilename(timestamp = Date.now()) {
+    return dayjs(timestamp).format('YYYY-MM-DD-HH-mm-ss');
 };
 
 export function formatUlistContent(data = []) {

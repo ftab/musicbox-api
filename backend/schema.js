@@ -1,6 +1,15 @@
 import { z } from 'zod';
 import config from '../config.js';
 
+const isValidTimezone = tz => {
+    try {
+        Intl.DateTimeFormat(undefined, { timeZone: tz });
+        return true;
+    } catch {
+        return false;
+    }
+};
+
 export const paginationQuerySchema = z.object({
     page: z.coerce.number().int().min(1).default(1),
     limit: z.coerce.number().int().min(1).default(config.listPerPage),
@@ -20,6 +29,10 @@ export const searchTermQuerySchema = z.object({
 
 export const letterFilterQuerySchema = z.object({
     filter: z.enum('ABCDEFGHIJKLMNOPQRSTUVWXYZ_'.split('')).optional(),
+});
+
+export const timezoneQuerySchema = z.object({
+    tz: z.string().refine(tz => isValidTimezone, 'Invalid timezone').default('UTC'),
 });
 
 export const nicknameParamSchema = z.object({

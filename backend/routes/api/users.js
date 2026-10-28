@@ -5,7 +5,7 @@ import userProfile from '../../services/userProfile.js';
 import videos from '../../services/videos.js';
 import heatmap from '../../services/heatmap.js';
 import { validateQuery, validateParams } from '../../middleware/validate.js';
-import { paginationQuerySchema, nicknameParamSchema } from '../../schema.js';
+import { paginationQuerySchema, nicknameParamSchema, timezoneQuerySchema } from '../../schema.js';
 
 const router = express.Router();
 
@@ -13,8 +13,9 @@ router.get('/', validateQuery(paginationQuerySchema), async (req, res) => {
     res.json(await users.getMultiple(req.validatedQuery.page, req.validatedQuery.limit));
 });
 
-router.get('/:nickname', validateParams(nicknameParamSchema), async function(req, res) {
+router.get('/:nickname', validateParams(nicknameParamSchema), validateQuery(timezoneQuerySchema), async function(req, res) {
     const nickname = req.validatedParams.nickname;
+    const timezone = req.validatedQuery.tz;
     const user = await users.getByNickname(nickname);
 
     if(user.data.length === 0) {
@@ -29,7 +30,7 @@ router.get('/:nickname', validateParams(nicknameParamSchema), async function(req
         userStats.getStats(nickname),
         userProfile.getTopArtists(nickname, 15),
         userProfile.getTopTags(nickname, 15),
-        heatmap.get(user.data[0].userId),
+        heatmap.get(user.data[0].userId, timezone),
     ]);
 
     res.json({

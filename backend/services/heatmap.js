@@ -1,12 +1,11 @@
 import db from './db.js';
 import helper from '../helper.js';
 
-async function get(userid, days = 365){
+async function get(userid, timezone = 'UTC', days = 365) {
     days = Number(days);
 
     const rows = await db.query(
-        `SELECT DATE_FORMAT(uv.lastPlayedTimestamp, '%Y-%m-%d') AS date,
-        COUNT(DISTINCT uv.videoId) AS count
+        `SELECT DISTINCT uv.videoId, uv.lastPlayedTimestamp AS playedAt
         FROM user_video uv
         INNER JOIN (
             SELECT DISTINCT u.userId
@@ -19,19 +18,25 @@ async function get(userid, days = 365){
                 (SELECT nickname FROM user WHERE userId = ?)
             )
         ) fu ON uv.userId = fu.userId
-        WHERE uv.hideFromList = 0
-        AND uv.lastPlayedTimestamp IS NOT NULL
-        AND uv.lastPlayedTimestamp >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
-        GROUP BY date
-        ORDER BY date`,
-        [userid, userid, days]
+        WHERE uv.lastPlayedTimestamp IS NOT NULL
+        AND uv.lastPlayedTimestamp >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL ? DAY)
+        ORDER BY playedAt`,
+        [userid, userid, days + 1]
     );
 
-    return helper.emptyOrRows(rows)
-        .map(row => ({
-            date: row.date,
-            count: Number(row.count)
-        }));
+    const perDay = new Map();
+
+    for(const row of helper.emptyOrRows(rows)) {
+        const day = new Date(row.playedAt).toLocaleDateString('sv', { timeZone: timezone });
+
+        if( ! perDay.has(day)) {
+            perDay.set(day, new Set());
+        }
+
+        perDay.get(day).add(row.videoId);
+    }
+
+    return [...perDay].map(([date, set]) => ({ date, count: set.size }));
 }
 
 export default {

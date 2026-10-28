@@ -10,14 +10,14 @@
             rx="2"
             :class="'level-' + cell.level"
         >
-            <title :id="cell.date">{{ cell.count }} songs on {{ formatTimestamp(cell.date) }}</title>
+            <title :id="cell.date">{{ cell.count }} songs on {{ formatDay(cell.date) }}</title>
         </rect>
     </svg>
 </template>
 
 <script setup>
     import { computed } from 'vue';
-    import { formatTimestamp } from '../utils';
+    import { formatDay } from '../utils';
 
     const props = defineProps({
         data: {
