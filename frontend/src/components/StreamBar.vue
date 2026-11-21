@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentMedia" class="streambar">
+    <div v-if="status && currentMedia" class="streambar">
         <span class="text-accent text-uppercase">
             <i class="stream-active-indicator"></i> Stream Active
         </span>
@@ -16,37 +16,44 @@
     import { onMounted, onBeforeUnmount, ref } from 'vue';
     import { pluralize } from '../utils';
 
+    const status = ref(false);
     const currentMedia = ref(null);
     const playlistMeta = ref(null);
-    const source = ref(null);
-    const reconnect = ref(null);
+    let source = null;
+    let reconnect = null;
 
     const connect = () => {
-        if(source.value) return;
+        if(source) return;
 
-        source.value = new EventSource('/api/stream');
+        source = new EventSource('/api/stream');
 
-        source.value.onerror = () => {
-            source.value?.close();
-            source.value = null;
-            reconnect.value = setTimeout(connect, 5000);
+        source.onerror = () => {
+            source?.close();
+            source = null;
+            status.value = false;
+            currentMedia.value = null;
+            playlistMeta.value = null;
+            reconnect = setTimeout(connect, 5000);
         };
 
-        source.value.addEventListener('currentMedia', e => {
+        source.addEventListener('status', e => {
+            status.value = JSON.parse(e.data);
+        });
+
+        source.addEventListener('currentMedia', e => {
             currentMedia.value = JSON.parse(e.data);
         });
 
-        source.value.addEventListener('playlistMeta', e => {
+        source.addEventListener('playlistMeta', e => {
             playlistMeta.value = JSON.parse(e.data);
         });
     };
 
-    onMounted(async () => {
-        connect();
-    });
+    onMounted(() => connect());
 
     onBeforeUnmount(() => {
-        source.value?.close();
-        clearTimeout(reconnect.value);
+        source?.close();
+        source = null;
+        clearTimeout(reconnect);
     });
 </script>
