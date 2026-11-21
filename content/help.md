@@ -148,7 +148,7 @@ Flip a coin, the bot will answer with YES or NO.
 
 Ask the magic 8 ball a question.
 
-## `.choose <string>`
+## `.choose|.decide|.pick <string>`
 
 The bot will pick a choice for you if you have trouble to decide on something.
 
