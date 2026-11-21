@@ -9,14 +9,13 @@
             </button>
         </h2>
 
-        <div popover id="selectList" class="custom-select-list">
+        <div ref="optionRef" popover id="selectList" class="custom-select-list">
             <button type="button"
                 v-for="option in options"
                 :key="option.value"
-                popovertarget="selectList"
-                popovertargetaction="hide"
                 class="custom-select-option"
                 @click="select(option)"
+                :disabled="selected.label === option.label"
             >
                 {{ option.label }}
             </button>
@@ -25,7 +24,7 @@
 </template>
 
 <script setup>
-    import { computed } from 'vue';
+    import { computed, useTemplateRef } from 'vue';
     import CaretDownIcon from './icons/CaretDownIcon.vue';
 
     const props = defineProps({
@@ -39,6 +38,7 @@
         },
     });
 
+    const optionRef = useTemplateRef('optionRef');
     const emit = defineEmits(['update:modelValue']);
 
     const selected = computed(() =>
@@ -46,5 +46,7 @@
 
     const select = option => {
         emit('update:modelValue', option.value);
+
+        optionRef.value?.hidePopover();
     };
 </script>

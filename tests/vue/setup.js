@@ -1,6 +1,12 @@
 import { vi, beforeEach } from 'vitest'
 import { config } from '@vue/test-utils';
 
+if( ! HTMLElement.prototype.hidePopover) {
+    HTMLElement.prototype.showPopover = function() {};
+    HTMLElement.prototype.hidePopover = function() {};
+    HTMLElement.prototype.togglePopover = function() {};
+}
+
 let mockRoute = {
     params: {},
     query: {},
