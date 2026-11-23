@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import { readFileSync } from 'node:fs';
 import cytube from './services/cytube.js';
 import leaderboardRouter from './routes/api/leaderboard.js';
 import statsRouter from './routes/api/stats.js';
@@ -17,6 +18,15 @@ import streamRouter from './routes/api/stream.js';
 const app = express();
 const port = process.env.PORT || 5000;
 const __dirname = import.meta.dirname;
+let appVersion = 'development';
+
+if(process.env.NODE_ENV === 'production') {
+    try {
+        appVersion = JSON.parse(readFileSync(path.join(__dirname, '../dist/version.json'), 'utf8')).version || 'unknown';
+    } catch {
+        appVersion = 'unknown';
+    }
+}
 
 cytube.connect();
 
@@ -32,6 +42,11 @@ app.use("/api/activity", activityApiRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/admin/videos", adminVideosRouter);
 app.use("/api/stream", streamRouter);
+
+app.get('/version.json', (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.json({ version: appVersion });
+});
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;

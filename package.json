@@ -8,7 +8,7 @@
     "dev:server": "node --watch backend/server.js",
     "dev:client": "vite",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "build": "vite build --emptyOutDir",
+    "build": "vite build",
     "test:api": "NODE_ENV=test mocha --exit tests/api/*",
     "test:vue": "vitest run",
     "test": "npm run test:api && npm run test:vue",

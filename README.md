@@ -52,6 +52,7 @@ systemctl --user enable --now musicbox-api
 ```
 
 `config.js` is protected from rsync overwrites by the deploy workflow.
+Previous hashed files in `dist` are retained during deployment so open tabs can still load lazy route chunks. The client checks `/version.json` and reloads when a newer build is running.
 
 ## License
 

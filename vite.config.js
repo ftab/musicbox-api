@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 
 const port = process.env.PORT || 5000;
+const appVersion = process.env.APP_BUILD_VERSION || new Date().toISOString();
 
 const transformFilename = name => {
     return name.split('.')[0].replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
@@ -20,13 +21,28 @@ const preloadCss = () => {
 };
 
 export default defineConfig({
+    define: {
+        __APP_VERSION__: JSON.stringify(appVersion),
+    },
     plugins: [
         vue(),
         preloadCss(),
+        {
+            name: 'app-version',
+            generateBundle() {
+                this.emitFile({
+                    type: 'asset',
+                    fileName: 'version.json',
+                    source: JSON.stringify({ version: appVersion }),
+                });
+            },
+        },
     ],
     root: 'frontend',
     build: {
         outDir: '../dist',
+        // Existing tabs may still need to load a content-hashed lazy route chunk.
+        emptyOutDir: false,
         rolldownOptions: {
             output: {
                 entryFileNames: 'assets/index-[hash].js',
